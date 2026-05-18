@@ -18,4 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = user
-        fields = ['id', 'username', ]
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'phone_number', 'role', 'role_display', 'organization', 'date_joined']
+        read_only_fields = ['id', 'date_joined']
+
+# Serializer for User Registration
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, min_length=8, style={'input_type': 'password'})
+    password_confirm = serializers.CharField(write_only=True, style={'input': 'password'})
