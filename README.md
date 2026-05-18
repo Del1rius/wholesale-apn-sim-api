@@ -1,0 +1,593 @@
+# 📡 APN & SIM Management API
+
+> A comprehensive enterprise-grade REST API for managing Access Point Names (APNs) and SIM card inventory with multi-tenant support.
+
+[![Django](https://img.shields.io/badge/Django-6.0.5-green.svg)](https://www.djangoproject.com/)
+[![DRF](https://img.shields.io/badge/Django%20REST%20Framework-3.17.1-red.svg)](https://www.django-rest-framework.org/)
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+---
+
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Architecture](#-architecture)
+- [Getting Started](#-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Environment Configuration](#environment-configuration)
+- [API Documentation](#-api-documentation)
+- [Database Schema](#-database-schema)
+- [Authentication](#-authentication)
+- [Usage Examples](#-usage-examples)
+- [Docker Deployment](#-docker-deployment)
+- [Project Structure](#-project-structure)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+---
+
+## 🎯 Overview
+
+The **APN & SIM Management API** is a robust backend solution designed for telecommunications providers and enterprises to efficiently manage their SIM card inventory, APN configurations, and data usage tracking. Built with Django and Django REST Framework, it provides a scalable, secure, and feature-rich platform for multi-tenant operations.
+
+### Key Capabilities
+
+- 🏢 **Multi-Tenant Architecture** - Isolated data management for multiple organizations
+- 📊 **Inventory Management** - Track and manage SIM cards and APN configurations
+- 📈 **Usage Analytics** - Monitor data consumption and usage patterns
+- 🔐 **Role-Based Access Control** - Granular permissions for Network Admins and Client Managers
+- 🔄 **RESTful API** - Clean, intuitive endpoints following REST best practices
+- 📚 **Auto-Generated Documentation** - Interactive API docs with Swagger/OpenAPI
+
+---
+
+## ✨ Features
+
+### Core Functionality
+
+- ✅ **User Management**
+  - Custom user model with organization association
+  - Role-based access (Network Administrator, Client Manager)
+  - JWT-based authentication with token refresh
+  - User profile management
+
+- ✅ **Organization Management**
+  - Multi-tenant support with data isolation
+  - Organization-specific configurations
+  - Industry classification and contact management
+
+- ✅ **Inventory Module** *(In Development)*
+  - SIM card lifecycle management
+  - APN configuration and assignment
+  - Bulk import/export capabilities
+  - Status tracking (Active, Inactive, Suspended)
+
+- ✅ **Usage Tracking** *(In Development)*
+  - Real-time data usage monitoring
+  - Historical usage analytics
+  - Threshold alerts and notifications
+  - Billing integration support
+
+### Security Features
+
+- 🔒 JWT token-based authentication
+- 🛡️ CORS protection
+- 🔑 Environment-based secret management
+- 👥 Role-based access control (RBAC)
+- 🔐 Password validation and hashing
+
+---
+
+## 🛠️ Tech Stack
+
+| Category             | Technology                          |
+| -------------------- | ----------------------------------- |
+| **Framework**        | Django 6.0.5                        |
+| **API**              | Django REST Framework 3.17.1        |
+| **Authentication**   | JWT (djangorestframework-simplejwt) |
+| **Database**         | MySQL 8.0+                          |
+| **Documentation**    | drf-yasg (Swagger/OpenAPI)          |
+| **Containerization** | Docker & Docker Compose             |
+| **Python Version**   | 3.10+                               |
+
+---
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                     Client Applications                  │
+│              (Web, Mobile, Third-party APIs)             │
+└────────────────────┬────────────────────────────────────┘
+                     │
+                     │ HTTPS/REST
+                     │
+┌────────────────────▼────────────────────────────────────┐
+│                  Django REST Framework                   │
+│  ┌──────────────┬──────────────┬──────────────────────┐ │
+│  │   Users API  │ Inventory API│   Usage API          │ │
+│  └──────────────┴──────────────┴──────────────────────┘ │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │         JWT Authentication Middleware             │   │
+│  └──────────────────────────────────────────────────┘   │
+└────────────────────┬────────────────────────────────────┘
+                     │
+                     │ ORM
+                     │
+┌────────────────────▼────────────────────────────────────┐
+│                      MySQL Database                      │
+│  ┌──────────┬──────────────┬──────────┬──────────────┐  │
+│  │  Users   │ Organizations│ Inventory│    Usage     │  │
+│  └──────────┴──────────────┴──────────┴──────────────┘  │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Python 3.10+** - [Download](https://www.python.org/downloads/)
+- **MySQL 8.0+** - [Download](https://dev.mysql.com/downloads/)
+- **pip** - Python package manager
+- **virtualenv** - For isolated Python environments
+- **Git** - Version control
+
+### Installation
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/yourusername/apn-sim-management-api.git
+cd apn-sim-management-api
+```
+
+2. **Create and activate virtual environment**
+
+```bash
+# Windows
+python -m venv venv
+venv\Scripts\activate
+
+# Linux/Mac
+python3 -m venv venv
+source venv/bin/activate
+```
+
+3. **Install dependencies**
+
+```bash
+pip install -r requirements.txt
+```
+
+4. **Install additional required packages**
+
+```bash
+pip install mysqlclient python-decouple djangorestframework-simplejwt corsheaders
+```
+
+### Environment Configuration
+
+1. **Create `.env` file in the project root**
+
+```bash
+# Copy the example environment file
+copy .env.example .env  # Windows
+cp .env.example .env    # Linux/Mac
+```
+
+2. **Configure environment variables**
+
+```env
+# Django Settings
+SECRET_KEY=your-secret-key-here-change-in-production
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+# Database Configuration
+DB_NAME=apn_sim_db
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+DB_HOST=localhost
+DB_PORT=3306
+
+# JWT Settings
+JWT_ACCESS_TOKEN_LIFETIME=60  # minutes
+JWT_REFRESH_TOKEN_LIFETIME=7  # days
+
+# CORS Settings
+CORS_ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080
+```
+
+3. **Create MySQL database**
+
+```sql
+CREATE DATABASE apn_sim_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+4. **Run migrations**
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+5. **Create superuser**
+
+```bash
+python manage.py createsuperuser
+```
+
+6. **Run development server**
+
+```bash
+python manage.py runserver
+```
+
+The API will be available at `http://localhost:8000/`
+
+---
+
+## 📚 API Documentation
+
+### Interactive Documentation
+
+Once the server is running, access the interactive API documentation:
+
+- **Swagger UI**: `http://localhost:8000/swagger/`
+- **ReDoc**: `http://localhost:8000/redoc/`
+- **Django Admin**: `http://localhost:8000/admin/`
+
+### API Endpoints Overview
+
+#### Authentication
+
+```
+POST   /api/auth/register/          - Register new user
+POST   /api/auth/login/             - Login and get JWT tokens
+POST   /api/auth/token/refresh/     - Refresh access token
+POST   /api/auth/logout/            - Logout (blacklist token)
+```
+
+#### Users
+
+```
+GET    /api/users/                  - List all users (Admin only)
+GET    /api/users/{id}/             - Get user details
+PUT    /api/users/{id}/             - Update user
+DELETE /api/users/{id}/             - Delete user
+GET    /api/users/me/               - Get current user profile
+```
+
+#### Organizations
+
+```
+GET    /api/organizations/          - List organizations
+POST   /api/organizations/          - Create organization
+GET    /api/organizations/{id}/     - Get organization details
+PUT    /api/organizations/{id}/     - Update organization
+DELETE /api/organizations/{id}/     - Delete organization
+```
+
+#### Inventory *(Coming Soon)*
+
+```
+GET    /api/inventory/sims/         - List SIM cards
+POST   /api/inventory/sims/         - Add new SIM card
+GET    /api/inventory/apns/         - List APN configurations
+POST   /api/inventory/apns/         - Create APN configuration
+```
+
+#### Usage *(Coming Soon)*
+
+```
+GET    /api/usage/                  - Get usage statistics
+GET    /api/usage/{sim_id}/         - Get SIM-specific usage
+POST   /api/usage/report/           - Generate usage report
+```
+
+---
+
+## 🗄️ Database Schema
+
+### Core Models
+
+#### User Model
+```python
+- id (PK)
+- username (unique)
+- email (unique)
+- password (hashed)
+- organization_id (FK)
+- role (network_admin | client_manager)
+- phone_number
+- is_active
+- date_joined
+```
+
+#### Organization Model
+```python
+- org_id (UUID, PK)
+- name
+- industry
+- contact_email (unique)
+- date_created
+```
+
+### Relationships
+
+```
+Organization (1) ──────< (N) User
+Organization (1) ──────< (N) SIM Card (planned)
+SIM Card (1) ──────< (N) Usage Record (planned)
+```
+
+---
+
+## 🔐 Authentication
+
+This API uses **JWT (JSON Web Tokens)** for authentication.
+
+### Getting Access Token
+
+```bash
+curl -X POST http://localhost:8000/api/auth/login/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "your_username",
+    "password": "your_password"
+  }'
+```
+
+**Response:**
+```json
+{
+  "access": "eyJ0eXAiOiJKV1QiLCJhbGc...",
+  "refresh": "eyJ0eXAiOiJKV1QiLCJhbGc..."
+}
+```
+
+### Using the Token
+
+Include the access token in the Authorization header:
+
+```bash
+curl -X GET http://localhost:8000/api/users/me/ \
+  -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGc..."
+```
+
+### Token Refresh
+
+```bash
+curl -X POST http://localhost:8000/api/auth/token/refresh/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "refresh": "eyJ0eXAiOiJKV1QiLCJhbGc..."
+  }'
+```
+
+---
+
+## 💡 Usage Examples
+
+### Register a New Organization and User
+
+```python
+import requests
+
+# Register organization
+org_data = {
+    "name": "Acme Telecom",
+    "industry": "Telecommunications",
+    "contact_email": "admin@acmetelecom.com"
+}
+response = requests.post("http://localhost:8000/api/organizations/", json=org_data)
+org_id = response.json()["org_id"]
+
+# Register user
+user_data = {
+    "username": "john_admin",
+    "email": "john@acmetelecom.com",
+    "password": "SecurePass123!",
+    "organization": org_id,
+    "role": "network_admin",
+    "phone_number": "+1234567890"
+}
+response = requests.post("http://localhost:8000/api/auth/register/", json=user_data)
+```
+
+### Authenticate and Access Protected Endpoint
+
+```python
+# Login
+login_data = {
+    "username": "john_admin",
+    "password": "SecurePass123!"
+}
+response = requests.post("http://localhost:8000/api/auth/login/", json=login_data)
+access_token = response.json()["access"]
+
+# Access protected endpoint
+headers = {"Authorization": f"Bearer {access_token}"}
+response = requests.get("http://localhost:8000/api/users/me/", headers=headers)
+print(response.json())
+```
+
+---
+
+## 🐳 Docker Deployment
+
+### Using Docker Compose
+
+1. **Build and start containers**
+
+```bash
+docker-compose up -d --build
+```
+
+2. **Run migrations**
+
+```bash
+docker-compose exec web python manage.py migrate
+```
+
+3. **Create superuser**
+
+```bash
+docker-compose exec web python manage.py createsuperuser
+```
+
+4. **Access the application**
+
+- API: `http://localhost:8000`
+- Admin: `http://localhost:8000/admin`
+
+### Docker Commands
+
+```bash
+# View logs
+docker-compose logs -f
+
+# Stop containers
+docker-compose down
+
+# Rebuild containers
+docker-compose up -d --build
+
+# Execute commands in container
+docker-compose exec web python manage.py <command>
+```
+
+---
+
+## 📁 Project Structure
+
+```
+apn-sim-management-api/
+│
+├── config/                      # Project configuration
+│   ├── settings.py             # Django settings
+│   ├── urls.py                 # Main URL configuration
+│   ├── wsgi.py                 # WSGI configuration
+│   └── asgi.py                 # ASGI configuration
+│
+├── users/                       # User management app
+│   ├── models.py               # User and Organization models
+│   ├── serializers.py          # DRF serializers
+│   ├── views.py                # API views
+│   ├── admin.py                # Admin configuration
+│   └── api/                    # API endpoints
+│
+├── inventory/                   # SIM & APN inventory app
+│   ├── models.py               # Inventory models
+│   ├── views.py                # Inventory views
+│   └── api/                    # Inventory API endpoints
+│
+├── usage/                       # Usage tracking app
+│   ├── models.py               # Usage models
+│   ├── views.py                # Usage views
+│   └── api/                    # Usage API endpoints
+│
+├── static/                      # Static files (CSS, JS)
+├── templates/                   # HTML templates
+├── venv/                        # Virtual environment
+│
+├── .env                         # Environment variables
+├── .gitignore                   # Git ignore rules
+├── Dockerfile                   # Docker configuration
+├── docker-compose.yml           # Docker Compose configuration
+├── manage.py                    # Django management script
+├── requirements.txt             # Python dependencies
+└── README.md                    # This file
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. **Fork the repository**
+2. **Create a feature branch** (`git checkout -b feature/AmazingFeature`)
+3. **Commit your changes** (`git commit -m 'Add some AmazingFeature'`)
+4. **Push to the branch** (`git push origin feature/AmazingFeature`)
+5. **Open a Pull Request**
+
+### Development Guidelines
+
+- Follow PEP 8 style guide for Python code
+- Write meaningful commit messages
+- Add tests for new features
+- Update documentation as needed
+- Ensure all tests pass before submitting PR
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👥 Authors
+
+- **Your Name** - *Initial work* - [YourGitHub](https://github.com/yourusername)
+
+---
+
+## 🙏 Acknowledgments
+
+- Django and Django REST Framework communities
+- Contributors and testers
+- redAcademy for project support
+
+---
+
+## 📞 Support
+
+For support, email support@yourcompany.com or open an issue in the GitHub repository.
+
+---
+
+## 🗺️ Roadmap
+
+### Phase 1 - Foundation ✅
+- [x] Project setup and configuration
+- [x] User authentication with JWT
+- [x] Multi-tenant organization model
+- [x] API documentation with Swagger
+
+### Phase 2 - Core Features 🚧
+- [ ] SIM card inventory management
+- [ ] APN configuration system
+- [ ] Bulk import/export functionality
+- [ ] Advanced search and filtering
+
+### Phase 3 - Analytics 📋
+- [ ] Usage tracking and monitoring
+- [ ] Real-time data consumption alerts
+- [ ] Historical analytics dashboard
+- [ ] Billing integration
+
+### Phase 4 - Enhancement 🎯
+- [ ] Mobile application
+- [ ] Advanced reporting
+- [ ] Third-party integrations
+- [ ] Performance optimization
+
+---
+
+<div align="center">
+
+**Made with ❤️ by the APN & SIM Management Team**
+
+[Report Bug](https://github.com/yourusername/apn-sim-management-api/issues) · [Request Feature](https://github.com/yourusername/apn-sim-management-api/issues)
+
+</div>
