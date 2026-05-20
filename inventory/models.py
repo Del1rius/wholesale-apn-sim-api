@@ -26,7 +26,7 @@ class APN(models.Model):
         related_name='apns',
         null=True,
         blank=True
-    )
+    ) # If null, it's a shared/public apn
 
     is_active = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -40,3 +40,66 @@ class APN(models.Model):
     def __str__(self):
         return f"{self.name} - {self.apn_string}"
 
+# SIM Card Inventory Management
+class SIMCard(models.Model):
+    sim_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    iccid = models.CharField(max_length=22, unique=True) # Integrated Circuit Card ID
+    phone_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
+
+    STATUS_CHOICES = [
+        ('available', 'Available'),
+        ('assigned', 'Assigned'),
+        ('suspended', 'Suspended'),
+        ('deactivated', 'Deactivated'),
+        ('lost', 'Lost/Stolen')
+    ]
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='available')
+
+    # Network Information
+    carrier = models.CharField(max_length=100)
+    network_type = models.CharField(
+        max_length=10,
+        choices=[
+            ('2G', '2G'),
+            ('3G', '3G'),
+            ('4G', '4G/LTE'),
+            ('5G', '5G')
+        ],
+        default='4G'
+    )
+
+    # Relationships
+    organization = models.ForeignKey(
+        Organization,
+        on_delete=models.SET_NULL,
+        related_name='sim_cards',
+        null=True,
+        blank=True
+    ) # Which Organization ows/uses this SIM
+
+    apn = models.ForeignKey(
+        APN,
+        on_delete=models.SET_NULL,
+        related_name='sim_cards',
+        null=True,
+        blank=True
+    ) # Which APN configuration is assigned
+
+    # Data plan information
+    data_limit_mb = models.IntegerField(null=True, blank=True), # Monthly data limit in MB
+
+    # Metadata
+    activation_date = models.DateField(null=True, blank=True)
+    expiry_date = models.DateField(null=True, blank=True)
+    date_created = models.DateTimeField(null=True, blank=True)
+    date_modified = models.DateTimeField(null=True, blank=True)
+    notes = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ['-date_created']
+        verbose_name = 'SIM Card'
+        verbose_name_plural = 'SIM Cards'
+
+    def __str__(self):
+        return f"{self.iccid} - {self.phone_number or 'No Number'} ({self.status})"
