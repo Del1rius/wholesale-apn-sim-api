@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
     role_display = serializers.CharField(source='get_role_display', read_only=True)
 
     class Meta:
-        model = user
+        model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 'phone_number', 'role', 'role_display', 'organization', 'date_joined']
         read_only_fields = ['id', 'date_joined']
 
@@ -31,39 +31,39 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username', 'email', 'password', 'password_confirm', 'first_name', 'last_name', 'phone_number', 'role', 'organization_id']
 
-        #Validate passwords match
-        def validate(self, data):
-            if data['password'] != data['passwprd_confirm']:
-                raise serializers.ValidationError({"password": "Passwords must match."})
-            return data
+    #Validate passwords match
+    def validate(self, data):
+        if data['password'] != data['password_confirm']:
+            raise serializers.ValidationError({"password": "Passwords must match."})
+        return data
 
-        #Validate Email is unique
-        def validate_email(self, value):
-            if User.objects.filter(email=value).exists():
-                raise serializers.ValidationError("A user with this email already exists.")
-            return value
+    #Validate Email is unique
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("A user with this email already exists.")
+        return value
         
-        #Create User with hashed password
-        def create(self, validated_data):
-            validated_data.pop('password_confirm')
-            organization_id = validated_data.pop('organization_id', None)
-            password = validated_data.pop('password')
+    #Create User with hashed password
+    def create(self, validated_data):
+        validated_data.pop('password_confirm')
+        organization_id = validated_data.pop('organization_id', None)
+        password = validated_data.pop('password')
 
-            # Get organization if provided
-            organization = None
-            if organization_id:
-                try:
-                    organization = Organization.objects.get(org_id=organization_id)
-                except Organization.DoesNotExist:
-                    raise serializers.ValidationError({"organization_id": "Organization not found"})
+        # Get organization if provided
+        organization = None
+        if organization_id:
+            try:
+                organization = Organization.objects.get(org_id=organization_id)
+            except Organization.DoesNotExist:
+                raise serializers.ValidationError({"organization_id": "Organization not found"})
 
-            user = User.objects.create_user(
-                password=password,
-                organization=organization,
-                **validated_data
-            )
+        user = User.objects.create_user(
+            password=password,
+            organization=organization,
+            **validated_data
+        )
 
-            return user
+        return user
 
 #Serializer for Login validation
 class LoginSerializer(serializers.Serializer):
