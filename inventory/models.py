@@ -30,10 +30,10 @@ class APN(models.Model):
 
     is_active = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    data_modified = models.DateTimeField(auto_now=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-data_created']
+        ordering = ['-date_created']
         verbose_name = 'APN'
         verbose_name_plural = 'APNs'
     
@@ -76,7 +76,7 @@ class SIMCard(models.Model):
         related_name='sim_cards',
         null=True,
         blank=True
-    ) # Which Organization ows/uses this SIM
+    ) # Which Organization owns/uses this SIM
 
     apn = models.ForeignKey(
         APN,
@@ -87,13 +87,13 @@ class SIMCard(models.Model):
     ) # Which APN configuration is assigned
 
     # Data plan information
-    data_limit_mb = models.IntegerField(null=True, blank=True), # Monthly data limit in MB
+    data_limit_mb = models.IntegerField(null=True, blank=True) # Monthly data limit in MB
 
     # Metadata
     activation_date = models.DateField(null=True, blank=True)
     expiry_date = models.DateField(null=True, blank=True)
-    date_created = models.DateTimeField(null=True, blank=True)
-    date_modified = models.DateTimeField(null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
     notes = models.TextField(blank=True)
 
     class Meta:
