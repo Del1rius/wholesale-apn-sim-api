@@ -91,7 +91,7 @@ SIMPLE_JWT = {
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # Add this line
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -114,18 +114,17 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'apn_sim_db',
         'USER': 'root',
-        'PASSWORD': 'Yahya_14569',
+        'PASSWORD': 'DomPoes#@420',
         'HOST': 'localhost',
         'PORT': '3306',
     }
 }
 
-TEMPLATES = [
-    {
-        'DIRS': [BASE_DIR / 'templates'],
-        
-    }
-]
+# Login/Logout URLs
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/login/'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
