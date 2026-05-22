@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% block title %}SIM Fleet — Backspace Technologies{% endblock %}
+{% block nav_sims %}active{% endblock %}
+
+{% block extra_css %}
+<style>
+  .sim-count-badge {
+    background: rgba(0, 170, 255, 0.1);
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    padding: 0.2rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--cyan-soft);
+  }
+
+  .status-filter-tabs {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .status-filter-tabs a {
+    padding: 0.45rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: var(--transition);
+    border-right: 1px solid var(--border-subtle);
+    letter-spacing: 0.5px;
+  }
+
+  .status-filter-tabs a:last-child { border-right: none; }
+
+  .status-filter-tabs a:hover,
+  .status-filter-tabs a.active {
+    background: rgba(0, 170, 255, 0.1);
+    color: var(--cyan-pulse);
+  }
+
+  .iccid-mono {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.3px;
+    color: var(--text-primary);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header animate-in">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+    <div>
+      <div class="page-title">
+        <i class="bi bi-sim-fill" style="color:var(--cyan-pulse);"></i>
+        SIM <span class="title-accent">Fleet</span>
+      </div>
+      <div class="page-subtitle">// Manage your organization's SIM inventory</div>
+    </div>
+    <span class="sim-count-badge">{{ sims.paginator.count|default:sims|length }} SIMs total</span>
+  </div>
+</div>
+
+<div class="bs-card animate-in delay-1">
+  <div class="bs-card-header" style="flex-wrap:wrap;gap:1rem;">
+    <div class="bs-card-title">
+      <i class="bi bi-list-ul"></i> All SIM Cards
+    </div>
+    <div style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
+      <!-- Status filter tabs -->
+      <form method="GET" style="display:flex;gap:0.5rem;align-items:center;">
+        <div class="status-filter-tabs">
+          <a href="?status=all"         class="{% if not request.GET.status or request.GET.status == 'all' %}active{% endif %}">All</a>
+          <a href="?status=Active"      class="{% if request.GET.status == 'Active' %}active{% endif %}">Active</a>
+          <a href="?status=Suspended"   class="{% if request.GET.status == 'Suspended' %}active{% endif %}">Suspended</a>
+          <a href="?status=Deactivated" class="{% if request.GET.status == 'Deactivated' %}active{% endif %}">Deactivated</a>
+          <a href="?status=Unallocated" class="{% if request.GET.status == 'Unallocated' %}active{% endif %}">Unallocated</a>
+        </div>
+      </form>
+
+      <!-- Search -->
+      <form method="GET" style="position:relative;">
+        <i class="bi bi-search" style="position:absolute;left:0.8rem;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:0.85rem;pointer-events:none;"></i>
+        <input type="text" name="q" value="{{ request.GET.q }}" class="bs-input"
+               placeholder="Search ICCID or MSISDN..."
+               style="padding-left:2.4rem;height:36px;font-size:0.84rem;width:240px;"/>
+        {% if request.GET.status %}<input type="hidden" name="status" value="{{ request.GET.status }}"/>{% endif %}
+      </form>
+    </div>
+  </div>
+
+  <div style="overflow-x:auto;">
+    <table class="bs-table">
+      <thead>
+        <tr>
+          <th>ICCID</th>
+          <th>MSISDN</th>
+          <th>Status</th>
+          <th>Data Limit</th>
+          <th style="min-width:180px;">Usage</th>
+          <th>Allocated</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sim in sims %}
+        <tr class="{% if sim.status == 'Suspended' %}row-suspended{% endif %}" style="{% if sim.status == 'Suspended' %}background:rgba(255,23,68,0.04);{% endif %}">
+          <td class="iccid-mono">{{ sim.ICCID }}</td>
+
+          <td style="font-family:var(--font-mono);font-size:0.82rem;color:var(--text-secondary);">
+            {{ sim.MSISDN }}
+          </td>
+
+          <td>
+            {% if sim.status == 'Active' %}
+              <span class="status-badge status-active"><i class="bi bi-circle-fill" style="font-size:0.45rem;"></i> Active</span>
+            {% elif sim.status == 'Suspended' %}
+              <span class="status-badge status-suspended"><i class="bi bi-slash-circle-fill" style="font-size:0.6rem;"></i> <strong>SUSPENDED</strong></span>
+            {% elif sim.status == 'Deactivated' %}
+              <span class="status-badge status-deactivated"><i class="bi bi-x-circle-fill" style="font-size:0.6rem;"></i> Deactivated</span>
+            {% else %}
+              <span class="status-badge status-unallocated"><i class="bi bi-question-circle-fill" style="font-size:0.6rem;"></i> Unallocated</span>
+            {% endif %}
+          </td>
+
+          <td style="font-family:var(--font-mono);font-size:0.82rem;color:var(--text-secondary);">
+            {{ sim.DataLimit_MB }} MB
+          </td>
+
+          <td>
+            {% with pct=sim.usage_percentage %}
+            <div class="usage-bar-wrap">
+              <div class="usage-bar">
+                <div class="usage-bar-fill {% if pct < 80 %}low{% elif pct < 100 %}medium{% else %}high{% endif %}"
+                     data-width="{{ pct|floatformat:0 }}" style="width:0%;"></div>
+              </div>
+              <span class="usage-pct"
+                    style="color:{% if pct < 80 %}var(--green-ok){% elif pct < 100 %}var(--orange-warn){% else %}var(--red-danger){% endif %}">
+                {{ pct|floatformat:0 }}%
+              </span>
+            </div>
+            {% endwith %}
+          </td>
+
+          <td style="font-size:0.78rem;color:var(--text-muted);font-family:var(--font-mono);">
+            {{ sim.DateAllocated|date:"d M Y" }}
+          </td>
+
+          <td>
+            <a href="{% url 'sim_detail' sim.ICCID %}" class="btn-ghost-bs" style="padding:0.35rem 0.8rem;font-size:0.78rem;">
+              <i class="bi bi-eye-fill"></i> View
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7">
+            <div class="empty-state">
+              <i class="bi bi-sim"></i>
+              <p>No SIM cards match your current filters.</p>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  {% if sims.has_other_pages %}
+  <div style="padding:1rem 1.5rem;border-top:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:space-between;">
+    <span style="font-size:0.78rem;color:var(--text-muted);font-family:var(--font-mono);">
+      Page {{ sims.number }} of {{ sims.paginator.num_pages }}
+    </span>
+    <div class="bs-pagination">
+      {% if sims.has_previous %}
+        <a href="?page={{ sims.previous_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="bs-page-btn">
+          <i class="bi bi-chevron-left"></i>
+        </a>
+      {% endif %}
+      {% for num in sims.paginator.page_range %}
+        {% if sims.number == num %}
+          <span class="bs-page-btn current">{{ num }}</span>
+        {% elif num > sims.number|add:'-3' and num < sims.number|add:'3' %}
+          <a href="?page={{ num }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="bs-page-btn">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+      {% if sims.has_next %}
+        <a href="?page={{ sims.next_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="bs-page-btn">
+          <i class="bi bi-chevron-right"></i>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

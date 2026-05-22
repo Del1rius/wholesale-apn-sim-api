@@ -114,11 +114,18 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'apn_sim_db',
         'USER': 'root',
-        'PASSWORD': 'DomPoes#@420',
+        'PASSWORD': 'Yahya_14569',
         'HOST': 'localhost',
         'PORT': '3306',
     }
 }
+
+TEMPLATES = [
+    {
+        'DIRS': [BASE_DIR / 'templates'],
+        
+    }
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators

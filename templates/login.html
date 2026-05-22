@@ -1,0 +1,460 @@
+{% extends 'base.html' %}
+{% block title %}Sign In — Backspace Technologies{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* Login page overrides — no navbar/footer layout, full screen */
+  body { background: var(--bg-void); }
+  .main-content { padding: 0; min-height: 100vh; display: flex; }
+  .bs-footer, .navbar-bs { display: none !important; }
+
+  /* ── SPLIT LAYOUT ──────────────────────────────── */
+  .login-wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  /* Left panel — branding */
+  .login-left {
+    flex: 1;
+    background: linear-gradient(155deg, #070d14 0%, #0c1624 50%, #0a1520 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .login-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0, 136, 204, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 136, 204, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: gridDrift 20s linear infinite;
+  }
+
+  .login-left::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0, 136, 204, 0.12) 0%, transparent 65%);
+    animation: orbFloat 12s ease-in-out infinite alternate;
+  }
+
+  .left-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 420px;
+  }
+
+  .left-logo {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--blue-core), var(--cyan-pulse));
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: #fff;
+    margin: 0 auto 2rem;
+    box-shadow: 0 0 40px rgba(0, 229, 255, 0.35);
+    animation: logoPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes logoPulse {
+    0%, 100% { box-shadow: 0 0 40px rgba(0, 229, 255, 0.35); transform: scale(1); }
+    50%       { box-shadow: 0 0 60px rgba(0, 229, 255, 0.6);  transform: scale(1.04); }
+  }
+
+  .left-title {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .left-title span { color: var(--cyan-pulse); }
+
+  .left-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  .feature-pills {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: left;
+  }
+
+  .feature-pill {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 136, 204, 0.06);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .feature-pill:nth-child(1) { animation-delay: 0.8s; }
+  .feature-pill:nth-child(2) { animation-delay: 1.0s; }
+  .feature-pill:nth-child(3) { animation-delay: 1.2s; }
+
+  .pill-icon {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, rgba(0,136,204,0.2), rgba(0,229,255,0.2));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cyan-pulse);
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .pill-text strong {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  .pill-text span {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  /* Right panel — form */
+  .login-right {
+    width: 480px;
+    flex-shrink: 0;
+    background: var(--bg-deep);
+    border-left: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2.5rem;
+    position: relative;
+  }
+
+  .login-form-wrap {
+    width: 100%;
+    max-width: 380px;
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  .form-heading {
+    margin-bottom: 2rem;
+  }
+
+  .form-heading h2 {
+    font-size: 1.7rem;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+  }
+
+  .form-heading p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  .form-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+    margin: 1.5rem 0;
+  }
+
+  /* Input with icon */
+  .input-group-bs {
+    position: relative;
+    margin-bottom: 1.25rem;
+  }
+
+  .input-group-bs .input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1rem;
+    transition: var(--transition);
+    pointer-events: none;
+  }
+
+  .input-group-bs .bs-input {
+    padding-left: 2.75rem;
+  }
+
+  .input-group-bs .bs-input:focus + .input-icon,
+  .input-group-bs:focus-within .input-icon {
+    color: var(--cyan-pulse);
+  }
+
+  /* Password toggle */
+  .input-group-bs .pwd-toggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: var(--transition);
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .input-group-bs .pwd-toggle:hover { color: var(--cyan-pulse); }
+
+  /* Error messages */
+  .error-list {
+    background: rgba(255, 23, 68, 0.08);
+    border: 1px solid rgba(255, 23, 68, 0.3);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.82rem;
+    color: var(--red-danger);
+    list-style: none;
+  }
+
+  .error-list li { display: flex; align-items: center; gap: 6px; }
+  .error-list li::before { content: '\F33A'; font-family: 'Bootstrap-Icons'; }
+
+  /* Submit button full width */
+  .btn-login {
+    width: 100%;
+    justify-content: center;
+    padding: 0.85rem;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-login::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s, opacity 0.6s;
+    opacity: 0;
+  }
+
+  .btn-login:active::after {
+    width: 300px; height: 300px; opacity: 0;
+  }
+
+  .form-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .form-footer a {
+    color: var(--cyan-soft);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+  }
+
+  .form-footer a:hover { color: var(--cyan-pulse); }
+
+  .remember-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .custom-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  .custom-check input[type="checkbox"] {
+    accent-color: var(--blue-bright);
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+    .login-left { display: none; }
+    .login-right { width: 100%; border-left: none; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+
+  <!-- LEFT PANEL -->
+  <div class="login-left">
+    <div class="left-content">
+      <div class="left-logo"><i class="bi bi-router-fill"></i></div>
+      <h1 class="left-title">
+        Wholesale <span>APN</span><br/>SIM Management
+      </h1>
+      <p class="left-desc">
+        Enterprise-grade SIM fleet management with real-time monitoring,
+        automated policy enforcement, and proactive overage prevention.
+      </p>
+
+      <div class="feature-pills">
+        <div class="feature-pill">
+          <div class="pill-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+          <div class="pill-text">
+            <strong>Automated Suspension</strong>
+            <span>SIMs suspended instantly on limit breach</span>
+          </div>
+        </div>
+        <div class="feature-pill">
+          <div class="pill-icon"><i class="bi bi-shield-lock-fill"></i></div>
+          <div class="pill-text">
+            <strong>Tenant Isolation</strong>
+            <span>Strict per-organization data access control</span>
+          </div>
+        </div>
+        <div class="feature-pill">
+          <div class="pill-icon"><i class="bi bi-activity"></i></div>
+          <div class="pill-text">
+            <strong>Real-Time Fleet Visibility</strong>
+            <span>Live dashboard with usage tracking</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL — FORM -->
+  <div class="login-right">
+    <div class="login-form-wrap">
+
+      <div class="form-heading">
+        <h2>Welcome back</h2>
+        <p>// Sign in to your management console</p>
+      </div>
+
+      {% if form.errors %}
+      <ul class="error-list">
+        {% for field in form %}
+          {% for error in field.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        <div class="input-group-bs">
+          <input
+            type="text"
+            name="username"
+            id="id_username"
+            class="bs-input"
+            placeholder="Username or email"
+            value="{{ form.username.value|default:'' }}"
+            autocomplete="username"
+            autofocus
+          />
+          <i class="bi bi-person-fill input-icon"></i>
+        </div>
+
+        <div class="input-group-bs">
+          <input
+            type="password"
+            name="password"
+            id="id_password"
+            class="bs-input"
+            placeholder="Password"
+            autocomplete="current-password"
+            style="padding-right: 3rem;"
+          />
+          <i class="bi bi-lock-fill input-icon"></i>
+          <button type="button" class="pwd-toggle" onclick="togglePassword()">
+            <i class="bi bi-eye-fill" id="pwd-eye"></i>
+          </button>
+        </div>
+
+        <div class="remember-row">
+          <label class="custom-check">
+            <input type="checkbox" name="remember_me"/>
+            Remember me
+          </label>
+          <a href="{% url 'password_change' %}" style="font-size:0.82rem;color:var(--cyan-soft);text-decoration:none;">
+            Change password
+          </a>
+        </div>
+
+        <input type="hidden" name="next" value="{{ next }}"/>
+
+        <button type="submit" class="btn-primary-bs btn-login">
+          <i class="bi bi-box-arrow-in-right"></i>
+          SIGN IN
+        </button>
+      </form>
+
+      <div class="form-divider"></div>
+
+      <div class="form-footer">
+        <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">
+          Backspace Technologies &copy; {% now "Y" %} — Secure Access Portal
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function togglePassword() {
+    const input = document.getElementById('id_password');
+    const icon  = document.getElementById('pwd-eye');
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.className = 'bi bi-eye-slash-fill';
+    } else {
+      input.type = 'password';
+      icon.className = 'bi bi-eye-fill';
+    }
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,503 @@
+{% extends 'base.html' %}
+{% block title %}Fleet Dashboard — Backspace Technologies{% endblock %}
+{% block nav_dashboard %}active{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* ── STAT GRID ─────────────────────────────────── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+
+  @media (max-width: 1100px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px)  { .stats-grid { grid-template-columns: 1fr; } }
+
+  .stat-card.active-accent  { border-top: 2px solid var(--green-ok); }
+  .stat-card.suspended-accent { border-top: 2px solid var(--red-danger); }
+  .stat-card.usage-accent   { border-top: 2px solid var(--blue-bright); }
+  .stat-card.total-accent   { border-top: 2px solid var(--cyan-pulse); }
+
+  .stat-value.green  { color: var(--green-ok); }
+  .stat-value.red    { color: var(--red-danger); }
+  .stat-value.blue   { color: var(--blue-bright); }
+  .stat-value.cyan   { color: var(--cyan-pulse); }
+
+  /* ── SECTION LABEL ──────────────────────────────── */
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+
+  /* ── TABLE TOOLBAR ──────────────────────────────── */
+  .table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .search-box {
+    position: relative;
+    flex: 1;
+    max-width: 320px;
+  }
+
+  .search-box i {
+    position: absolute;
+    left: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    pointer-events: none;
+  }
+
+  .search-box input {
+    padding-left: 2.5rem;
+    height: 38px;
+    font-size: 0.85rem;
+  }
+
+  .filter-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 0.35rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    border: 1px solid var(--border-subtle);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition);
+    letter-spacing: 0.5px;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--cyan-pulse);
+    color: var(--cyan-pulse);
+    background: rgba(0, 229, 255, 0.07);
+  }
+
+  .filter-btn.f-active.active   { border-color: var(--green-ok);   color: var(--green-ok);   background: rgba(0,230,118,0.07); }
+  .filter-btn.f-suspended.active{ border-color: var(--red-danger); color: var(--red-danger); background: rgba(255,23,68,0.07); }
+
+  /* ── ICCID CELL ──────────────────────────────────── */
+  .iccid-cell {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── SUSPENDED ROW HIGHLIGHT ────────────────────── */
+  .row-suspended {
+    background: rgba(255, 23, 68, 0.04) !important;
+  }
+
+  .row-suspended td { border-left: 0 !important; }
+  .row-suspended td:first-child {
+    border-left: 3px solid var(--red-danger) !important;
+  }
+
+  /* ── ACTION BUTTONS ──────────────────────────────── */
+  .action-btns { display: flex; gap: 0.4rem; }
+
+  .btn-action {
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px;
+    border: 1px solid var(--border-subtle);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+
+  .btn-action:hover { border-color: var(--cyan-pulse); color: var(--cyan-pulse); background: rgba(0,229,255,0.08); }
+  .btn-action.danger:hover { border-color: var(--red-danger); color: var(--red-danger); background: rgba(255,23,68,0.08); }
+
+  /* ── AUDIT TRAIL ─────────────────────────────────── */
+  .audit-row td { padding: 0.65rem 1rem !important; font-size: 0.82rem; }
+
+  .log-id {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  .timestamp {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .data-mb {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--blue-bright);
+  }
+
+  /* ── EMPTY STATE ──────────────────────────────────── */
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+  }
+
+  .empty-state i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.3; }
+  .empty-state p { font-size: 0.875rem; }
+
+  /* ── PAGINATION ───────────────────────────────────── */
+  .bs-pagination {
+    display: flex;
+    gap: 0.35rem;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .bs-page-btn {
+    width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px;
+    border: 1px solid var(--border-subtle);
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .bs-page-btn:hover { border-color: var(--cyan-pulse); color: var(--cyan-pulse); }
+  .bs-page-btn.current { background: var(--blue-core); border-color: var(--blue-core); color: #fff; }
+
+  /* ── REFRESH BADGE ────────────────────────────────── */
+  .refresh-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+  }
+
+  .refresh-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green-ok);
+    animation: dotPulse 2s ease-in-out infinite;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ── PAGE HEADER ── -->
+<div class="page-header animate-in">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+    <div>
+      <div class="page-title">
+        <i class="bi bi-grid-1x2-fill" style="color:var(--cyan-pulse);"></i>
+        Fleet <span class="title-accent">Dashboard</span>
+      </div>
+      <div class="page-subtitle">// {{ organization.name }} — Real-time SIM fleet monitoring</div>
+    </div>
+    <div class="refresh-badge">
+      <div class="refresh-dot"></div>
+      Live &nbsp;|&nbsp; Last updated: <span id="last-update">just now</span>
+      <button onclick="location.reload()" class="btn-ghost-bs" style="padding:0.35rem 0.75rem;font-size:0.75rem;margin-left:6px;">
+        <i class="bi bi-arrow-clockwise"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SUSPENSION ALERT BANNER ── -->
+{% if suspended_sims %}
+<div class="alert-suspension animate-in delay-1">
+  <i class="bi bi-exclamation-triangle-fill alert-icon"></i>
+  <div>
+    <div style="font-weight:700;font-size:0.9rem;color:var(--orange-warn);margin-bottom:2px;">
+      ⚠ Automated Suspension Alert
+    </div>
+    <div style="font-size:0.82rem;color:var(--text-secondary);">
+      <strong style="color:var(--red-danger);">{{ suspended_sims|length }} SIM card{{ suspended_sims|length|pluralize }}</strong>
+      {% if suspended_sims|length == 1 %}has{% else %}have{% endif %}
+      been automatically suspended due to data limit breach. Immediate review recommended.
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- ── STATS GRID ── -->
+<div class="stats-grid">
+
+  <div class="stat-card total-accent animate-in delay-1">
+    <div class="stat-value cyan">{{ total_sims|default:"0" }}</div>
+    <div class="stat-label">Total SIMs</div>
+    <i class="bi bi-sim-fill stat-icon" style="color:var(--cyan-pulse);"></i>
+  </div>
+
+  <div class="stat-card active-accent animate-in delay-2">
+    <div class="stat-value green">{{ active_sims|default:"0" }}</div>
+    <div class="stat-label">Active</div>
+    <i class="bi bi-check-circle-fill stat-icon" style="color:var(--green-ok);"></i>
+  </div>
+
+  <div class="stat-card suspended-accent animate-in delay-3">
+    <div class="stat-value red">{{ suspended_count|default:"0" }}</div>
+    <div class="stat-label">Suspended</div>
+    <i class="bi bi-slash-circle-fill stat-icon" style="color:var(--red-danger);"></i>
+  </div>
+
+  <div class="stat-card usage-accent animate-in delay-4">
+    <div class="stat-value blue">{{ total_usage_gb|default:"0.0" }} <span style="font-size:1rem;font-weight:400;">GB</span></div>
+    <div class="stat-label">Total Usage This Cycle</div>
+    <i class="bi bi-bar-chart-fill stat-icon" style="color:var(--blue-bright);"></i>
+  </div>
+
+</div>
+
+<!-- ── SIM FLEET TABLE ── -->
+<div class="section-label animate-in delay-2">SIM Fleet Status</div>
+
+<div class="bs-card animate-in delay-3">
+  <div class="bs-card-header">
+    <div class="bs-card-title">
+      <i class="bi bi-sim-fill"></i> Allocated SIM Cards
+      <span style="font-family:var(--font-mono);font-weight:400;font-size:0.78rem;color:var(--text-muted);">
+        ({{ sims.paginator.count|default:sims|length }} total)
+      </span>
+    </div>
+    <div class="table-toolbar">
+      <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input type="text" class="bs-input" id="simSearch" placeholder="Search ICCID, MSISDN..." oninput="filterTable()"/>
+      </div>
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+        <button class="filter-btn f-active" onclick="setFilter('Active', this)">Active</button>
+        <button class="filter-btn f-suspended" onclick="setFilter('Suspended', this)">Suspended</button>
+        <button class="filter-btn" onclick="setFilter('Unallocated', this)">Unallocated</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="overflow-x:auto;">
+    <table class="bs-table" id="simTable">
+      <thead>
+        <tr>
+          <th>ICCID</th>
+          <th>MSISDN</th>
+          <th>Status</th>
+          <th>Data Limit</th>
+          <th style="min-width:200px;">Usage</th>
+          <th>Allocated</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sim in sims %}
+        <tr class="{% if sim.status == 'Suspended' %}row-suspended{% endif %}" data-status="{{ sim.status }}">
+
+          <td class="iccid-cell">{{ sim.ICCID }}</td>
+
+          <td style="font-family:var(--font-mono);font-size:0.82rem;">{{ sim.MSISDN }}</td>
+
+          <td>
+            {% if sim.status == 'Active' %}
+              <span class="status-badge status-active"><i class="bi bi-circle-fill" style="font-size:0.5rem;"></i> Active</span>
+            {% elif sim.status == 'Suspended' %}
+              <span class="status-badge status-suspended"><i class="bi bi-slash-circle-fill" style="font-size:0.65rem;"></i> <strong>SUSPENDED</strong></span>
+            {% elif sim.status == 'Deactivated' %}
+              <span class="status-badge status-deactivated"><i class="bi bi-x-circle-fill" style="font-size:0.65rem;"></i> Deactivated</span>
+            {% else %}
+              <span class="status-badge status-unallocated"><i class="bi bi-question-circle-fill" style="font-size:0.65rem;"></i> Unallocated</span>
+            {% endif %}
+          </td>
+
+          <td style="font-family:var(--font-mono);font-size:0.82rem;color:var(--text-secondary);">
+            {{ sim.DataLimit_MB }} MB
+          </td>
+
+          <td>
+            {% with pct=sim.usage_percentage %}
+            <div class="usage-bar-wrap">
+              <div class="usage-bar">
+                <div class="usage-bar-fill {% if pct < 80 %}low{% elif pct < 100 %}medium{% else %}high{% endif %}"
+                     data-width="{{ pct|floatformat:0 }}"
+                     style="width:0%;">
+                </div>
+              </div>
+              <span class="usage-pct {% if pct < 80 %}{% elif pct < 100 %}{% else %}{% endif %}"
+                    style="color:{% if pct < 80 %}var(--green-ok){% elif pct < 100 %}var(--orange-warn){% else %}var(--red-danger){% endif %}">
+                {{ pct|floatformat:0 }}%
+              </span>
+            </div>
+            <div style="font-size:0.7rem;font-family:var(--font-mono);color:var(--text-muted);margin-top:3px;">
+              {{ sim.total_consumed|floatformat:1 }} / {{ sim.DataLimit_MB }} MB
+            </div>
+            {% endwith %}
+          </td>
+
+          <td style="font-size:0.78rem;color:var(--text-muted);font-family:var(--font-mono);">
+            {{ sim.DateAllocated|date:"d M Y" }}
+          </td>
+
+          <td>
+            <div class="action-btns">
+              <a href="{% url 'sim_detail' sim.ICCID %}" class="btn-action" title="View Details">
+                <i class="bi bi-eye-fill"></i>
+              </a>
+            </div>
+          </td>
+
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7">
+            <div class="empty-state">
+              <i class="bi bi-sim"></i>
+              <p>No SIM cards found for your organization.</p>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if sims.has_other_pages %}
+  <div style="padding:1rem 1.5rem;border-top:1px solid var(--border-subtle);">
+    <div class="bs-pagination">
+      {% if sims.has_previous %}
+        <a href="?page={{ sims.previous_page_number }}" class="bs-page-btn"><i class="bi bi-chevron-left"></i></a>
+      {% endif %}
+      {% for num in sims.paginator.page_range %}
+        {% if sims.number == num %}
+          <span class="bs-page-btn current">{{ num }}</span>
+        {% elif num > sims.number|add:'-3' and num < sims.number|add:'3' %}
+          <a href="?page={{ num }}" class="bs-page-btn">{{ num }}</a>
+        {% endif %}
+      {% endfor %}
+      {% if sims.has_next %}
+        <a href="?page={{ sims.next_page_number }}" class="bs-page-btn"><i class="bi bi-chevron-right"></i></a>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<!-- ── AUDIT TRAIL ── -->
+<div class="section-label animate-in" style="margin-top:2rem;">Integrated Audit Trail — Usage Ingestion Log</div>
+
+<div class="bs-card animate-in delay-1">
+  <div class="bs-card-header">
+    <div class="bs-card-title">
+      <i class="bi bi-journal-code"></i> Recent Usage Logs
+      <span style="font-family:var(--font-mono);font-weight:400;font-size:0.78rem;color:var(--text-muted);">
+        (last 50 entries)
+      </span>
+    </div>
+    <div class="refresh-badge">
+      <div class="refresh-dot"></div>
+      Proof of Ingestion
+    </div>
+  </div>
+
+  <div style="overflow-x:auto;">
+    <table class="bs-table" id="auditTable">
+      <thead>
+        <tr>
+          <th>Log ID</th>
+          <th>ICCID</th>
+          <th>Data Consumed</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in usage_logs %}
+        <tr class="audit-row">
+          <td class="log-id">{{ log.LogID }}</td>
+          <td class="iccid-cell">{{ log.ICCID }}</td>
+          <td class="data-mb">{{ log.DataConsumed_MB }} MB</td>
+          <td class="timestamp">{{ log.Timestamp|date:"d M Y, H:i:s" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4">
+            <div class="empty-state">
+              <i class="bi bi-journal-x"></i>
+              <p>No usage logs recorded yet.</p>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  let currentFilter = 'all';
+
+  function filterTable() {
+    const query = document.getElementById('simSearch').value.toLowerCase();
+    const rows  = document.querySelectorAll('#simTable tbody tr[data-status]');
+    rows.forEach(row => {
+      const text   = row.textContent.toLowerCase();
+      const status = row.dataset.status;
+      const matchSearch = text.includes(query);
+      const matchFilter = currentFilter === 'all' || status === currentFilter;
+      row.style.display = matchSearch && matchFilter ? '' : 'none';
+    });
+  }
+
+  function setFilter(status, btn) {
+    currentFilter = status;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterTable();
+  }
+
+  // Live clock for last update
+  function updateClock() {
+    document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
+  }
+  setInterval(updateClock, 1000);
+
+  // Auto-refresh every 60 seconds
+  setTimeout(() => location.reload(), 60000);
+</script>
+{% endblock %}

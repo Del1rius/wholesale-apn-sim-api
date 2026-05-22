@@ -1,0 +1,365 @@
+{% extends 'base.html' %}
+{% block title %}SIM {{ sim.ICCID }} — Backspace Technologies{% endblock %}
+{% block nav_sims %}active{% endblock %}
+
+{% block extra_css %}
+<style>
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 900px) { .detail-grid { grid-template-columns: 1fr; } }
+
+  .detail-field {
+    margin-bottom: 1.25rem;
+  }
+
+  .detail-field-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-bottom: 0.3rem;
+  }
+
+  .detail-field-value {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .detail-field-value.mono {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+  }
+
+  /* Big usage donut (CSS only) */
+  .usage-circle-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .usage-ring {
+    position: relative;
+    width: 160px;
+    height: 160px;
+  }
+
+  .usage-ring svg {
+    transform: rotate(-90deg);
+    width: 160px;
+    height: 160px;
+  }
+
+  .usage-ring circle.track {
+    fill: none;
+    stroke: rgba(255,255,255,0.05);
+    stroke-width: 12;
+  }
+
+  .usage-ring circle.fill {
+    fill: none;
+    stroke-width: 12;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .usage-ring-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .usage-ring-pct {
+    font-family: var(--font-mono);
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .usage-ring-sub {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .usage-detail-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 220px;
+    margin-top: 1.25rem;
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+  }
+
+  .usage-detail-item { text-align: center; }
+  .usage-detail-item .val { font-weight: 700; color: var(--text-primary); display: block; }
+  .usage-detail-item .lbl { color: var(--text-muted); font-size: 0.68rem; letter-spacing: 1px; }
+
+  /* Timeline log */
+  .log-timeline { display: flex; flex-direction: column; gap: 0; }
+
+  .log-entry {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 136, 204, 0.05);
+    transition: var(--transition);
+  }
+
+  .log-entry:hover { background: rgba(0, 136, 204, 0.04); }
+  .log-entry:last-child { border-bottom: none; }
+
+  .log-time {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  .log-iccid {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+  }
+
+  .log-amount {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--blue-bright);
+    white-space: nowrap;
+  }
+
+  /* Suspended warning card */
+  .suspended-warning {
+    background: linear-gradient(135deg, rgba(255,23,68,0.06), rgba(255,100,50,0.06));
+    border: 1px solid rgba(255, 23, 68, 0.3);
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    animation: alertSlideIn 0.4s ease forwards;
+  }
+
+  .suspended-warning i { font-size: 1.5rem; color: var(--red-danger); flex-shrink: 0; margin-top: 2px; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Breadcrumb -->
+<div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--text-muted);margin-bottom:1.5rem;font-family:var(--font-mono);" class="animate-in">
+  <a href="{% url 'dashboard' %}" style="color:var(--text-muted);text-decoration:none;">Dashboard</a>
+  <i class="bi bi-chevron-right" style="font-size:0.65rem;"></i>
+  <a href="{% url 'sim_list' %}" style="color:var(--text-muted);text-decoration:none;">SIM Fleet</a>
+  <i class="bi bi-chevron-right" style="font-size:0.65rem;"></i>
+  <span style="color:var(--cyan-pulse);">{{ sim.ICCID }}</span>
+</div>
+
+<!-- Page header -->
+<div class="page-header animate-in delay-1">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+    <div>
+      <div class="page-title">
+        <i class="bi bi-sim-fill" style="color:var(--cyan-pulse);"></i>
+        SIM <span class="title-accent">Detail</span>
+      </div>
+      <div class="page-subtitle" style="font-family:var(--font-mono);">// {{ sim.ICCID }}</div>
+    </div>
+    <div style="display:flex;gap:0.75rem;align-items:center;">
+      {% if sim.status == 'Active' %}
+        <span class="status-badge status-active" style="font-size:0.85rem;padding:0.4rem 1rem;">
+          <i class="bi bi-circle-fill" style="font-size:0.5rem;"></i> Active
+        </span>
+      {% elif sim.status == 'Suspended' %}
+        <span class="status-badge status-suspended" style="font-size:0.85rem;padding:0.4rem 1rem;">
+          <i class="bi bi-slash-circle-fill"></i> <strong>SUSPENDED</strong>
+        </span>
+      {% elif sim.status == 'Deactivated' %}
+        <span class="status-badge status-deactivated" style="font-size:0.85rem;padding:0.4rem 1rem;">
+          <i class="bi bi-x-circle-fill"></i> Deactivated
+        </span>
+      {% else %}
+        <span class="status-badge status-unallocated" style="font-size:0.85rem;padding:0.4rem 1rem;">
+          Unallocated
+        </span>
+      {% endif %}
+      <a href="{% url 'sim_list' %}" class="btn-ghost-bs">
+        <i class="bi bi-arrow-left"></i> Back
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Suspended warning -->
+{% if sim.status == 'Suspended' %}
+<div class="suspended-warning animate-in delay-2">
+  <i class="bi bi-exclamation-octagon-fill"></i>
+  <div>
+    <div style="font-weight:700;color:var(--red-danger);margin-bottom:4px;">This SIM has been automatically suspended</div>
+    <div style="font-size:0.82rem;color:var(--text-secondary);">
+      Data usage has exceeded the allocated limit of <strong>{{ sim.DataLimit_MB }} MB</strong>.
+      This SIM is no longer able to transmit data. Contact your Network Administrator to review.
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- Main detail grid -->
+<div class="detail-grid">
+
+  <!-- LEFT: SIM Info -->
+  <div class="bs-card animate-in delay-2">
+    <div class="bs-card-header">
+      <div class="bs-card-title"><i class="bi bi-info-circle-fill"></i> SIM Information</div>
+    </div>
+    <div class="bs-card-body">
+
+      <div class="detail-field">
+        <div class="detail-field-label">ICCID</div>
+        <div class="detail-field-value mono" style="color:var(--cyan-pulse);">{{ sim.ICCID }}</div>
+      </div>
+
+      <div class="detail-field">
+        <div class="detail-field-label">MSISDN (Phone Number)</div>
+        <div class="detail-field-value mono">{{ sim.MSISDN }}</div>
+      </div>
+
+      <div class="detail-field">
+        <div class="detail-field-label">Organization</div>
+        <div class="detail-field-value">{{ sim.OrgID.Name }}</div>
+      </div>
+
+      <div class="detail-field">
+        <div class="detail-field-label">Data Limit</div>
+        <div class="detail-field-value mono">{{ sim.DataLimit_MB }} <span style="color:var(--text-muted);font-weight:400;">MB</span></div>
+      </div>
+
+      <div class="detail-field">
+        <div class="detail-field-label">Date Allocated</div>
+        <div class="detail-field-value mono">{{ sim.DateAllocated|date:"d F Y, H:i" }}</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RIGHT: Usage Ring -->
+  <div class="bs-card animate-in delay-3">
+    <div class="bs-card-header">
+      <div class="bs-card-title"><i class="bi bi-bar-chart-fill"></i> Current Billing Cycle Usage</div>
+    </div>
+    <div class="usage-circle-wrap">
+
+      {% with pct=sim.usage_percentage %}
+      <div class="usage-ring">
+        <svg viewBox="0 0 160 160">
+          <circle class="track" cx="80" cy="80" r="68"/>
+          <circle class="fill" cx="80" cy="80" r="68"
+            stroke="{% if pct < 80 %}var(--green-ok){% elif pct < 100 %}var(--orange-warn){% else %}var(--red-danger){% endif %}"
+            stroke-dasharray="427"
+            stroke-dashoffset="{{ 427|add:"-"|add:pct|floatformat:0 }}"
+            id="usageCircle"
+            data-target-pct="{{ pct|floatformat:0 }}"
+          />
+        </svg>
+        <div class="usage-ring-label">
+          <span class="usage-ring-pct"
+                style="color:{% if pct < 80 %}var(--green-ok){% elif pct < 100 %}var(--orange-warn){% else %}var(--red-danger){% endif %}">
+            {{ pct|floatformat:0 }}%
+          </span>
+          <span class="usage-ring-sub">used</span>
+        </div>
+      </div>
+
+      <div class="usage-detail-row">
+        <div class="usage-detail-item">
+          <span class="val">{{ sim.total_consumed|floatformat:1 }} MB</span>
+          <span class="lbl">Consumed</span>
+        </div>
+        <div class="usage-detail-item" style="color:var(--text-muted);">
+          <span class="val" style="color:var(--text-muted);">/</span>
+          <span class="lbl">&nbsp;</span>
+        </div>
+        <div class="usage-detail-item">
+          <span class="val">{{ sim.DataLimit_MB }} MB</span>
+          <span class="lbl">Limit</span>
+        </div>
+        <div class="usage-detail-item">
+          <span class="val" style="color:{% if sim.remaining_mb > 0 %}var(--green-ok){% else %}var(--red-danger){% endif %};">
+            {{ sim.remaining_mb|floatformat:1 }} MB
+          </span>
+          <span class="lbl">Remaining</span>
+        </div>
+      </div>
+      {% endwith %}
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Usage Log History -->
+<div class="section-label animate-in" style="margin-top:2rem;">Usage Log History</div>
+
+<div class="bs-card animate-in delay-1">
+  <div class="bs-card-header">
+    <div class="bs-card-title">
+      <i class="bi bi-clock-history"></i> Ingestion Events
+    </div>
+    <span style="font-size:0.75rem;font-family:var(--font-mono);color:var(--text-muted);">{{ usage_logs|length }} records</span>
+  </div>
+
+  <div class="log-timeline">
+    {% for log in usage_logs %}
+    <div class="log-entry">
+      <div class="log-time">{{ log.Timestamp|date:"d M, H:i:s" }}</div>
+      <div class="log-iccid">LogID: {{ log.LogID|truncatechars:16 }}</div>
+      <div class="log-amount">+{{ log.DataConsumed_MB }} MB</div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+      <i class="bi bi-journal-x"></i>
+      <p>No usage logs recorded for this SIM.</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Animate usage ring on load
+  document.addEventListener('DOMContentLoaded', () => {
+    const circle = document.getElementById('usageCircle');
+    if (!circle) return;
+    const pct    = parseFloat(circle.dataset.targetPct) || 0;
+    const circumference = 427;
+    const offset = circumference - (pct / 100) * circumference;
+    circle.style.strokeDashoffset = circumference; // start at 0
+    setTimeout(() => {
+      circle.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+      circle.style.strokeDashoffset = offset;
+    }, 300);
+  });
+</script>
+{% endblock %}
