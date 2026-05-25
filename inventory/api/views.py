@@ -13,10 +13,10 @@ from inventory.api.serializers import (
 )
 
 class APNViewSet(viewsets.ModelViewSet):
-    #
-    #
-    #
-    #
+    # ViewSet for SIM Card CRUD operations
+    # list: GET /api/inventory/sims/ - List all SIM cards
+    # retrieve: GET /api/inventory/sim/{id}/ - Get single SIM Card
+    # create: 
     #
     #
     #
