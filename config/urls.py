@@ -36,6 +36,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('users.api.urls')),
+    path('api/inventory/', include('inventory.api.urls')),
     path('', include('users.dashboard_urls')),  # Add this line
     
     # Swagger documentation
