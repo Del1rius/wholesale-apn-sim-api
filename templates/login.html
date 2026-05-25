@@ -3,97 +3,110 @@
 
 {% block extra_css %}
 <style>
-  /* Login page overrides — no navbar/footer layout, full screen */
-  body { background: var(--bg-void); }
+  body { background: #000; }
   .main-content { padding: 0; min-height: 100vh; display: flex; }
   .bs-footer, .navbar-bs { display: none !important; }
 
-  /* ── SPLIT LAYOUT ──────────────────────────────── */
+  /* ── FULL SCREEN WRAPPER ── */
   .login-wrapper {
     display: flex;
     width: 100%;
     min-height: 100vh;
+    position: relative;
   }
 
-  /* Left panel — branding */
+  /* ── PARTICLE CANVAS — full background ── */
+  #particleCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background: #000;
+  }
+
+  /* ── LEFT PANEL ── */
   .login-left {
     flex: 1;
-    background: linear-gradient(155deg, #070d14 0%, #0c1624 50%, #0a1520 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 3rem;
     position: relative;
-    overflow: hidden;
-  }
-
-  .login-left::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0, 136, 204, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 136, 204, 0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
-    animation: gridDrift 20s linear infinite;
-  }
-
-  .login-left::after {
-    content: '';
-    position: absolute;
-    bottom: -100px;
-    right: -100px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(0, 136, 204, 0.12) 0%, transparent 65%);
-    animation: orbFloat 12s ease-in-out infinite alternate;
+    z-index: 1;
   }
 
   .left-content {
-    position: relative;
-    z-index: 1;
     text-align: center;
-    max-width: 420px;
+    max-width: 480px;
   }
 
-  .left-logo {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, var(--blue-core), var(--cyan-pulse));
-    border-radius: 20px;
+  /* ── BACKSPACE LOGO (SVG recreation) ── */
+  .bs-logo-wrap {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.2rem;
-    color: #fff;
-    margin: 0 auto 2rem;
-    box-shadow: 0 0 40px rgba(0, 229, 255, 0.35);
+    gap: 10px;
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 0.7s ease forwards;
+  }
+
+  .bs-chevron {
+    width: 52px;
+    height: 52px;
+    filter: drop-shadow(0 0 12px rgba(0, 200, 255, 0.7));
     animation: logoPulse 3s ease-in-out infinite;
   }
 
   @keyframes logoPulse {
-    0%, 100% { box-shadow: 0 0 40px rgba(0, 229, 255, 0.35); transform: scale(1); }
-    50%       { box-shadow: 0 0 60px rgba(0, 229, 255, 0.6);  transform: scale(1.04); }
+    0%, 100% { filter: drop-shadow(0 0 12px rgba(0, 200, 255, 0.6)); }
+    50%       { filter: drop-shadow(0 0 22px rgba(0, 200, 255, 1));   }
+  }
+
+  .bs-logo-text {
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .bs-logo-text .back { color: #fff; }
+  .bs-logo-text .space { color: #00ccff; }
+
+  .left-tagline {
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(0, 200, 255, 0.6);
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 0.7s 0.2s ease forwards;
+    opacity: 0;
   }
 
   .left-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 900;
-    color: var(--text-primary);
-    line-height: 1.2;
-    margin-bottom: 1rem;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 0.85rem;
+    animation: fadeInUp 0.7s 0.3s ease forwards;
+    opacity: 0;
   }
 
-  .left-title span { color: var(--cyan-pulse); }
+  .left-title span { color: #00ccff; }
 
   .left-desc {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 2.5rem;
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.75;
+    margin-bottom: 2.75rem;
+    animation: fadeInUp 0.7s 0.4s ease forwards;
+    opacity: 0;
   }
 
+  /* Feature pills */
   .feature-pills {
     display: flex;
     flex-direction: column;
@@ -105,89 +118,90 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    background: rgba(0, 136, 204, 0.06);
-    border: 1px solid var(--border-subtle);
+    background: rgba(0, 200, 255, 0.04);
+    border: 1px solid rgba(0, 200, 255, 0.12);
     border-radius: 10px;
-    padding: 0.75rem 1rem;
+    padding: 0.8rem 1rem;
     animation: fadeInUp 0.6s ease forwards;
     opacity: 0;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
   }
 
-  .feature-pill:nth-child(1) { animation-delay: 0.8s; }
-  .feature-pill:nth-child(2) { animation-delay: 1.0s; }
-  .feature-pill:nth-child(3) { animation-delay: 1.2s; }
+  .feature-pill:hover {
+    background: rgba(0, 200, 255, 0.08);
+    border-color: rgba(0, 200, 255, 0.3);
+    transform: translateX(4px);
+  }
+
+  .feature-pill:nth-child(1) { animation-delay: 0.7s; }
+  .feature-pill:nth-child(2) { animation-delay: 0.9s; }
+  .feature-pill:nth-child(3) { animation-delay: 1.1s; }
 
   .pill-icon {
-    width: 34px;
-    height: 34px;
-    background: linear-gradient(135deg, rgba(0,136,204,0.2), rgba(0,229,255,0.2));
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, rgba(0,150,204,0.2), rgba(0,229,255,0.2));
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--cyan-pulse);
+    display: flex; align-items: center; justify-content: center;
+    color: #00ccff;
     font-size: 1rem;
     flex-shrink: 0;
   }
 
-  .pill-text strong {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--text-primary);
-    font-weight: 700;
-  }
+  .pill-text strong { display: block; font-size: 0.82rem; color: #fff; font-weight: 700; }
+  .pill-text span   { font-size: 0.72rem; color: rgba(255,255,255,0.4); }
 
-  .pill-text span {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-  }
-
-  /* Right panel — form */
+  /* ── RIGHT PANEL — FORM ── */
   .login-right {
-    width: 480px;
+    width: 460px;
     flex-shrink: 0;
-    background: var(--bg-deep);
-    border-left: 1px solid var(--border-subtle);
+    background: rgba(5, 10, 18, 0.85);
+    border-left: 1px solid rgba(0, 200, 255, 0.1);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 3rem 2.5rem;
     position: relative;
+    z-index: 1;
+  }
+
+  /* Top cyan line accent */
+  .login-right::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ccff, transparent);
   }
 
   .login-form-wrap {
     width: 100%;
-    max-width: 380px;
-    animation: fadeInUp 0.6s ease forwards;
+    max-width: 360px;
+    animation: fadeInUp 0.6s 0.2s ease forwards;
+    opacity: 0;
   }
 
-  .form-heading {
-    margin-bottom: 2rem;
-  }
+  .form-heading { margin-bottom: 2rem; }
 
   .form-heading h2 {
-    font-size: 1.7rem;
+    font-size: 1.75rem;
     font-weight: 900;
-    color: var(--text-primary);
+    color: #fff;
     margin-bottom: 0.35rem;
   }
 
   .form-heading p {
-    font-size: 0.85rem;
-    color: var(--text-muted);
+    font-size: 0.82rem;
+    color: rgba(0, 200, 255, 0.6);
     font-family: var(--font-mono);
   }
 
-  .form-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
-    margin: 1.5rem 0;
-  }
-
-  /* Input with icon */
+  /* Input groups */
   .input-group-bs {
     position: relative;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.1rem;
   }
 
   .input-group-bs .input-icon {
@@ -195,101 +209,73 @@
     left: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-muted);
-    font-size: 1rem;
-    transition: var(--transition);
+    color: rgba(255,255,255,0.25);
+    font-size: 0.95rem;
     pointer-events: none;
+    transition: color 0.3s;
   }
 
-  .input-group-bs .bs-input {
-    padding-left: 2.75rem;
+  .input-group-bs:focus-within .input-icon { color: #00ccff; }
+
+  .bs-input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 200, 255, 0.15);
+    border-radius: 8px;
+    padding: 0.8rem 1rem 0.8rem 2.75rem;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    outline: none;
   }
 
-  .input-group-bs .bs-input:focus + .input-icon,
-  .input-group-bs:focus-within .input-icon {
-    color: var(--cyan-pulse);
+  .bs-input:focus {
+    border-color: #00ccff;
+    box-shadow: 0 0 0 3px rgba(0, 200, 255, 0.08), 0 0 15px rgba(0, 200, 255, 0.1);
+    background: rgba(0, 200, 255, 0.03);
   }
+
+  .bs-input::placeholder { color: rgba(255,255,255,0.2); }
 
   /* Password toggle */
-  .input-group-bs .pwd-toggle {
+  .pwd-toggle {
     position: absolute;
     right: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-muted);
+    color: rgba(255,255,255,0.25);
     cursor: pointer;
-    font-size: 1rem;
-    transition: var(--transition);
     background: none;
     border: none;
     padding: 0;
+    font-size: 0.95rem;
+    transition: color 0.3s;
   }
 
-  .input-group-bs .pwd-toggle:hover { color: var(--cyan-pulse); }
+  .pwd-toggle:hover { color: #00ccff; }
 
   /* Error messages */
-  .error-list {
+  .error-box {
     background: rgba(255, 23, 68, 0.08);
     border: 1px solid rgba(255, 23, 68, 0.3);
     border-radius: 8px;
     padding: 0.75rem 1rem;
     margin-bottom: 1.25rem;
     font-size: 0.82rem;
-    color: var(--red-danger);
+    color: #ff1744;
     list-style: none;
   }
 
-  .error-list li { display: flex; align-items: center; gap: 6px; }
-  .error-list li::before { content: '\F33A'; font-family: 'Bootstrap-Icons'; }
+  .error-box li { display: flex; align-items: center; gap: 6px; }
 
-  /* Submit button full width */
-  .btn-login {
-    width: 100%;
-    justify-content: center;
-    padding: 0.85rem;
-    font-size: 0.95rem;
-    letter-spacing: 1px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-login::after {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 0; height: 0;
-    background: rgba(255,255,255,0.15);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s, opacity 0.6s;
-    opacity: 0;
-  }
-
-  .btn-login:active::after {
-    width: 300px; height: 300px; opacity: 0;
-  }
-
-  .form-footer {
-    text-align: center;
-    margin-top: 1.5rem;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-  }
-
-  .form-footer a {
-    color: var(--cyan-soft);
-    text-decoration: none;
-    font-weight: 600;
-    transition: var(--transition);
-  }
-
-  .form-footer a:hover { color: var(--cyan-pulse); }
-
+  /* Remember row */
   .remember-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.75rem;
+    font-size: 0.8rem;
   }
 
   .custom-check {
@@ -297,34 +283,109 @@
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    font-size: 0.82rem;
-    color: var(--text-muted);
+    color: rgba(255,255,255,0.4);
   }
 
   .custom-check input[type="checkbox"] {
-    accent-color: var(--blue-bright);
-    width: 15px;
-    height: 15px;
+    accent-color: #00ccff;
+    width: 14px; height: 14px;
     cursor: pointer;
   }
 
+  .forgot-link {
+    color: #00ccff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+
+  .forgot-link:hover { color: #40e0ff; }
+
+  /* Submit button */
+  .btn-login {
+    width: 100%;
+    padding: 0.9rem;
+    background: linear-gradient(135deg, #0077bb, #00aaff);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(0, 170, 255, 0.25);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-login::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .btn-login:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(0, 170, 255, 0.45); }
+  .btn-login:hover::before { left: 100%; }
+  .btn-login:active { transform: translateY(0); }
+
+  .form-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,200,255,0.15), transparent);
+    margin: 1.5rem 0;
+  }
+
+  .form-footer {
+    text-align: center;
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.5px;
+  }
+
   @media (max-width: 900px) {
-    .login-left { display: none; }
+    .login-left  { display: none; }
     .login-right { width: 100%; border-left: none; }
   }
 </style>
 {% endblock %}
 
 {% block content %}
+
+<!-- PARTICLE CANVAS — Backspace website style -->
+<canvas id="particleCanvas"></canvas>
+
 <div class="login-wrapper">
 
   <!-- LEFT PANEL -->
   <div class="login-left">
     <div class="left-content">
-      <div class="left-logo"><i class="bi bi-router-fill"></i></div>
+
+      <!-- Backspace Logo -->
+      <div class="bs-logo-wrap">
+        <svg class="bs-chevron" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M34 8L18 26L34 44" stroke="#00ccff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="bs-logo-text">
+          <span class="back">Back</span><span class="space">space</span>
+        </div>
+      </div>
+
+      <div class="left-tagline">APN · SIM · Fleet Management</div>
+
       <h1 class="left-title">
         Wholesale <span>APN</span><br/>SIM Management
       </h1>
+
       <p class="left-desc">
         Enterprise-grade SIM fleet management with real-time monitoring,
         automated policy enforcement, and proactive overage prevention.
@@ -353,10 +414,11 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 
-  <!-- RIGHT PANEL — FORM -->
+  <!-- RIGHT PANEL -->
   <div class="login-right">
     <div class="login-form-wrap">
 
@@ -366,15 +428,11 @@
       </div>
 
       {% if form.errors %}
-      <ul class="error-list">
+      <ul class="error-box">
         {% for field in form %}
-          {% for error in field.errors %}
-            <li>{{ error }}</li>
-          {% endfor %}
+          {% for error in field.errors %}<li><i class="bi bi-exclamation-circle-fill"></i> {{ error }}</li>{% endfor %}
         {% endfor %}
-        {% for error in form.non_field_errors %}
-          <li>{{ error }}</li>
-        {% endfor %}
+        {% for error in form.non_field_errors %}<li><i class="bi bi-exclamation-circle-fill"></i> {{ error }}</li>{% endfor %}
       </ul>
       {% endif %}
 
@@ -382,59 +440,42 @@
         {% csrf_token %}
 
         <div class="input-group-bs">
-          <input
-            type="text"
-            name="username"
-            id="id_username"
-            class="bs-input"
-            placeholder="Username or email"
-            value="{{ form.username.value|default:'' }}"
-            autocomplete="username"
-            autofocus
-          />
           <i class="bi bi-person-fill input-icon"></i>
+          <input type="text" name="username" id="id_username"
+                 class="bs-input" placeholder="Username or email"
+                 value="{{ form.username.value|default:'' }}"
+                 autocomplete="username" autofocus/>
         </div>
 
         <div class="input-group-bs">
-          <input
-            type="password"
-            name="password"
-            id="id_password"
-            class="bs-input"
-            placeholder="Password"
-            autocomplete="current-password"
-            style="padding-right: 3rem;"
-          />
           <i class="bi bi-lock-fill input-icon"></i>
-          <button type="button" class="pwd-toggle" onclick="togglePassword()">
+          <input type="password" name="password" id="id_password"
+                 class="bs-input" placeholder="Password"
+                 autocomplete="current-password"
+                 style="padding-right:3rem;"/>
+          <button type="button" class="pwd-toggle" onclick="togglePwd()">
             <i class="bi bi-eye-fill" id="pwd-eye"></i>
           </button>
         </div>
 
         <div class="remember-row">
           <label class="custom-check">
-            <input type="checkbox" name="remember_me"/>
-            Remember me
+            <input type="checkbox" name="remember_me"/> Remember me
           </label>
-          <a href="{% url 'password_change' %}" style="font-size:0.82rem;color:var(--cyan-soft);text-decoration:none;">
-            Change password
-          </a>
+          <a href="{% url 'password_change' %}" class="forgot-link">Change password</a>
         </div>
 
         <input type="hidden" name="next" value="{{ next }}"/>
 
-        <button type="submit" class="btn-primary-bs btn-login">
-          <i class="bi bi-box-arrow-in-right"></i>
-          SIGN IN
+        <button type="submit" class="btn-login">
+          <i class="bi bi-box-arrow-in-right"></i> SIGN IN
         </button>
       </form>
 
       <div class="form-divider"></div>
 
       <div class="form-footer">
-        <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">
-          Backspace Technologies &copy; {% now "Y" %} — Secure Access Portal
-        </span>
+        Backspace Technologies &copy; {% now "Y" %} — Secure Access Portal
       </div>
 
     </div>
@@ -445,16 +486,178 @@
 
 {% block extra_js %}
 <script>
-  function togglePassword() {
-    const input = document.getElementById('id_password');
-    const icon  = document.getElementById('pwd-eye');
-    if (input.type === 'password') {
-      input.type = 'text';
-      icon.className = 'bi bi-eye-slash-fill';
-    } else {
-      input.type = 'password';
-      icon.className = 'bi bi-eye-fill';
-    }
+/* ── PASSWORD TOGGLE ── */
+function togglePwd() {
+  const input = document.getElementById('id_password');
+  const icon  = document.getElementById('pwd-eye');
+  input.type  = input.type === 'password' ? 'text' : 'password';
+  icon.className = input.type === 'password' ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill';
+}
+
+/* ────────────────────────────────────────────────
+   BACKSPACE-STYLE PARTICLE NETWORK
+   — Black background, cyan nodes, connecting lines,
+     mouse proximity interaction
+──────────────────────────────────────────────── */
+(function() {
+  const canvas = document.getElementById('particleCanvas');
+  const ctx    = canvas.getContext('2d');
+
+  let W, H, particles, mouse;
+
+  const CONFIG = {
+    count:         90,
+    maxDist:       160,
+    mouseRadius:   180,
+    nodeRadius:    2.5,
+    speed:         0.35,
+    lineOpacity:   0.55,
+    color:         '0, 200, 255',
+    bgColor:       '#000000',
+  };
+
+  mouse = { x: -9999, y: -9999 };
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
   }
+
+  function Particle() {
+    this.x  = Math.random() * W;
+    this.y  = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * CONFIG.speed;
+    this.vy = (Math.random() - 0.5) * CONFIG.speed;
+    this.r  = Math.random() * CONFIG.nodeRadius + 1;
+  }
+
+  Particle.prototype.update = function() {
+    /* Mouse repulsion — nodes gently drift away from cursor */
+    const dx   = this.x - mouse.x;
+    const dy   = this.y - mouse.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (dist < CONFIG.mouseRadius) {
+      const force = (CONFIG.mouseRadius - dist) / CONFIG.mouseRadius;
+      this.vx += dx / dist * force * 0.8;
+      this.vy += dy / dist * force * 0.8;
+    }
+
+    /* Speed clamp */
+    const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+    if (speed > 2) { this.vx = (this.vx / speed) * 2; this.vy = (this.vy / speed) * 2; }
+
+    /* Drift back to natural speed */
+    this.vx *= 0.99;
+    this.vy *= 0.99;
+    if (speed < CONFIG.speed * 0.5) {
+      this.vx += (Math.random() - 0.5) * 0.05;
+      this.vy += (Math.random() - 0.5) * 0.05;
+    }
+
+    this.x += this.vx;
+    this.y += this.vy;
+
+    /* Wrap edges */
+    if (this.x < 0) this.x = W;
+    if (this.x > W) this.x = 0;
+    if (this.y < 0) this.y = H;
+    if (this.y > H) this.y = 0;
+  };
+
+  function init() {
+    resize();
+    particles = Array.from({ length: CONFIG.count }, () => new Particle());
+  }
+
+  function draw() {
+    /* Background */
+    ctx.fillStyle = CONFIG.bgColor;
+    ctx.fillRect(0, 0, W, H);
+
+    /* Draw lines between close particles */
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a  = particles[i];
+        const b  = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const d  = Math.sqrt(dx * dx + dy * dy);
+
+        if (d < CONFIG.maxDist) {
+          const alpha = (1 - d / CONFIG.maxDist) * CONFIG.lineOpacity;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(${CONFIG.color}, ${alpha})`;
+          ctx.lineWidth   = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+
+    /* Draw line from each particle to mouse if close enough */
+    for (const p of particles) {
+      const dx = p.x - mouse.x;
+      const dy = p.y - mouse.y;
+      const d  = Math.sqrt(dx * dx + dy * dy);
+      if (d < CONFIG.mouseRadius) {
+        const alpha = (1 - d / CONFIG.mouseRadius) * 0.8;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.strokeStyle = `rgba(${CONFIG.color}, ${alpha})`;
+        ctx.lineWidth   = 0.8;
+        ctx.stroke();
+      }
+    }
+
+    /* Draw nodes */
+    for (const p of particles) {
+      /* Glow */
+      const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 3);
+      grd.addColorStop(0, `rgba(${CONFIG.color}, 0.5)`);
+      grd.addColorStop(1, `rgba(${CONFIG.color}, 0)`);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+
+      /* Solid core */
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${CONFIG.color}, 0.9)`;
+      ctx.fill();
+
+      p.update();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  /* Mouse tracking */
+  window.addEventListener('mousemove', e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+
+  /* Mouse leaves — reset */
+  window.addEventListener('mouseleave', () => {
+    mouse.x = -9999;
+    mouse.y = -9999;
+  });
+
+  window.addEventListener('resize', () => {
+    resize();
+    /* Redistribute particles on resize */
+    particles.forEach(p => {
+      if (p.x > W) p.x = Math.random() * W;
+      if (p.y > H) p.y = Math.random() * H;
+    });
+  });
+
+  init();
+  draw();
+})();
 </script>
 {% endblock %}
