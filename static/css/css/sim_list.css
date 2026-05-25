@@ -1,0 +1,49 @@
+/* ============================================================
+   SIM_LIST.CSS — SIM fleet list page styles
+   Backspace Technologies
+   ============================================================ */
+
+.sim-count-badge {
+  background: rgba(0, 170, 255, 0.1);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 0.2rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--cyan-soft);
+}
+
+.status-filter-tabs {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.status-filter-tabs a {
+  padding: 0.45rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: var(--transition);
+  border-right: 1px solid var(--border-subtle);
+  letter-spacing: 0.5px;
+}
+
+.status-filter-tabs a:last-child { border-right: none; }
+
+.status-filter-tabs a:hover,
+.status-filter-tabs a.active {
+  background: rgba(0, 170, 255, 0.1);
+  color: var(--cyan-pulse);
+}
+
+.iccid-mono {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.3px;
+  color: var(--text-primary);
+}
