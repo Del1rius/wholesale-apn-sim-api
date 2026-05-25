@@ -4,7 +4,7 @@ from users.models import Organization
 
 User = get_user_model()
 
-# Serliazer for Organisation Data
+# Serializer for Organisation Data
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization

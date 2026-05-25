@@ -25,7 +25,7 @@ schema_view = get_schema_view(
     openapi.Info(
         title = "Wholesale APN & SIM Management API",
         default_version = 'v1',
-        description= "API for managin SIM cards and data usage",
+        description= "API for managing SIM cards and data usage",
         contact = openapi.Contact(email="admin@apn-sim.com")
     ),
     public = True,
@@ -37,7 +37,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('users.api.urls')),
     path('api/inventory/', include('inventory.api.urls')),
-    path('', include('users.dashboard_urls')),  # Add this line
+    path('', include('users.dashboard_urls')),  
     
     # Swagger documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

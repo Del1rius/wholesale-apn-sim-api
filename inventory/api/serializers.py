@@ -89,14 +89,14 @@ class SIMCardSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Phone number must start with '+' (e.g., +27821234567)")
         return value
 
-# Leightweight serializer for SIM card lists
+# Lightweight serializer for SIM card lists
 class SIMCardListSerializer(serializers.ModelSerializer):
     organization_name = serializers.CharField(source='organization.name', read_only=True)
     apn_name = serializers.CharField(source='apn.name', read_only=True)
     status_display = serializers.CharField(source='get_status_display', read_only=True)
 
     class Meta:
-        model= SIMCard
+        model = SIMCard
         fields = [
             'sim_id',
             'iccid',

@@ -5,7 +5,7 @@ from inventory.api.views import APNViewSet, SIMCardViewSet
 # Create a router and register our viewsets
 router = DefaultRouter()
 router.register(r'apns', APNViewSet, basename='apn')
-router.register(r'sim', SIMCardViewSet, basename='simcard')
+router.register(r'sims', SIMCardViewSet, basename='simcard')
 
  # API URLS are determined automatically by the router
 urlpatterns = [
