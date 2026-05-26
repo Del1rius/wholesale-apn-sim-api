@@ -33,7 +33,9 @@
   letter-spacing: 0.5px;
 }
 
-.status-filter-tabs a:last-child { border-right: none; }
+.status-filter-tabs a:last-child {
+  border-right: none;
+}
 
 .status-filter-tabs a:hover,
 .status-filter-tabs a.active {
@@ -46,4 +48,102 @@
   font-size: 0.8rem;
   letter-spacing: 0.3px;
   color: var(--text-primary);
+}
+
+/* ── PAGE HEADER FLEX ── */
+.page-header-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-icon-cyan {
+  color: var(--cyan-pulse);
+}
+
+/* ── CARD HEADER FLEX ── */
+.card-header-flex {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ── SEARCH FORM ── */
+.search-form {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.search-input {
+  padding-left: 2.4rem;
+  height: 36px;
+  font-size: 0.84rem;
+  width: 240px;
+}
+
+/* ── TABLE OVERFLOW ── */
+.table-overflow {
+  overflow-x: auto;
+}
+
+/* ── TABLE STYLES ── */
+.table-mono {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.table-text-secondary {
+  color: var(--text-secondary);
+}
+
+.table-text-muted {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+/* ── ROW SUSPENDED ── */
+.row-suspended {
+  background: rgba(255, 23, 68, 0.04);
+}
+
+/* ── STATUS BADGE ICONS ── */
+.status-icon-small {
+  font-size: 0.45rem;
+}
+
+.status-icon-medium {
+  font-size: 0.6rem;
+}
+
+/* ── VIEW BUTTON ── */
+.btn-view {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.78rem;
+}
+
+/* ── PAGINATION CONTAINER ── */
+.pagination-container {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pagination-info {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
 }

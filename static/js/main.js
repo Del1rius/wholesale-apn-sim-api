@@ -57,9 +57,9 @@ document.addEventListener('DOMContentLoaded', function () {
 /* ── Password show/hide toggle ── */
 function togglePwd() {
   var input = document.getElementById('id_password');
-  var icon  = document.getElementById('pwd-eye');
+  var icon = document.getElementById('pwd-eye');
   if (!input) return;
-  input.type     = input.type === 'password' ? 'text' : 'password';
+  input.type = input.type === 'password' ? 'text' : 'password';
   icon.className = input.type === 'password' ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill';
 }
 
@@ -73,32 +73,32 @@ function initLoginPage() {
   var mouse = { x: -9999, y: -9999 };
 
   var CONFIG = {
-    count:       90,
-    maxDist:     160,
+    count: 90,
+    maxDist: 160,
     mouseRadius: 180,
-    nodeRadius:  2.5,
-    speed:       0.35,
+    nodeRadius: 2.5,
+    speed: 0.35,
     lineOpacity: 0.55,
-    color:       '0, 200, 255',
-    bgColor:     '#000000'
+    color: '0, 200, 255',
+    bgColor: '#000000'
   };
 
   function resize() {
-    W = canvas.width  = window.innerWidth;
+    W = canvas.width = window.innerWidth;
     H = canvas.height = window.innerHeight;
   }
 
   function Particle() {
-    this.x  = Math.random() * W;
-    this.y  = Math.random() * H;
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
     this.vx = (Math.random() - 0.5) * CONFIG.speed;
     this.vy = (Math.random() - 0.5) * CONFIG.speed;
-    this.r  = Math.random() * CONFIG.nodeRadius + 1;
+    this.r = Math.random() * CONFIG.nodeRadius + 1;
   }
 
   Particle.prototype.update = function () {
-    var dx   = this.x - mouse.x;
-    var dy   = this.y - mouse.y;
+    var dx = this.x - mouse.x;
+    var dy = this.y - mouse.y;
     var dist = Math.sqrt(dx * dx + dy * dy);
 
     if (dist < CONFIG.mouseRadius && dist > 0) {
@@ -144,11 +144,11 @@ function initLoginPage() {
     /* Lines between close particles */
     for (var i = 0; i < particles.length; i++) {
       for (var j = i + 1; j < particles.length; j++) {
-        var a  = particles[i];
-        var b  = particles[j];
+        var a = particles[i];
+        var b = particles[j];
         var dx = a.x - b.x;
         var dy = a.y - b.y;
-        var d  = Math.sqrt(dx * dx + dy * dy);
+        var d = Math.sqrt(dx * dx + dy * dy);
 
         if (d < CONFIG.maxDist) {
           var alpha = (1 - d / CONFIG.maxDist) * CONFIG.lineOpacity;
@@ -156,7 +156,7 @@ function initLoginPage() {
           ctx.moveTo(a.x, a.y);
           ctx.lineTo(b.x, b.y);
           ctx.strokeStyle = 'rgba(' + CONFIG.color + ', ' + alpha + ')';
-          ctx.lineWidth   = 0.8;
+          ctx.lineWidth = 0.8;
           ctx.stroke();
         }
       }
@@ -164,7 +164,7 @@ function initLoginPage() {
 
     /* Lines from particles to mouse */
     for (var k = 0; k < particles.length; k++) {
-      var p  = particles[k];
+      var p = particles[k];
       var mx = p.x - mouse.x;
       var my = p.y - mouse.y;
       var md = Math.sqrt(mx * mx + my * my);
@@ -175,7 +175,7 @@ function initLoginPage() {
         ctx.moveTo(p.x, p.y);
         ctx.lineTo(mouse.x, mouse.y);
         ctx.strokeStyle = 'rgba(' + CONFIG.color + ', ' + ma + ')';
-        ctx.lineWidth   = 0.8;
+        ctx.lineWidth = 0.8;
         ctx.stroke();
       }
     }
@@ -242,16 +242,16 @@ function initDashboard() {
   }
   setInterval(updateClock, 1000);
 
-  /* Auto-refresh page every 60s */
-  setTimeout(function () { location.reload(); }, 60000);
+  /* Auto-refresh page every 60s - DISABLED FOR DEVELOPMENT */
+  // setTimeout(function () { location.reload(); }, 60000);
 
   /* Expose filter functions to global scope for onclick handlers */
   window.filterTable = function () {
     var query = document.getElementById('simSearch').value.toLowerCase();
-    var rows  = document.querySelectorAll('#simTable tbody tr[data-status]');
+    var rows = document.querySelectorAll('#simTable tbody tr[data-status]');
     rows.forEach(function (row) {
-      var text        = row.textContent.toLowerCase();
-      var status      = row.dataset.status;
+      var text = row.textContent.toLowerCase();
+      var status = row.dataset.status;
       var matchSearch = text.includes(query);
       var matchFilter = currentFilter === 'all' || status === currentFilter;
       row.style.display = matchSearch && matchFilter ? '' : 'none';
@@ -278,15 +278,15 @@ function initSimDetail() {
   var circle = document.getElementById('usageCircle');
   if (!circle) return;
 
-  var pct          = parseFloat(circle.dataset.targetPct) || 0;
+  var pct = parseFloat(circle.dataset.targetPct) || 0;
   var circumference = 427;
-  var offset        = circumference - (pct / 100) * circumference;
+  var offset = circumference - (pct / 100) * circumference;
 
   /* Start at empty, then animate to target */
   circle.style.strokeDashoffset = circumference;
 
   setTimeout(function () {
-    circle.style.transition       = 'stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+    circle.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
     circle.style.strokeDashoffset = offset;
   }, 300);
 }
@@ -314,34 +314,34 @@ function initPasswordChange() {
 }
 
 function checkStrength(val) {
-  var fill  = document.getElementById('strengthFill');
+  var fill = document.getElementById('strengthFill');
   var label = document.getElementById('strengthLabel');
   if (!fill || !label) return;
 
   var score = 0;
-  if (val.length >= 8)           score++;
-  if (/[A-Z]/.test(val))         score++;
-  if (/[0-9]/.test(val))         score++;
-  if (/[^A-Za-z0-9]/.test(val))  score++;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
 
   var levels = [
-    { pct: '0%',   color: 'var(--text-muted)',  text: 'Enter a password' },
-    { pct: '25%',  color: 'var(--red-danger)',   text: 'Weak' },
-    { pct: '50%',  color: 'var(--orange-warn)',  text: 'Fair' },
-    { pct: '75%',  color: 'var(--blue-bright)',  text: 'Good' },
-    { pct: '100%', color: 'var(--green-ok)',      text: 'Strong ✓' }
+    { pct: '0%', color: 'var(--text-muted)', text: 'Enter a password' },
+    { pct: '25%', color: 'var(--red-danger)', text: 'Weak' },
+    { pct: '50%', color: 'var(--orange-warn)', text: 'Fair' },
+    { pct: '75%', color: 'var(--blue-bright)', text: 'Good' },
+    { pct: '100%', color: 'var(--green-ok)', text: 'Strong ✓' }
   ];
 
   var level = levels[val.length === 0 ? 0 : score];
-  fill.style.width      = level.pct;
+  fill.style.width = level.pct;
   fill.style.background = level.color;
-  label.style.color     = level.color;
-  label.textContent     = level.text;
+  label.style.color = level.color;
+  label.textContent = level.text;
 }
 
 function checkMatch() {
-  var p1    = document.getElementById('id_new_password1');
-  var p2    = document.getElementById('id_new_password2');
+  var p1 = document.getElementById('id_new_password1');
+  var p2 = document.getElementById('id_new_password2');
   var label = document.getElementById('matchLabel');
   if (!p1 || !p2 || !label) return;
 
