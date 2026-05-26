@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.db.models import Sum
 from usage.models import BillingCycle, DataUsageRecord
 from inventory.models import SIMCard
 
@@ -25,7 +26,7 @@ class BillingCycleSerializer(serializers.ModelSerializer):
     def get_total_usage_mb(self, obj):
         # Calculate total usage for this billing cycle
         total = obj.usage_records.aggregate(
-            total=serializers.models.Sum('data_consumed_mb')
+            total=Sum('data_consumed_mb')
         )['total']
         return float(total) if total else 0.0
 
