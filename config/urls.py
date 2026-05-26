@@ -37,6 +37,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('users.api.urls')),
     path('api/inventory/', include('inventory.api.urls')),
+    path('api/usage/', include('usage.api.urls')),
     path('', include('users.dashboard_urls')),  
     
     # Swagger documentation
