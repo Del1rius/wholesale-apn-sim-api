@@ -25,8 +25,7 @@
 - [Usage Examples](#-usage-examples)
 - [Docker Deployment](#-docker-deployment)
 - [Project Structure](#-project-structure)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [Authors](#-authors)
 
 ---
 
@@ -145,8 +144,8 @@ Before you begin, ensure you have the following installed:
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/apn-sim-management-api.git
-cd apn-sim-management-api
+git clone https://github.com/Tauriqbaker/APN-SIM-Management-API.git
+cd APN-SIM-Management-API
 ```
 
 2. **Create and activate virtual environment**
@@ -165,12 +164,6 @@ source venv/bin/activate
 
 ```bash
 pip install -r requirements.txt
-```
-
-4. **Install additional required packages**
-
-```bash
-pip install mysqlclient python-decouple djangorestframework-simplejwt corsheaders
 ```
 
 ### Environment Configuration
@@ -470,89 +463,117 @@ docker-compose exec web python manage.py <command>
 ## 📁 Project Structure
 
 ```
-apn-sim-management-api/
+APN-SIM-Management-API/
 │
-├── config/                      # Project configuration
-│   ├── settings.py             # Django settings
-│   ├── urls.py                 # Main URL configuration
-│   ├── wsgi.py                 # WSGI configuration
-│   └── asgi.py                 # ASGI configuration
+├── config/                          # Project configuration
+│   ├── __pycache__/                # Python cache files
+│   ├── __init__.py                 # Package initializer
+│   ├── settings.py                 # Django settings
+│   ├── urls.py                     # Main URL configuration
+│   ├── wsgi.py                     # WSGI configuration
+│   └── asgi.py                     # ASGI configuration
 │
-├── users/                       # User management app
-│   ├── models.py               # User and Organization models
-│   ├── serializers.py          # DRF serializers
-│   ├── views.py                # API views
-│   ├── admin.py                # Admin configuration
-│   └── api/                    # API endpoints
+├── users/                           # User management app
+│   ├── __pycache__/                # Python cache files
+│   ├── api/                        # API endpoints
+│   │   ├── __pycache__/
+│   │   ├── __init__.py
+│   │   ├── serializers.py          # DRF serializers
+│   │   ├── urls.py                 # API URL routes
+│   │   └── views.py                # API views
+│   ├── migrations/                 # Database migrations
+│   ├── __init__.py
+│   ├── admin.py                    # Admin configuration
+│   ├── apps.py                     # App configuration
+│   ├── dashboard_urls.py           # Dashboard URL routes
+│   ├── dashboard_views.py          # Dashboard views
+│   ├── models.py                   # User and Organization models
+│   └── tests.py                    # Unit tests
 │
-├── inventory/                   # SIM & APN inventory app
-│   ├── models.py               # Inventory models
-│   ├── views.py                # Inventory views
-│   └── api/                    # Inventory API endpoints
+├── inventory/                       # SIM & APN inventory app
+│   ├── __pycache__/                # Python cache files
+│   ├── api/                        # API endpoints
+│   │   ├── __pycache__/
+│   │   ├── __init__.py
+│   │   ├── serializers.py          # Inventory serializers
+│   │   ├── urls.py                 # Inventory API routes
+│   │   └── views.py                # Inventory API views
+│   ├── migrations/                 # Database migrations
+│   ├── __init__.py
+│   ├── admin.py                    # Admin configuration
+│   ├── apps.py                     # App configuration
+│   ├── models.py                   # Inventory models
+│   ├── tests.py                    # Unit tests
+│   └── views.py                    # Inventory views
 │
-├── usage/                       # Usage tracking app
-│   ├── models.py               # Usage models
-│   ├── views.py                # Usage views
-│   └── api/                    # Usage API endpoints
+├── usage/                           # Usage tracking app
+│   ├── __pycache__/                # Python cache files
+│   ├── api/                        # API endpoints
+│   │   ├── __pycache__/
+│   │   ├── __init__.py
+│   │   ├── serializers.py          # Usage serializers
+│   │   ├── urls.py                 # Usage API routes
+│   │   └── views.py                # Usage API views
+│   ├── migrations/                 # Database migrations
+│   ├── __init__.py
+│   ├── admin.py                    # Admin configuration
+│   ├── apps.py                     # App configuration
+│   ├── models.py                   # Usage models
+│   ├── tests.py                    # Unit tests
+│   └── views.py                    # Usage views
 │
-├── static/                      # Static files (CSS, JS)
-├── templates/                   # HTML templates
-├── venv/                        # Virtual environment
+├── static/                          # Static files
+│   ├── css/                        # Stylesheets
+│   │   ├── base.css                # Base styles
+│   │   ├── dashboard.css           # Dashboard styles
+│   │   ├── login.css               # Login page styles
+│   │   ├── password.css            # Password change styles
+│   │   ├── sim_detail.css          # SIM detail page styles
+│   │   └── sim_list.css            # SIM list page styles
+│   └── js/                         # JavaScript files
+│       ├── dashboard.js            # Dashboard functionality
+│       ├── main.js                 # Main JavaScript
+│       └── sim_detail.js           # SIM detail functionality
 │
-├── .env                         # Environment variables
-├── .gitignore                   # Git ignore rules
-├── Dockerfile                   # Docker configuration
-├── docker-compose.yml           # Docker Compose configuration
-├── manage.py                    # Django management script
-├── requirements.txt             # Python dependencies
-└── README.md                    # This file
+├── templates/                       # HTML templates
+│   ├── base.html                   # Base template
+│   ├── dashboard.html              # Dashboard page
+│   ├── login.html                  # Login page
+│   ├── password_change.html        # Password change page
+│   ├── password_change_done.html   # Password change confirmation
+│   ├── sim_detail.html             # SIM detail page
+│   └── sim_list.html               # SIM list page
+│
+├── venv/                            # Virtual environment
+│   ├── Include/
+│   ├── Lib/
+│   ├── Scripts/
+│   ├── .gitignore
+│   └── pyvenv.cfg
+│
+├── .git/                            # Git repository
+├── .vscode/                         # VS Code settings
+│   └── settings.json
+│
+├── .dockerignore                    # Docker ignore rules
+├── .env                             # Environment variables
+├── .gitignore                       # Git ignore rules
+├── create_bulk_test_data.py         # Bulk test data generator
+├── create_test_data.py              # Test data generator
+├── docker-compose.yml               # Docker Compose configuration
+├── Dockerfile                       # Docker configuration
+├── manage.py                        # Django management script
+├── requirements.txt                 # Python dependencies
+└── README.md                        # This file
 ```
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. **Fork the repository**
-2. **Create a feature branch** (`git checkout -b feature/AmazingFeature`)
-3. **Commit your changes** (`git commit -m 'Add some AmazingFeature'`)
-4. **Push to the branch** (`git push origin feature/AmazingFeature`)
-5. **Open a Pull Request**
-
-### Development Guidelines
-
-- Follow PEP 8 style guide for Python code
-- Write meaningful commit messages
-- Add tests for new features
-- Update documentation as needed
-- Ensure all tests pass before submitting PR
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 ## 👥 Authors
 
-- **Your Name** - *Initial work* - [YourGitHub](https://github.com/yourusername)
-
----
-
-## 🙏 Acknowledgments
-
-- Django and Django REST Framework communities
-- Contributors and testers
-- redAcademy for project support
-
----
-
-## 📞 Support
-
-For support, email support@yourcompany.com or open an issue in the GitHub repository.
+- **Timothy Barry** - [GitHub](https://github.com/TimothyBarry)
+- **Tauriq Baker** - [GitHub](https://github.com/Tauriqbaker)
+- **Yahya Baker** - [GitHub](https://github.com/YahyaBaker)
 
 ---
 
@@ -588,6 +609,6 @@ For support, email support@yourcompany.com or open an issue in the GitHub reposi
 
 **Made with ❤️ by the APN & SIM Management Team**
 
-[Report Bug](https://github.com/yourusername/apn-sim-management-api/issues) · [Request Feature](https://github.com/yourusername/apn-sim-management-api/issues)
+[Report Bug](https://github.com/Tauriqbaker/APN-SIM-Management-API/issues) · [Request Feature](https://github.com/Tauriqbaker/APN-SIM-Management-API/issues)
 
 </div>
