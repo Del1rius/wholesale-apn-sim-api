@@ -15,6 +15,9 @@ from usage.api.serializers import (
     SIMUsageSummarySerializer
 )
 from inventory.models import SIMCard
+from rest_framework.views import APIView
+from usage.tasks import process_usage_and_check_limit
+
 
 # ViewSet for managing billing cycles.
 # Supports CRUD operations and filtering by organization.
@@ -237,3 +240,20 @@ class DataUsageRecordViewSet(viewsets.ModelViewSet):
             } if current_cycle else None,
             'summary': serializer.data
         })
+        
+# API View to trigger the Celery
+class UsageLogCreateView(APIView):
+    def post(self, request):
+        serializer = UsageLogSerializer(data=request.data)
+        if serializer.is_valid():
+            usage_log = serializer.save()
+            
+            # Dispatch async task to process usage
+            process_usage_and_check_limit.delay(usage_log.iccid.iccid)
+            
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+            
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
