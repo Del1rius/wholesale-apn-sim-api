@@ -60,3 +60,14 @@ celerybeat.pid
 
 # Docker
 *.env.docker
+
+# Test data scripts (use fixtures instead)
+create_test_data.py
+create_bulk_test_data.py
+create_realistic_test_data.py
+create_bulk_sims_docker.py
+assign_sims_to_organizations.py
+redistribute_sims.py
+diagnose_usage_issue.py
+test_dashboard_logic.py
+TEST_CREDENTIALS.md

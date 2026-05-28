@@ -59,13 +59,13 @@ The **APN & SIM Management API** is a robust backend solution designed for telec
   - Organization-specific configurations
   - Industry classification and contact management
 
-- ✅ **Inventory Module** *(In Development)*
+- ✅ **Inventory Module**
   - SIM card lifecycle management
   - APN configuration and assignment
   - Bulk import/export capabilities
   - Status tracking (Active, Inactive, Suspended)
 
-- ✅ **Usage Tracking** *(In Development)*
+- ✅ **Usage Tracking**
   - Real-time data usage monitoring
   - Historical usage analytics
   - Threshold alerts and notifications
@@ -218,6 +218,22 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
+**OR load test data with pre-configured users:**
+
+```bash
+python manage.py seed_database
+```
+
+This will populate your database with:
+- Multiple test organizations (Vodacom, MTN, Cell C, Telkom)
+- Admin and client manager users
+- Sample SIM cards with various statuses
+- Usage records and billing cycles
+
+**Test Login Credentials:**
+- Username: `admin_vodacom_south_a`
+- Password: `password123`
+
 6. **Run development server**
 
 ```bash
@@ -269,21 +285,29 @@ PUT    /api/organizations/{id}/     - Update organization
 DELETE /api/organizations/{id}/     - Delete organization
 ```
 
-#### Inventory *(Coming Soon)*
+#### Inventory
 
 ```
 GET    /api/inventory/sims/         - List SIM cards
 POST   /api/inventory/sims/         - Add new SIM card
+GET    /api/inventory/sims/{id}/    - Get SIM card details
+PUT    /api/inventory/sims/{id}/    - Update SIM card
+DELETE /api/inventory/sims/{id}/    - Delete SIM card
 GET    /api/inventory/apns/         - List APN configurations
 POST   /api/inventory/apns/         - Create APN configuration
+GET    /api/inventory/apns/{id}/    - Get APN details
+PUT    /api/inventory/apns/{id}/    - Update APN configuration
+DELETE /api/inventory/apns/{id}/    - Delete APN configuration
 ```
 
-#### Usage *(Coming Soon)*
+#### Usage
 
 ```
 GET    /api/usage/                  - Get usage statistics
 GET    /api/usage/{sim_id}/         - Get SIM-specific usage
+POST   /api/usage/                  - Record usage data
 POST   /api/usage/report/           - Generate usage report
+GET    /api/usage/logs/             - Get usage logs
 ```
 
 ---
@@ -431,7 +455,13 @@ docker-compose up -d --build
 docker-compose exec web python manage.py migrate
 ```
 
-3. **Create superuser**
+3. **Load seed data (recommended)**
+
+```bash
+docker-compose exec web python manage.py seed_database
+```
+
+**OR create a superuser manually:**
 
 ```bash
 docker-compose exec web python manage.py createsuperuser
@@ -585,23 +615,24 @@ APN-SIM-Management-API/
 - [x] Multi-tenant organization model
 - [x] API documentation with Swagger
 
-### Phase 2 - Core Features 🚧
-- [ ] SIM card inventory management
-- [ ] APN configuration system
-- [ ] Bulk import/export functionality
-- [ ] Advanced search and filtering
+### Phase 2 - Core Features ✅
+- [x] SIM card inventory management
+- [x] APN configuration system
+- [x] Bulk import/export functionality
+- [x] Advanced search and filtering
 
-### Phase 3 - Analytics 📋
-- [ ] Usage tracking and monitoring
-- [ ] Real-time data consumption alerts
-- [ ] Historical analytics dashboard
-- [ ] Billing integration
+### Phase 3 - Analytics ✅
+- [x] Usage tracking and monitoring
+- [x] Real-time data consumption alerts
+- [x] Historical analytics dashboard
+- [x] Usage reporting system
 
-### Phase 4 - Enhancement 🎯
+### Phase 4 - Enhancement 📋
 - [ ] Mobile application
-- [ ] Advanced reporting
+- [ ] Advanced reporting features
 - [ ] Third-party integrations
 - [ ] Performance optimization
+- [ ] Automated billing system
 
 ---
 

@@ -147,3 +147,48 @@
   color: var(--text-muted);
   font-family: var(--font-mono);
 }
+
+/* ── ALERT SUSPENSION ── */
+.alert-suspension {
+  background: linear-gradient(135deg, rgba(255, 152, 0, 0.08), rgba(255, 193, 7, 0.08));
+  border: 1px solid rgba(255, 152, 0, 0.3);
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  animation: alertSlideIn 0.4s ease forwards;
+}
+
+.alert-suspension .alert-icon {
+  font-size: 1.5rem;
+  color: #FFB84D;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.alert-suspension-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #FFB84D;
+  margin-bottom: 4px;
+}
+
+.alert-suspension-text {
+  font-size: 0.82rem;
+  color: #E0E0E0;
+  line-height: 1.5;
+}
+
+.alert-suspension-text strong {
+  color: #FF6B6B;
+}
+
+/* ── USAGE DETAILS ── */
+.usage-details {
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  margin-top: 3px;
+}

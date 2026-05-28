@@ -16,8 +16,13 @@ def login_view(request):
         return redirect('dashboard')
     
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '').strip()
+        
+        # Validate that both fields are provided
+        if not username or not password:
+            messages.error(request, 'Please enter both username and password')
+            return render(request, 'login.html')
         
         user = authenticate(request, username=username, password=password)
         
@@ -45,18 +50,27 @@ def dashboard_view(request):
     organization = user.organization if hasattr(user, 'organization') else None
     
     # Filter SIM cards based on user role
-    if user.is_superuser or user.role == 'network_admin':
+    if user.is_superuser:
+        # Superuser sees everything
         sim_cards = SIMCard.objects.all()
-    else:
+    elif organization:
+        # All other users (including network_admin) see only their organization's SIM cards
         sim_cards = SIMCard.objects.filter(organization=organization)
+    else:
+        # User has no organization - show nothing
+        sim_cards = SIMCard.objects.none()
     
-    # Get current billing cycle
+    # Get current billing cycle for the user's organization
     current_date = timezone.now().date()
-    current_cycle = BillingCycle.objects.filter(
-        start_date__lte=current_date,
-        end_date__gte=current_date,
-        is_active=True
-    ).first()
+    if organization:
+        current_cycle = BillingCycle.objects.filter(
+            organization=organization,
+            start_date__lte=current_date,
+            end_date__gte=current_date,
+            is_active=True
+        ).first()
+    else:
+        current_cycle = None
     
     # Calculate statistics
     total_sims = sim_cards.count()
@@ -136,12 +150,17 @@ def dashboard_view(request):
     total_usage_gb = round(total_usage_mb / 1024, 2)
     
     # Get recent usage logs (last 50)
-    if user.is_superuser or user.role == 'network_admin':
+    if user.is_superuser:
+        # Superuser sees all usage logs
         usage_logs = DataUsageRecord.objects.all()
-    else:
+    elif organization:
+        # All other users see only their organization's usage logs
         usage_logs = DataUsageRecord.objects.filter(
             sim_card__organization=organization
         )
+    else:
+        # User has no organization - show nothing
+        usage_logs = DataUsageRecord.objects.none()
     
     usage_logs = usage_logs.select_related('sim_card').order_by('-recorded_at')[:50]
     
@@ -184,19 +203,31 @@ def sim_list_view(request):
     # SIM card list view with real data
     user = request.user
     
-    # Get current billing cycle
+    # Get organization
+    organization = user.organization if hasattr(user, 'organization') else None
+    
+    # Get current billing cycle for the user's organization
     current_date = timezone.now().date()
-    current_cycle = BillingCycle.objects.filter(
-        start_date__lte=current_date,
-        end_date__gte=current_date,
-        is_active=True
-    ).first()
+    if organization:
+        current_cycle = BillingCycle.objects.filter(
+            organization=organization,
+            start_date__lte=current_date,
+            end_date__gte=current_date,
+            is_active=True
+        ).first()
+    else:
+        current_cycle = None
     
     # Filter SIM cards based on user role
-    if user.is_superuser or user.role == 'network_admin':
+    if user.is_superuser:
+        # Superuser sees everything
         sim_cards = SIMCard.objects.all()
+    elif organization:
+        # All other users (including network_admin) see only their organization's SIM cards
+        sim_cards = SIMCard.objects.filter(organization=organization)
     else:
-        sim_cards = SIMCard.objects.filter(organization=user.organization)
+        # User has no organization - show nothing
+        sim_cards = SIMCard.objects.none()
     
     # Apply filters from query parameters
     status_filter = request.GET.get('status', None)
@@ -279,6 +310,7 @@ def sim_list_view(request):
             'MSISDN': sim.phone_number or 'N/A',
             'status': status_display_map.get(sim.status, sim.status),  # Use lowercase status
             'DataLimit_MB': sim.data_limit_mb or 0,
+            'total_consumed': float(total_usage),
             'usage_percentage': round(usage_percentage, 2),
             'DateAllocated': sim.activation_date or sim.date_created.date(),
             '_status_priority': status_priority.get(sim.status, 99)  # For sorting
@@ -290,10 +322,29 @@ def sim_list_view(request):
     # Sort by status priority (suspended first, then active, then available, then deactivated)
     sims_formatted.sort(key=lambda x: x['_status_priority'])
     
+    # Get suspended SIMs for alert banner (before applying filters)
+    if user.is_superuser:
+        all_sim_cards = SIMCard.objects.all()
+    elif organization:
+        all_sim_cards = SIMCard.objects.filter(organization=organization)
+    else:
+        all_sim_cards = SIMCard.objects.none()
+    
+    suspended_sims_queryset = all_sim_cards.filter(status='suspended')
+    suspended_sims_list = []
+    for sim in suspended_sims_queryset:
+        suspended_sims_list.append({
+            'iccid': sim.iccid,
+            'phone_number': sim.phone_number or 'N/A',
+            'carrier': sim.carrier
+        })
+    
     context = {
         'sims': sims_formatted,
         'status_filter': status_filter,
-        'search_query': search_query
+        'search_query': search_query,
+        'suspended_sims': suspended_sims_list,
+        'suspended_count': len(suspended_sims_list)
     }
     
     return render(request, 'sim_list.html', context)

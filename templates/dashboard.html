@@ -157,8 +157,8 @@
                 {{ pct|floatformat:0 }}%
               </span>
             </div>
-            <div class="usage-details">
-              {{ sim.total_consumed|floatformat:1 }} / {{ sim.DataLimit_MB }} MB
+            <div class="usage-details" style="display: block;">
+              {{ sim.total_consumed|floatformat:0 }} MB / {{ sim.DataLimit_MB }} MB
             </div>
             {% endwith %}
           </td>

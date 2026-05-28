@@ -1,0 +1,2412 @@
+[
+{
+  "model": "users.organization",
+  "pk": "4d38e2bf-a1f2-4b6e-b5ec-6bf20c8ee8cc",
+  "fields": {
+    "name": "Neotel",
+    "industry": "Fixed-line Telecommunications",
+    "contact_email": "contact@neotel.co.za",
+    "date_created": "2026-05-27T07:45:03.792Z"
+  }
+},
+{
+  "model": "users.organization",
+  "pk": "5c75b0c0-9528-4542-826f-4affe0447954",
+  "fields": {
+    "name": "Vox Telecom",
+    "industry": "Business Communications",
+    "contact_email": "sales@voxtelecom.co.za",
+    "date_created": "2026-05-27T07:45:03.789Z"
+  }
+},
+{
+  "model": "users.organization",
+  "pk": "6976d971-3924-45c1-904e-8970c9bba77c",
+  "fields": {
+    "name": "Cell C",
+    "industry": "Mobile Virtual Network",
+    "contact_email": "info@cellc.co.za",
+    "date_created": "2026-05-27T07:45:03.775Z"
+  }
+},
+{
+  "model": "users.organization",
+  "pk": "71a85367-180f-46e1-888d-946823b45e76",
+  "fields": {
+    "name": "Rain Networks",
+    "industry": "5G Data Network",
+    "contact_email": "hello@rain.co.za",
+    "date_created": "2026-05-27T07:45:03.778Z"
+  }
+},
+{
+  "model": "users.organization",
+  "pk": "7f721870-cdcd-4ebb-8feb-caa91a932e6f",
+  "fields": {
+    "name": "MTN Group",
+    "industry": "Mobile Network Operator",
+    "contact_email": "contact@mtn.com",
+    "date_created": "2026-05-27T07:45:03.768Z"
+  }
+},
+{
+  "model": "users.organization",
+  "pk": "87299074-f315-42b4-9564-ca984cd1e2fa",
+  "fields": {
+    "name": "Axxess",
+    "industry": "Internet Service Provider",
+    "contact_email": "info@axxess.co.za",
+    "date_created": "2026-05-27T07:45:03.786Z"
+  }
+},
+{
+  "model": "users.organization",
+  "pk": "882c113c-15db-4b61-a243-66170043e5d5",
+  "fields": {
+    "name": "Vodacom South Africa",
+    "industry": "Telecommunications",
+    "contact_email": "admin@vodacom.co.za",
+    "date_created": "2026-05-27T07:45:03.763Z"
+  }
+},
+{
+  "model": "users.organization",
+  "pk": "a82fe575-214f-4bd4-90e4-1db096bfffc0",
+  "fields": {
+    "name": "Telkom SA",
+    "industry": "Telecommunications",
+    "contact_email": "support@telkom.co.za",
+    "date_created": "2026-05-27T07:45:03.772Z"
+  }
+},
+{
+  "model": "users.organization",
+  "pk": "b337bcdd-f38f-4026-ab24-77f038cbe9dc",
+  "fields": {
+    "name": "Test Organization",
+    "industry": "Telecommunications",
+    "contact_email": "test@example.com",
+    "date_created": "2026-05-26T10:47:05.112Z"
+  }
+},
+{
+  "model": "users.organization",
+  "pk": "bd4b1ac1-ca6c-4e76-8208-0a533b456a15",
+  "fields": {
+    "name": "Afrihost",
+    "industry": "Internet Service Provider",
+    "contact_email": "support@afrihost.com",
+    "date_created": "2026-05-27T07:45:03.784Z"
+  }
+},
+{
+  "model": "users.organization",
+  "pk": "d9e9f35a-71e8-471b-b3e3-898912a5bf8c",
+  "fields": {
+    "name": "Liquid Intelligent Technologies",
+    "industry": "Enterprise Connectivity",
+    "contact_email": "contact@liquid.tech",
+    "date_created": "2026-05-27T07:45:03.780Z"
+  }
+},
+{
+  "model": "users.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$Sr7Ak5gPguY1wWj7cQB2nW$lHDcByqEi7Qxt/KlJwfTPRqUG/EMi2tJWdR0Ly0Hy4I=",
+    "last_login": "2026-05-26T13:27:15.341Z",
+    "is_superuser": true,
+    "username": "Admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "timothy.barry@redacademy.co.za",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-05-20T07:56:15.260Z",
+    "organization": null,
+    "role": "client_manager",
+    "phone_number": "",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$hcYFjUEytXSqGTt9y1zCIg$apsP3fkR8NvzRQ737OVO/25y4e1mC85oGpwCkQPyl+U=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "testuser",
+    "first_name": "Test",
+    "last_name": "User",
+    "email": "test@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-20T08:29:18.683Z",
+    "organization": null,
+    "role": "client_manager",
+    "phone_number": "+27123456789",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$zJQ5xe6AEYmHLnVIkpcVvu$HbSvvTR0XkxqYJL9MHm+nFLmCCKpJSgILM3JfDaVnrU=",
+    "last_login": "2026-05-27T13:03:30.162Z",
+    "is_superuser": false,
+    "username": "admin_vodacom_south_a",
+    "first_name": "Network",
+    "last_name": "Administrator",
+    "email": "admin@vodacom.co.za",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-27T07:45:03.998Z",
+    "organization": "882c113c-15db-4b61-a243-66170043e5d5",
+    "role": "network_admin",
+    "phone_number": "+27811000001",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$DuYFk6eoyOPGWxfi5JtlaG$IgJHWroeTNafvPClFC7tPx+fPQb3p8Rwqb4w09CmJtM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "manager_vodacom_south",
+    "first_name": "Client",
+    "last_name": "Manager",
+    "email": "manager@vodacom.co.za",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-27T07:45:04.208Z",
+    "organization": "882c113c-15db-4b61-a243-66170043e5d5",
+    "role": "client_manager",
+    "phone_number": "+27822000001",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$l3DYSkOKtjJSAhV2rEfeGo$vk9XEi4ngIdkX18fCsVdGwDobzE33huRHsVJ79yPOvg=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "admin_mtn_group",
+    "first_name": "Network",
+    "last_name": "Administrator",
+    "email": "admin@mtn.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-27T07:45:04.417Z",
+    "organization": "7f721870-cdcd-4ebb-8feb-caa91a932e6f",
+    "role": "network_admin",
+    "phone_number": "+27811000002",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$Kapf3otLmGVkjeKODfGajs$RMwrwjtR3fYfQuXC/AtdLUNV+9opZA+duy7WWex70iU=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "manager_mtn_group",
+    "first_name": "Client",
+    "last_name": "Manager",
+    "email": "manager@mtn.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-27T07:45:04.624Z",
+    "organization": "7f721870-cdcd-4ebb-8feb-caa91a932e6f",
+    "role": "client_manager",
+    "phone_number": "+27822000002",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 7,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$17mq1jR00dGQM85fHTNKa6$qcQe2T3Co1SBA5e6n6jXQZLioVQXDFezuW254rxdMjs=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "admin_telkom_sa",
+    "first_name": "Network",
+    "last_name": "Administrator",
+    "email": "admin@telkom.co.za",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-27T07:45:04.833Z",
+    "organization": "a82fe575-214f-4bd4-90e4-1db096bfffc0",
+    "role": "network_admin",
+    "phone_number": "+27811000003",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$s33x9jIfhl7ehrsXKWMYsz$1Lgny6Dxlbaw+yQgYVn78jBPLWCaICZTya3X21Sfz0M=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "manager_telkom_sa",
+    "first_name": "Client",
+    "last_name": "Manager",
+    "email": "manager@telkom.co.za",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-27T07:45:05.038Z",
+    "organization": "a82fe575-214f-4bd4-90e4-1db096bfffc0",
+    "role": "client_manager",
+    "phone_number": "+27822000003",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 9,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$UUXj51ndjeyuazncEsyXeg$1+ONrOZ51EJYSp8w+tyrY1du6R3zvGJTWZYIR5XbLnM=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "admin_cell_c",
+    "first_name": "Network",
+    "last_name": "Administrator",
+    "email": "admin@cellc.co.za",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-27T07:45:05.245Z",
+    "organization": "6976d971-3924-45c1-904e-8970c9bba77c",
+    "role": "network_admin",
+    "phone_number": "+27811000004",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 10,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$eOOtE8jFLJmzishl1ERo44$v8e+SGMnjZhYjF+h+pEXTmyE2w8R1TMCdaYTEI/W33Q=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "manager_cell_c",
+    "first_name": "Client",
+    "last_name": "Manager",
+    "email": "manager@cellc.co.za",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-27T07:45:05.456Z",
+    "organization": "6976d971-3924-45c1-904e-8970c9bba77c",
+    "role": "client_manager",
+    "phone_number": "+27822000004",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 11,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$Sv7Igp0DEZajb88Jp2O57h$JvlIvIzLWkeA0P4DbMM2cwuI3H2Copxxgln0Gw6rb6M=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "admin_rain_networks",
+    "first_name": "Network",
+    "last_name": "Administrator",
+    "email": "admin@rain.co.za",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-27T07:45:05.665Z",
+    "organization": "71a85367-180f-46e1-888d-946823b45e76",
+    "role": "network_admin",
+    "phone_number": "+27811000005",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 12,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$QEZcYIHifpaXjRnGqwAZeU$oiWRkcMvcH2NCgjXluUXdf0GM/edEsNtO9SUIca06N4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "manager_rain_networks",
+    "first_name": "Client",
+    "last_name": "Manager",
+    "email": "manager@rain.co.za",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-27T07:45:05.873Z",
+    "organization": "71a85367-180f-46e1-888d-946823b45e76",
+    "role": "client_manager",
+    "phone_number": "+27822000005",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "inventory.apn",
+  "pk": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+  "fields": {
+    "name": "Test APN",
+    "apn_string": "internet",
+    "username": null,
+    "password": null,
+    "authentication_type": "none",
+    "organization": "b337bcdd-f38f-4026-ab24-77f038cbe9dc",
+    "is_active": true,
+    "date_created": "2026-05-26T10:47:05.130Z",
+    "date_modified": "2026-05-26T10:47:05.130Z"
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "015feecb-f310-4d60-80ac-9d01478316b2",
+  "fields": {
+    "iccid": "8901234567890110013",
+    "phone_number": "+27818457865",
+    "status": "suspended",
+    "carrier": "Telkom",
+    "network_type": "4G",
+    "organization": "71a85367-180f-46e1-888d-946823b45e76",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 10000,
+    "activation_date": "2026-03-05",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.393Z",
+    "date_modified": "2026-05-27T07:52:32.455Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "050919f0-c707-4270-b93c-ee110142e80a",
+  "fields": {
+    "iccid": "8901234567890110037",
+    "phone_number": "+27812552360",
+    "status": "available",
+    "carrier": "MTN",
+    "network_type": "4G",
+    "organization": "bd4b1ac1-ca6c-4e76-8208-0a533b456a15",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 5000,
+    "activation_date": "2026-03-23",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.532Z",
+    "date_modified": "2026-05-27T07:52:32.396Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "0af585fe-9b15-4bb6-b463-0723caa8dcd5",
+  "fields": {
+    "iccid": "8901234567890110039",
+    "phone_number": "+27815266831",
+    "status": "available",
+    "carrier": "Vodacom",
+    "network_type": "4G",
+    "organization": "bd4b1ac1-ca6c-4e76-8208-0a533b456a15",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 1000,
+    "activation_date": "2026-05-08",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.536Z",
+    "date_modified": "2026-05-27T07:52:32.390Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "0e3b78b3-c3b5-47bb-bc32-ec32d90ed2c8",
+  "fields": {
+    "iccid": "8901234567890110008",
+    "phone_number": "+27812747520",
+    "status": "assigned",
+    "carrier": "Cell C",
+    "network_type": "5G",
+    "organization": "882c113c-15db-4b61-a243-66170043e5d5",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 10000,
+    "activation_date": "2026-04-21",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.271Z",
+    "date_modified": "2026-05-27T07:52:32.467Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "107c4b74-f13c-4338-808a-586b90e84777",
+  "fields": {
+    "iccid": "8901234567890110003",
+    "phone_number": "+27813299719",
+    "status": "assigned",
+    "carrier": "Vodacom",
+    "network_type": "5G",
+    "organization": "5c75b0c0-9528-4542-826f-4affe0447954",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 2000,
+    "activation_date": "2026-04-20",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.177Z",
+    "date_modified": "2026-05-27T07:52:32.479Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "16c5dfcb-e4f9-49a7-ae0b-d8f186844b30",
+  "fields": {
+    "iccid": "8901234567890110025",
+    "phone_number": "+27816385265",
+    "status": "deactivated",
+    "carrier": "Cell C",
+    "network_type": "5G",
+    "organization": "d9e9f35a-71e8-471b-b3e3-898912a5bf8c",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 2000,
+    "activation_date": "2026-04-04",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.503Z",
+    "date_modified": "2026-05-27T07:52:32.425Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "210e7c69-b557-4220-9d7f-c60efb732b82",
+  "fields": {
+    "iccid": "8901234567890110024",
+    "phone_number": "+27818335767",
+    "status": "deactivated",
+    "carrier": "MTN",
+    "network_type": "5G",
+    "organization": "7f721870-cdcd-4ebb-8feb-caa91a932e6f",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 5000,
+    "activation_date": "2026-05-02",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.500Z",
+    "date_modified": "2026-05-27T07:52:32.427Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "2172cd02-5c7c-4fd8-a1f0-b7d455d8ccca",
+  "fields": {
+    "iccid": "8901234567890110029",
+    "phone_number": "+27816102491",
+    "status": "deactivated",
+    "carrier": "Telkom",
+    "network_type": "5G",
+    "organization": "6976d971-3924-45c1-904e-8970c9bba77c",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 5000,
+    "activation_date": "2026-04-27",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.516Z",
+    "date_modified": "2026-05-27T07:52:32.416Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "26882200-9bce-48e6-9348-f8709bce8d43",
+  "fields": {
+    "iccid": "8901234567890110032",
+    "phone_number": "+27812403588",
+    "status": "available",
+    "carrier": "Telkom",
+    "network_type": "4G",
+    "organization": "6976d971-3924-45c1-904e-8970c9bba77c",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 2000,
+    "activation_date": "2026-03-30",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.522Z",
+    "date_modified": "2026-05-27T07:52:32.408Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "329108b5-12c0-4417-b918-4045e19891ee",
+  "fields": {
+    "iccid": "8901234567890110033",
+    "phone_number": "+27818135130",
+    "status": "available",
+    "carrier": "MTN",
+    "network_type": "5G",
+    "organization": "87299074-f315-42b4-9564-ca984cd1e2fa",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 5000,
+    "activation_date": "2026-04-10",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.524Z",
+    "date_modified": "2026-05-27T07:52:32.406Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "3d83d856-1598-467c-a212-b643bae04e56",
+  "fields": {
+    "iccid": "8901234567890110009",
+    "phone_number": "+27815682212",
+    "status": "assigned",
+    "carrier": "MTN",
+    "network_type": "5G",
+    "organization": "a82fe575-214f-4bd4-90e4-1db096bfffc0",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 1000,
+    "activation_date": "2026-03-26",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.283Z",
+    "date_modified": "2026-05-27T07:52:32.465Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "422e1d60-3ca1-4ade-b759-1a351c9d3d81",
+  "fields": {
+    "iccid": "8901234567890110016",
+    "phone_number": "+27811745262",
+    "status": "suspended",
+    "carrier": "Telkom",
+    "network_type": "5G",
+    "organization": "71a85367-180f-46e1-888d-946823b45e76",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 10000,
+    "activation_date": "2026-04-20",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.435Z",
+    "date_modified": "2026-05-27T07:52:32.447Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "43febb42-cb06-45d6-8e2a-f823dbc81614",
+  "fields": {
+    "iccid": "8901234567890110028",
+    "phone_number": "+27815314339",
+    "status": "deactivated",
+    "carrier": "Vodacom",
+    "network_type": "5G",
+    "organization": "d9e9f35a-71e8-471b-b3e3-898912a5bf8c",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 5000,
+    "activation_date": "2026-04-16",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.514Z",
+    "date_modified": "2026-05-27T07:52:32.418Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "48c1cbed-a58e-4c14-86a7-e90444c7ab5a",
+  "fields": {
+    "iccid": "8901234567890110021",
+    "phone_number": "+27819911505",
+    "status": "deactivated",
+    "carrier": "Vodacom",
+    "network_type": "5G",
+    "organization": "7f721870-cdcd-4ebb-8feb-caa91a932e6f",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 2000,
+    "activation_date": "2026-05-23",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.493Z",
+    "date_modified": "2026-05-27T07:52:32.434Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "5150b427-ebb1-4be4-a415-e12400eda85e",
+  "fields": {
+    "iccid": "8901234567890110011",
+    "phone_number": "+27814425398",
+    "status": "suspended",
+    "carrier": "Vodacom",
+    "network_type": "5G",
+    "organization": "a82fe575-214f-4bd4-90e4-1db096bfffc0",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 10000,
+    "activation_date": "2026-04-21",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.354Z",
+    "date_modified": "2026-05-27T07:52:32.460Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "583067b6-fed3-43bf-97c1-9d27d1c28aa4",
+  "fields": {
+    "iccid": "8901234567890110019",
+    "phone_number": "+27814557108",
+    "status": "assigned",
+    "carrier": "Cell C",
+    "network_type": "4G",
+    "organization": "4d38e2bf-a1f2-4b6e-b5ec-6bf20c8ee8cc",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 3000,
+    "activation_date": "2026-03-19",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.468Z",
+    "date_modified": "2026-05-27T07:52:32.441Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "64e03f30-a5ca-4645-83c2-78ce98563fd2",
+  "fields": {
+    "iccid": "8901234567890110018",
+    "phone_number": "+27811262331",
+    "status": "suspended",
+    "carrier": "MTN",
+    "network_type": "5G",
+    "organization": "4d38e2bf-a1f2-4b6e-b5ec-6bf20c8ee8cc",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 1000,
+    "activation_date": "2026-03-03",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.460Z",
+    "date_modified": "2026-05-27T07:52:32.443Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "71c0e847-f62a-4bae-bbe8-074c3efea97d",
+  "fields": {
+    "iccid": "8901234567890110040",
+    "phone_number": "+27811926664",
+    "status": "available",
+    "carrier": "Vodacom",
+    "network_type": "4G",
+    "organization": "bd4b1ac1-ca6c-4e76-8208-0a533b456a15",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 2000,
+    "activation_date": "2026-04-23",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.538Z",
+    "date_modified": "2026-05-27T07:52:32.387Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "79a8126c-849a-426a-89bd-f55106036bb7",
+  "fields": {
+    "iccid": "8901234567890110014",
+    "phone_number": "+27813910237",
+    "status": "suspended",
+    "carrier": "Cell C",
+    "network_type": "5G",
+    "organization": "71a85367-180f-46e1-888d-946823b45e76",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 2000,
+    "activation_date": "2026-05-06",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.405Z",
+    "date_modified": "2026-05-27T07:52:32.452Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "7a36abd5-40f8-4e5d-b260-a01b7819b3d5",
+  "fields": {
+    "iccid": "8901234567890110027",
+    "phone_number": "+27811010570",
+    "status": "deactivated",
+    "carrier": "Vodacom",
+    "network_type": "5G",
+    "organization": "d9e9f35a-71e8-471b-b3e3-898912a5bf8c",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 5000,
+    "activation_date": "2026-04-18",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.513Z",
+    "date_modified": "2026-05-27T07:52:32.420Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "7a738153-cef2-4f7b-83f9-79bc270d82e7",
+  "fields": {
+    "iccid": "8901234567890110038",
+    "phone_number": "+27812968756",
+    "status": "available",
+    "carrier": "MTN",
+    "network_type": "5G",
+    "organization": "bd4b1ac1-ca6c-4e76-8208-0a533b456a15",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 2000,
+    "activation_date": "2026-05-13",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.534Z",
+    "date_modified": "2026-05-27T07:52:32.394Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "7ca71978-882f-423a-bb6a-734eb031c6e4",
+  "fields": {
+    "iccid": "8901234567890110005",
+    "phone_number": "+27817735633",
+    "status": "assigned",
+    "carrier": "MTN",
+    "network_type": "4G",
+    "organization": "882c113c-15db-4b61-a243-66170043e5d5",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 10000,
+    "activation_date": "2026-03-15",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.210Z",
+    "date_modified": "2026-05-27T07:52:32.474Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "97d5b67f-9a62-4bf7-aac9-3b3bc1a681ad",
+  "fields": {
+    "iccid": "8901234567890110012",
+    "phone_number": "+27815443959",
+    "status": "suspended",
+    "carrier": "MTN",
+    "network_type": "5G",
+    "organization": "a82fe575-214f-4bd4-90e4-1db096bfffc0",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 1000,
+    "activation_date": "2026-05-12",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.374Z",
+    "date_modified": "2026-05-27T07:52:32.457Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "9ae77bde-286d-4e43-812d-c5316e7d2df6",
+  "fields": {
+    "iccid": "8901234567890110006",
+    "phone_number": "+27815602552",
+    "status": "assigned",
+    "carrier": "MTN",
+    "network_type": "5G",
+    "organization": "882c113c-15db-4b61-a243-66170043e5d5",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 1000,
+    "activation_date": "2026-04-25",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.236Z",
+    "date_modified": "2026-05-27T07:52:32.472Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "9d38ada4-a6ac-4a4d-a3d6-65bdf8d38a79",
+  "fields": {
+    "iccid": "8901234567890110001",
+    "phone_number": "+27814730633",
+    "status": "assigned",
+    "carrier": "Telkom",
+    "network_type": "4G",
+    "organization": "5c75b0c0-9528-4542-826f-4affe0447954",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 1000,
+    "activation_date": "2026-03-19",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.141Z",
+    "date_modified": "2026-05-27T07:52:32.484Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "9dc3761b-3dee-46e4-970f-297fae0444fc",
+  "fields": {
+    "iccid": "8901234567890110030",
+    "phone_number": "+27819612784",
+    "status": "deactivated",
+    "carrier": "Telkom",
+    "network_type": "5G",
+    "organization": "6976d971-3924-45c1-904e-8970c9bba77c",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 1000,
+    "activation_date": "2026-04-09",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.518Z",
+    "date_modified": "2026-05-27T07:52:32.413Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "a09b2a15-f148-47a4-9b1c-74d7f12d0bff",
+  "fields": {
+    "iccid": "8901234567890110026",
+    "phone_number": "+27811639567",
+    "status": "deactivated",
+    "carrier": "Cell C",
+    "network_type": "4G",
+    "organization": "d9e9f35a-71e8-471b-b3e3-898912a5bf8c",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 2000,
+    "activation_date": "2026-04-01",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.509Z",
+    "date_modified": "2026-05-27T07:52:32.423Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "a628836c-f0eb-426e-9483-f208f850c08b",
+  "fields": {
+    "iccid": "8901234567890110002",
+    "phone_number": "+27812764001",
+    "status": "assigned",
+    "carrier": "Vodacom",
+    "network_type": "4G",
+    "organization": "5c75b0c0-9528-4542-826f-4affe0447954",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 10000,
+    "activation_date": "2026-04-09",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.156Z",
+    "date_modified": "2026-05-27T07:52:32.481Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "a9c22ab3-2e8d-40ac-85bf-840265712df7",
+  "fields": {
+    "iccid": "8901234567890110015",
+    "phone_number": "+27814210222",
+    "status": "suspended",
+    "carrier": "Cell C",
+    "network_type": "5G",
+    "organization": "71a85367-180f-46e1-888d-946823b45e76",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 10000,
+    "activation_date": "2026-05-22",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.420Z",
+    "date_modified": "2026-05-27T07:52:32.449Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "c5accb44-5fb9-4793-a536-0783330afff9",
+  "fields": {
+    "iccid": "8901234567890110031",
+    "phone_number": "+27812647512",
+    "status": "available",
+    "carrier": "Vodacom",
+    "network_type": "4G",
+    "organization": "6976d971-3924-45c1-904e-8970c9bba77c",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 10000,
+    "activation_date": "2026-03-30",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.520Z",
+    "date_modified": "2026-05-27T07:52:32.410Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "c6d3c73d-ce33-4564-8525-269f482623b0",
+  "fields": {
+    "iccid": "8901234567890110022",
+    "phone_number": "+27812813855",
+    "status": "deactivated",
+    "carrier": "Telkom",
+    "network_type": "5G",
+    "organization": "7f721870-cdcd-4ebb-8feb-caa91a932e6f",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 1000,
+    "activation_date": "2026-03-21",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.495Z",
+    "date_modified": "2026-05-27T07:52:32.432Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "c7c80344-3d7e-4c09-ab5a-0ab6353036a9",
+  "fields": {
+    "iccid": "8901234567890110023",
+    "phone_number": "+27811043920",
+    "status": "deactivated",
+    "carrier": "Cell C",
+    "network_type": "5G",
+    "organization": "7f721870-cdcd-4ebb-8feb-caa91a932e6f",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 2000,
+    "activation_date": "2026-05-03",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.497Z",
+    "date_modified": "2026-05-27T07:52:32.429Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "c8debbf2-6eac-4d3f-b51d-fd670420e5e8",
+  "fields": {
+    "iccid": "8901234567890110007",
+    "phone_number": "+27815985374",
+    "status": "assigned",
+    "carrier": "Cell C",
+    "network_type": "5G",
+    "organization": "882c113c-15db-4b61-a243-66170043e5d5",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 1000,
+    "activation_date": "2026-05-17",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.251Z",
+    "date_modified": "2026-05-27T07:52:32.470Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "dbf22951-b2a4-4030-8a66-b10c346f6436",
+  "fields": {
+    "iccid": "8901234567890110035",
+    "phone_number": "+27811347844",
+    "status": "available",
+    "carrier": "Cell C",
+    "network_type": "4G",
+    "organization": "87299074-f315-42b4-9564-ca984cd1e2fa",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 1000,
+    "activation_date": "2026-04-30",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.528Z",
+    "date_modified": "2026-05-27T07:52:32.400Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "e331a646-819f-42bc-9a09-6b0893eaab4c",
+  "fields": {
+    "iccid": "8901234567890110036",
+    "phone_number": "+27814391750",
+    "status": "available",
+    "carrier": "Vodacom",
+    "network_type": "5G",
+    "organization": "87299074-f315-42b4-9564-ca984cd1e2fa",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 2000,
+    "activation_date": "2026-04-12",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.530Z",
+    "date_modified": "2026-05-27T07:52:32.398Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "e5e52084-1564-4e59-9ec5-9439b2c09c5f",
+  "fields": {
+    "iccid": "8901234567890110004",
+    "phone_number": "+27819754247",
+    "status": "assigned",
+    "carrier": "Telkom",
+    "network_type": "5G",
+    "organization": "5c75b0c0-9528-4542-826f-4affe0447954",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 10000,
+    "activation_date": "2026-05-11",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.188Z",
+    "date_modified": "2026-05-27T07:52:32.477Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "ec17ec1f-5544-4d52-8886-028ba9e53bb3",
+  "fields": {
+    "iccid": "8901234567890110017",
+    "phone_number": "+27814184165",
+    "status": "suspended",
+    "carrier": "Telkom",
+    "network_type": "5G",
+    "organization": "4d38e2bf-a1f2-4b6e-b5ec-6bf20c8ee8cc",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 10000,
+    "activation_date": "2026-05-10",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.449Z",
+    "date_modified": "2026-05-27T07:52:32.445Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "f930b866-c6e8-4fa9-9751-d1abcb415554",
+  "fields": {
+    "iccid": "8901234567890110010",
+    "phone_number": "+27817373775",
+    "status": "assigned",
+    "carrier": "Cell C",
+    "network_type": "5G",
+    "organization": "a82fe575-214f-4bd4-90e4-1db096bfffc0",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 1000,
+    "activation_date": "2026-02-28",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.319Z",
+    "date_modified": "2026-05-27T07:52:32.463Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "fa660cf2-dfa5-4516-8db5-0c2e40150505",
+  "fields": {
+    "iccid": "8901234567890110020",
+    "phone_number": "+27817603996",
+    "status": "suspended",
+    "carrier": "Vodacom",
+    "network_type": "4G",
+    "organization": "4d38e2bf-a1f2-4b6e-b5ec-6bf20c8ee8cc",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 1000,
+    "activation_date": "2026-03-02",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.476Z",
+    "date_modified": "2026-05-27T07:52:32.437Z",
+    "notes": ""
+  }
+},
+{
+  "model": "inventory.simcard",
+  "pk": "fa739a3b-403b-4c08-8f39-05fb39752cb6",
+  "fields": {
+    "iccid": "8901234567890110034",
+    "phone_number": "+27814822759",
+    "status": "available",
+    "carrier": "Cell C",
+    "network_type": "5G",
+    "organization": "87299074-f315-42b4-9564-ca984cd1e2fa",
+    "apn": "c1cecf06-6b85-4b0f-a3fe-1a32b4547ef3",
+    "data_limit_mb": 1000,
+    "activation_date": "2026-03-31",
+    "expiry_date": null,
+    "date_created": "2026-05-26T12:34:36.526Z",
+    "date_modified": "2026-05-27T07:52:32.403Z",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.billingcycle",
+  "pk": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+  "fields": {
+    "organization": "b337bcdd-f38f-4026-ab24-77f038cbe9dc",
+    "start_date": "2026-05-01",
+    "end_date": "2026-05-31",
+    "is_active": true,
+    "date_created": "2026-05-26T10:47:05.143Z",
+    "date_modified": "2026-05-26T10:47:05.143Z"
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "042b01cb-f50e-4448-a65c-a94007312d6d",
+  "fields": {
+    "sim_card": "422e1d60-3ca1-4ade-b759-1a351c9d3d81",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "3233.38",
+    "timestamp": "2026-05-26T12:34:36.439Z",
+    "recorded_at": "2026-05-21T20:34:36.439Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "0f5ded2e-c41b-4465-a075-6a999871a957",
+  "fields": {
+    "sim_card": "c8debbf2-6eac-4d3f-b51d-fd670420e5e8",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "37.40",
+    "timestamp": "2026-05-26T12:34:36.258Z",
+    "recorded_at": "2026-05-23T04:34:36.258Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "1202c0fc-249d-4622-a6bb-aa7f10664418",
+  "fields": {
+    "sim_card": "7ca71978-882f-423a-bb6a-734eb031c6e4",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "181.07",
+    "timestamp": "2026-05-26T12:34:36.214Z",
+    "recorded_at": "2026-05-26T00:34:36.214Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "142f8d82-3663-4e43-bc26-9c45e13f1b8c",
+  "fields": {
+    "sim_card": "a628836c-f0eb-426e-9483-f208f850c08b",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "697.72",
+    "timestamp": "2026-05-26T12:34:36.175Z",
+    "recorded_at": "2026-05-24T23:34:36.175Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "14cdc3be-9d15-4ba5-a6e8-bb6263b4ce70",
+  "fields": {
+    "sim_card": "583067b6-fed3-43bf-97c1-9d27d1c28aa4",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "1383.79",
+    "timestamp": "2026-05-26T12:34:36.474Z",
+    "recorded_at": "2026-05-20T13:34:36.474Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "19bc69d9-e028-472f-ae77-de034a5c8881",
+  "fields": {
+    "sim_card": "a9c22ab3-2e8d-40ac-85bf-840265712df7",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "2683.50",
+    "timestamp": "2026-05-26T12:34:36.424Z",
+    "recorded_at": "2026-05-22T03:34:36.424Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "19cb1ca7-41bb-4c9e-9fd5-662d4cce7c6d",
+  "fields": {
+    "sim_card": "0e3b78b3-c3b5-47bb-bc32-ec32d90ed2c8",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "255.15",
+    "timestamp": "2026-05-26T12:34:36.276Z",
+    "recorded_at": "2026-05-23T22:34:36.276Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "1c72d6d2-550a-4bfc-bbe8-d2ffadacda7b",
+  "fields": {
+    "sim_card": "422e1d60-3ca1-4ade-b759-1a351c9d3d81",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "345.65",
+    "timestamp": "2026-05-26T12:34:36.445Z",
+    "recorded_at": "2026-05-25T18:34:36.445Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "23bc332e-6dae-452c-a953-2119557bf41c",
+  "fields": {
+    "sim_card": "a9c22ab3-2e8d-40ac-85bf-840265712df7",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "3100.05",
+    "timestamp": "2026-05-26T12:34:36.433Z",
+    "recorded_at": "2026-05-25T07:34:36.433Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "24a87381-6873-46d5-9425-6311f344c331",
+  "fields": {
+    "sim_card": "3d83d856-1598-467c-a212-b643bae04e56",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "69.15",
+    "timestamp": "2026-05-26T12:34:36.294Z",
+    "recorded_at": "2026-05-26T10:34:36.294Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "250bfc3c-7b21-4759-ba1f-69d1933dad44",
+  "fields": {
+    "sim_card": "ec17ec1f-5544-4d52-8886-028ba9e53bb3",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "1440.11",
+    "timestamp": "2026-05-26T12:34:36.453Z",
+    "recorded_at": "2026-05-21T12:34:36.453Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "26856b2c-c27a-4515-ba0a-8d776e27105e",
+  "fields": {
+    "sim_card": "015feecb-f310-4d60-80ac-9d01478316b2",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "3815.57",
+    "timestamp": "2026-05-26T12:34:36.397Z",
+    "recorded_at": "2026-05-20T18:34:36.397Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "26df02fc-a9c3-4107-8cb9-7863386ba846",
+  "fields": {
+    "sim_card": "a628836c-f0eb-426e-9483-f208f850c08b",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "2283.04",
+    "timestamp": "2026-05-26T12:34:36.159Z",
+    "recorded_at": "2026-05-24T12:34:36.159Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "28b346fa-56c1-400a-b9c2-8429bc632114",
+  "fields": {
+    "sim_card": "e5e52084-1564-4e59-9ec5-9439b2c09c5f",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "3810.47",
+    "timestamp": "2026-05-26T12:34:36.206Z",
+    "recorded_at": "2026-05-23T06:34:36.206Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "2b8ac167-3d43-4afd-8edf-4ca0dcd9a2af",
+  "fields": {
+    "sim_card": "f930b866-c6e8-4fa9-9751-d1abcb415554",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "49.51",
+    "timestamp": "2026-05-26T12:34:36.333Z",
+    "recorded_at": "2026-05-22T22:34:36.332Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "2c23df7b-5ec9-4c8c-8d81-4049148754e0",
+  "fields": {
+    "sim_card": "f930b866-c6e8-4fa9-9751-d1abcb415554",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "167.66",
+    "timestamp": "2026-05-26T12:34:36.326Z",
+    "recorded_at": "2026-05-21T03:34:36.325Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "2c9c6a5c-fccb-4af2-9f4b-177cde9dd774",
+  "fields": {
+    "sim_card": "3d83d856-1598-467c-a212-b643bae04e56",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "41.82",
+    "timestamp": "2026-05-26T12:34:36.286Z",
+    "recorded_at": "2026-05-25T22:34:36.286Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "2dafbf7c-3ceb-4166-a235-03a4375360b2",
+  "fields": {
+    "sim_card": "f930b866-c6e8-4fa9-9751-d1abcb415554",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "173.91",
+    "timestamp": "2026-05-26T12:34:36.346Z",
+    "recorded_at": "2026-05-23T11:34:36.346Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "347bd68c-2a40-47d7-a5f6-2dbe47df732b",
+  "fields": {
+    "sim_card": "79a8126c-849a-426a-89bd-f55106036bb7",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "348.48",
+    "timestamp": "2026-05-26T12:34:36.412Z",
+    "recorded_at": "2026-05-24T04:34:36.412Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "3694016a-0a7b-4090-85d2-4164c37d5cdf",
+  "fields": {
+    "sim_card": "fa660cf2-dfa5-4516-8db5-0c2e40150505",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "62.11",
+    "timestamp": "2026-05-26T12:34:36.489Z",
+    "recorded_at": "2026-05-22T03:34:36.489Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "36a42e98-0bfc-4f00-bf93-a1b73d76488f",
+  "fields": {
+    "sim_card": "c8debbf2-6eac-4d3f-b51d-fd670420e5e8",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "30.18",
+    "timestamp": "2026-05-26T12:34:36.266Z",
+    "recorded_at": "2026-05-25T14:34:36.266Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "376b90c6-fee0-43ff-8fe5-c48fea05f6d0",
+  "fields": {
+    "sim_card": "107c4b74-f13c-4338-808a-586b90e84777",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "234.43",
+    "timestamp": "2026-05-26T12:34:36.180Z",
+    "recorded_at": "2026-05-20T10:34:36.180Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "3838a909-3c4c-47b5-8d84-4f46eed2f32e",
+  "fields": {
+    "sim_card": "64e03f30-a5ca-4645-83c2-78ce98563fd2",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "686.12",
+    "timestamp": "2026-05-26T12:34:36.466Z",
+    "recorded_at": "2026-05-21T23:34:36.466Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "38f6ef65-1319-44b4-9a51-7c6504ade28b",
+  "fields": {
+    "sim_card": "97d5b67f-9a62-4bf7-aac9-3b3bc1a681ad",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "129.03",
+    "timestamp": "2026-05-26T12:34:36.380Z",
+    "recorded_at": "2026-05-22T11:34:36.380Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "39b86382-bacd-45ff-9986-7c97388bf3ce",
+  "fields": {
+    "sim_card": "5150b427-ebb1-4be4-a415-e12400eda85e",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "4492.50",
+    "timestamp": "2026-05-26T12:34:36.358Z",
+    "recorded_at": "2026-05-22T15:34:36.358Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "3b485036-f160-4a5e-983c-5fb753182350",
+  "fields": {
+    "sim_card": "9ae77bde-286d-4e43-812d-c5316e7d2df6",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "64.60",
+    "timestamp": "2026-05-26T12:34:36.245Z",
+    "recorded_at": "2026-05-21T10:34:36.245Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "3e6a06b8-a671-4e12-ac76-1ff1885b8d6e",
+  "fields": {
+    "sim_card": "79a8126c-849a-426a-89bd-f55106036bb7",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "827.69",
+    "timestamp": "2026-05-26T12:34:36.408Z",
+    "recorded_at": "2026-05-21T15:34:36.408Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "3e720268-4de5-455e-a750-c589ac5ec460",
+  "fields": {
+    "sim_card": "97d5b67f-9a62-4bf7-aac9-3b3bc1a681ad",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "288.03",
+    "timestamp": "2026-05-26T12:34:36.378Z",
+    "recorded_at": "2026-05-25T13:34:36.377Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "409d43a1-a5c3-426d-b071-3f5aeb667744",
+  "fields": {
+    "sim_card": "422e1d60-3ca1-4ade-b759-1a351c9d3d81",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "974.37",
+    "timestamp": "2026-05-26T12:34:36.443Z",
+    "recorded_at": "2026-05-21T03:34:36.443Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "41d5f146-463a-48ce-89a7-31a0d2410fc9",
+  "fields": {
+    "sim_card": "79a8126c-849a-426a-89bd-f55106036bb7",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "179.00",
+    "timestamp": "2026-05-26T12:34:36.416Z",
+    "recorded_at": "2026-05-21T16:34:36.416Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "437d7892-d6be-4598-8d20-b7a15db95d50",
+  "fields": {
+    "sim_card": "7ca71978-882f-423a-bb6a-734eb031c6e4",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "950.78",
+    "timestamp": "2026-05-26T12:34:36.227Z",
+    "recorded_at": "2026-05-22T01:34:36.226Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "441d69ac-8d7b-413b-84fa-d175de0dc7e1",
+  "fields": {
+    "sim_card": "97d5b67f-9a62-4bf7-aac9-3b3bc1a681ad",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "70.70",
+    "timestamp": "2026-05-26T12:34:36.389Z",
+    "recorded_at": "2026-05-21T09:34:36.388Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "45fc4c5f-ff58-4a7e-9fd4-97bdf387e700",
+  "fields": {
+    "sim_card": "f930b866-c6e8-4fa9-9751-d1abcb415554",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "50.01",
+    "timestamp": "2026-05-26T12:34:36.341Z",
+    "recorded_at": "2026-05-21T02:34:36.339Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "46ff8a05-cdb2-4738-b459-412e3d32124b",
+  "fields": {
+    "sim_card": "107c4b74-f13c-4338-808a-586b90e84777",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "747.87",
+    "timestamp": "2026-05-26T12:34:36.186Z",
+    "recorded_at": "2026-05-25T10:34:36.185Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "4e3f6cf9-0361-42a3-8288-8d3a4717f2c1",
+  "fields": {
+    "sim_card": "a628836c-f0eb-426e-9483-f208f850c08b",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "1519.50",
+    "timestamp": "2026-05-26T12:34:36.161Z",
+    "recorded_at": "2026-05-22T12:34:36.161Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "567d830f-c45f-4fed-a5c3-e6f74538eae3",
+  "fields": {
+    "sim_card": "fa660cf2-dfa5-4516-8db5-0c2e40150505",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "133.91",
+    "timestamp": "2026-05-26T12:34:36.481Z",
+    "recorded_at": "2026-05-24T04:34:36.481Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "580abdda-7906-47de-822f-4d63a63bb968",
+  "fields": {
+    "sim_card": "0e3b78b3-c3b5-47bb-bc32-ec32d90ed2c8",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "1393.36",
+    "timestamp": "2026-05-26T12:34:36.281Z",
+    "recorded_at": "2026-05-20T06:34:36.280Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "5c385a74-19bb-4233-b7e0-b284380c4027",
+  "fields": {
+    "sim_card": "c8debbf2-6eac-4d3f-b51d-fd670420e5e8",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "26.08",
+    "timestamp": "2026-05-26T12:34:36.262Z",
+    "recorded_at": "2026-05-25T21:34:36.262Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "60b795dc-0005-412c-a7a3-d02fbef9e415",
+  "fields": {
+    "sim_card": "a9c22ab3-2e8d-40ac-85bf-840265712df7",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "1922.55",
+    "timestamp": "2026-05-26T12:34:36.431Z",
+    "recorded_at": "2026-05-23T04:34:36.431Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "661e7d19-775c-4b55-aef0-11667ae19fd9",
+  "fields": {
+    "sim_card": "c8debbf2-6eac-4d3f-b51d-fd670420e5e8",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "76.05",
+    "timestamp": "2026-05-26T12:34:36.268Z",
+    "recorded_at": "2026-05-20T13:34:36.268Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "66fa33ad-f5f4-4cec-a2e8-af41a21a0965",
+  "fields": {
+    "sim_card": "3d83d856-1598-467c-a212-b643bae04e56",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "150.23",
+    "timestamp": "2026-05-26T12:34:36.285Z",
+    "recorded_at": "2026-05-21T07:34:36.284Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "688d665c-4eb7-48e2-aeaa-56b6b650ffbc",
+  "fields": {
+    "sim_card": "ec17ec1f-5544-4d52-8886-028ba9e53bb3",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "8991.27",
+    "timestamp": "2026-05-26T12:34:36.457Z",
+    "recorded_at": "2026-05-25T05:34:36.457Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "6fbbc816-e785-415d-8e95-9816f4d79741",
+  "fields": {
+    "sim_card": "a9c22ab3-2e8d-40ac-85bf-840265712df7",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "867.35",
+    "timestamp": "2026-05-26T12:34:36.429Z",
+    "recorded_at": "2026-05-22T21:34:36.428Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "74b78e88-23c7-481e-bf6e-1e816e7ffe6d",
+  "fields": {
+    "sim_card": "fa660cf2-dfa5-4516-8db5-0c2e40150505",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "80.49",
+    "timestamp": "2026-05-26T12:34:36.485Z",
+    "recorded_at": "2026-05-25T15:34:36.485Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "78896de8-2b1d-4da9-b6de-5156e04297aa",
+  "fields": {
+    "sim_card": "97d5b67f-9a62-4bf7-aac9-3b3bc1a681ad",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "264.46",
+    "timestamp": "2026-05-26T12:34:36.382Z",
+    "recorded_at": "2026-05-24T14:34:36.382Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "7dac2ea4-54fa-42f1-856c-fc8579eac819",
+  "fields": {
+    "sim_card": "9d38ada4-a6ac-4a4d-a3d6-65bdf8d38a79",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "71.93",
+    "timestamp": "2026-05-26T12:34:36.148Z",
+    "recorded_at": "2026-05-20T02:34:36.148Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "86fefcfd-6f5f-4ab3-be84-1d0808adfd82",
+  "fields": {
+    "sim_card": "64e03f30-a5ca-4645-83c2-78ce98563fd2",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "113.39",
+    "timestamp": "2026-05-26T12:34:36.462Z",
+    "recorded_at": "2026-05-20T19:34:36.462Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "8702b875-8d09-4a48-bbed-d007922020cb",
+  "fields": {
+    "sim_card": "3d83d856-1598-467c-a212-b643bae04e56",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "44.77",
+    "timestamp": "2026-05-26T12:34:36.304Z",
+    "recorded_at": "2026-05-25T00:34:36.304Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "8976d721-7ae9-4249-ae33-f79f02e7c3e1",
+  "fields": {
+    "sim_card": "0e3b78b3-c3b5-47bb-bc32-ec32d90ed2c8",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "2118.87",
+    "timestamp": "2026-05-26T12:34:36.273Z",
+    "recorded_at": "2026-05-26T02:34:36.272Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "8aee7381-e6a0-46da-8dc4-4324e5217819",
+  "fields": {
+    "sim_card": "97d5b67f-9a62-4bf7-aac9-3b3bc1a681ad",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "110.16",
+    "timestamp": "2026-05-26T12:34:36.387Z",
+    "recorded_at": "2026-05-19T16:34:36.386Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "8e505c7a-15b4-44e5-869e-0c0e38c3f6fd",
+  "fields": {
+    "sim_card": "a628836c-f0eb-426e-9483-f208f850c08b",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "853.80",
+    "timestamp": "2026-05-26T12:34:36.165Z",
+    "recorded_at": "2026-05-21T15:34:36.165Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "8ee287fa-9fa3-4c66-a1c1-482ff9765977",
+  "fields": {
+    "sim_card": "9d38ada4-a6ac-4a4d-a3d6-65bdf8d38a79",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "150.73",
+    "timestamp": "2026-05-26T12:34:36.144Z",
+    "recorded_at": "2026-05-24T20:34:36.144Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "9451516c-c1d7-492e-a79a-da3496ccd389",
+  "fields": {
+    "sim_card": "a628836c-f0eb-426e-9483-f208f850c08b",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "484.09",
+    "timestamp": "2026-05-26T12:34:36.167Z",
+    "recorded_at": "2026-05-22T02:34:36.167Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "972daddd-d70d-4ce6-9875-9924e8924e21",
+  "fields": {
+    "sim_card": "015feecb-f310-4d60-80ac-9d01478316b2",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "3630.01",
+    "timestamp": "2026-05-26T12:34:36.403Z",
+    "recorded_at": "2026-05-22T11:34:36.403Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "9b44b890-8058-4614-9722-a53ae3a32f05",
+  "fields": {
+    "sim_card": "a9c22ab3-2e8d-40ac-85bf-840265712df7",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "1722.60",
+    "timestamp": "2026-05-26T12:34:36.426Z",
+    "recorded_at": "2026-05-22T14:34:36.426Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "9caf99d7-aef4-416e-9116-4966a03d88ca",
+  "fields": {
+    "sim_card": "5150b427-ebb1-4be4-a415-e12400eda85e",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "1588.43",
+    "timestamp": "2026-05-26T12:34:36.365Z",
+    "recorded_at": "2026-05-24T16:34:36.365Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "9f0feb7b-5c49-4e42-b708-bb65d26c3ceb",
+  "fields": {
+    "sim_card": "015feecb-f310-4d60-80ac-9d01478316b2",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "826.87",
+    "timestamp": "2026-05-26T12:34:36.399Z",
+    "recorded_at": "2026-05-26T02:34:36.399Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "a0e48d89-20f9-4fba-a11e-40e4134ff94d",
+  "fields": {
+    "sim_card": "a628836c-f0eb-426e-9483-f208f850c08b",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "468.06",
+    "timestamp": "2026-05-26T12:34:36.163Z",
+    "recorded_at": "2026-05-25T08:34:36.163Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "a233d9bf-4774-449e-9637-a299e855ad21",
+  "fields": {
+    "sim_card": "c8debbf2-6eac-4d3f-b51d-fd670420e5e8",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "36.13",
+    "timestamp": "2026-05-26T12:34:36.264Z",
+    "recorded_at": "2026-05-24T12:34:36.264Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "a564ac38-11ee-4282-ae54-279b90a2c763",
+  "fields": {
+    "sim_card": "c8debbf2-6eac-4d3f-b51d-fd670420e5e8",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "191.04",
+    "timestamp": "2026-05-26T12:34:36.253Z",
+    "recorded_at": "2026-05-25T03:34:36.253Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "a6b2b1de-6fa8-4479-86e9-f5a866af2645",
+  "fields": {
+    "sim_card": "c8debbf2-6eac-4d3f-b51d-fd670420e5e8",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "126.63",
+    "timestamp": "2026-05-26T12:34:36.255Z",
+    "recorded_at": "2026-05-23T07:34:36.255Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "a8179e6b-677b-447a-9452-84cb0d05cb44",
+  "fields": {
+    "sim_card": "3d83d856-1598-467c-a212-b643bae04e56",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "96.23",
+    "timestamp": "2026-05-26T12:34:36.289Z",
+    "recorded_at": "2026-05-21T07:34:36.289Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "ab7f7e81-4f09-48f1-ad13-13a156900bc5",
+  "fields": {
+    "sim_card": "64e03f30-a5ca-4645-83c2-78ce98563fd2",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "234.78",
+    "timestamp": "2026-05-26T12:34:36.464Z",
+    "recorded_at": "2026-05-23T12:34:36.464Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "ac585428-d0ad-428c-876c-428db288438e",
+  "fields": {
+    "sim_card": "7ca71978-882f-423a-bb6a-734eb031c6e4",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "169.96",
+    "timestamp": "2026-05-26T12:34:36.220Z",
+    "recorded_at": "2026-05-23T03:34:36.219Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "ac7a987e-2058-4f4b-b44c-d094ec077e40",
+  "fields": {
+    "sim_card": "79a8126c-849a-426a-89bd-f55106036bb7",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "71.59",
+    "timestamp": "2026-05-26T12:34:36.414Z",
+    "recorded_at": "2026-05-24T15:34:36.414Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "ade38a66-19e6-4382-8b54-ce9d316d075f",
+  "fields": {
+    "sim_card": "9ae77bde-286d-4e43-812d-c5316e7d2df6",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "150.86",
+    "timestamp": "2026-05-26T12:34:36.242Z",
+    "recorded_at": "2026-05-21T14:34:36.242Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "b8fc56c1-cc07-42ce-80ef-8403a7e20106",
+  "fields": {
+    "sim_card": "79a8126c-849a-426a-89bd-f55106036bb7",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "284.43",
+    "timestamp": "2026-05-26T12:34:36.418Z",
+    "recorded_at": "2026-05-24T19:34:36.418Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "bb4d5b9a-3d1a-4d63-95b8-e06e001f2ebe",
+  "fields": {
+    "sim_card": "015feecb-f310-4d60-80ac-9d01478316b2",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "1607.43",
+    "timestamp": "2026-05-26T12:34:36.401Z",
+    "recorded_at": "2026-05-23T23:34:36.401Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "bd0feec6-1af2-46b0-9ff1-aa33a54ea068",
+  "fields": {
+    "sim_card": "97d5b67f-9a62-4bf7-aac9-3b3bc1a681ad",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "84.60",
+    "timestamp": "2026-05-26T12:34:36.385Z",
+    "recorded_at": "2026-05-25T03:34:36.385Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "c1c8020c-13f7-4d52-ac69-2e5c88906be0",
+  "fields": {
+    "sim_card": "9ae77bde-286d-4e43-812d-c5316e7d2df6",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "455.74",
+    "timestamp": "2026-05-26T12:34:36.248Z",
+    "recorded_at": "2026-05-24T01:34:36.248Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "c4003c90-7136-4298-a8b9-13ac5113ba70",
+  "fields": {
+    "sim_card": "0e3b78b3-c3b5-47bb-bc32-ec32d90ed2c8",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "1369.78",
+    "timestamp": "2026-05-26T12:34:36.274Z",
+    "recorded_at": "2026-05-25T04:34:36.274Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "c484541f-1ad1-4c1e-b382-a6cd3bda5a11",
+  "fields": {
+    "sim_card": "9d38ada4-a6ac-4a4d-a3d6-65bdf8d38a79",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "235.36",
+    "timestamp": "2026-05-26T12:34:36.146Z",
+    "recorded_at": "2026-05-20T15:34:36.146Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "c4c8024d-f8af-42f9-9742-97bce82bfbbc",
+  "fields": {
+    "sim_card": "fa660cf2-dfa5-4516-8db5-0c2e40150505",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "153.75",
+    "timestamp": "2026-05-26T12:34:36.483Z",
+    "recorded_at": "2026-05-24T15:34:36.483Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "c62ec854-c65a-4ba0-8043-ae218bb0d190",
+  "fields": {
+    "sim_card": "fa660cf2-dfa5-4516-8db5-0c2e40150505",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "414.63",
+    "timestamp": "2026-05-26T12:34:36.479Z",
+    "recorded_at": "2026-05-20T23:34:36.478Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "ce29e1f8-da0c-44c5-8949-e7d74524b2a0",
+  "fields": {
+    "sim_card": "015feecb-f310-4d60-80ac-9d01478316b2",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "1740.95",
+    "timestamp": "2026-05-26T12:34:36.395Z",
+    "recorded_at": "2026-05-26T06:34:36.395Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "d1bbc3e4-97d9-454e-8649-9fcdedea4aef",
+  "fields": {
+    "sim_card": "9d38ada4-a6ac-4a4d-a3d6-65bdf8d38a79",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "229.17",
+    "timestamp": "2026-05-26T12:34:36.153Z",
+    "recorded_at": "2026-05-22T02:34:36.153Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "d3077ceb-6c69-449e-88eb-5f611ed8acc4",
+  "fields": {
+    "sim_card": "422e1d60-3ca1-4ade-b759-1a351c9d3d81",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "743.21",
+    "timestamp": "2026-05-26T12:34:36.441Z",
+    "recorded_at": "2026-05-23T21:34:36.441Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "d777ce81-b5d7-4a36-9047-77d41133abd1",
+  "fields": {
+    "sim_card": "3d83d856-1598-467c-a212-b643bae04e56",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "123.94",
+    "timestamp": "2026-05-26T12:34:36.312Z",
+    "recorded_at": "2026-05-26T07:34:36.311Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "dbffc456-03d4-46b7-936c-c4d8dbcbe38b",
+  "fields": {
+    "sim_card": "e5e52084-1564-4e59-9ec5-9439b2c09c5f",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "814.25",
+    "timestamp": "2026-05-26T12:34:36.200Z",
+    "recorded_at": "2026-05-21T04:34:36.199Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "dca249b7-c003-4798-8b77-6dd6457b59f5",
+  "fields": {
+    "sim_card": "107c4b74-f13c-4338-808a-586b90e84777",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "358.20",
+    "timestamp": "2026-05-26T12:34:36.183Z",
+    "recorded_at": "2026-05-22T01:34:36.183Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "dd009f68-604a-41a2-ab92-1a3d51c57656",
+  "fields": {
+    "sim_card": "79a8126c-849a-426a-89bd-f55106036bb7",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "568.83",
+    "timestamp": "2026-05-26T12:34:36.410Z",
+    "recorded_at": "2026-05-22T14:34:36.410Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "dde8e171-e09b-47b0-8a51-95be19ec8705",
+  "fields": {
+    "sim_card": "a9c22ab3-2e8d-40ac-85bf-840265712df7",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "1203.15",
+    "timestamp": "2026-05-26T12:34:36.422Z",
+    "recorded_at": "2026-05-20T06:34:36.422Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "e01cd2c0-7bb9-48c3-b7aa-d1db7951fa89",
+  "fields": {
+    "sim_card": "422e1d60-3ca1-4ade-b759-1a351c9d3d81",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "3069.91",
+    "timestamp": "2026-05-26T12:34:36.447Z",
+    "recorded_at": "2026-05-20T08:34:36.447Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "e2c191fe-196b-4558-99a0-3f6d980261f4",
+  "fields": {
+    "sim_card": "5150b427-ebb1-4be4-a415-e12400eda85e",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "3284.26",
+    "timestamp": "2026-05-26T12:34:36.369Z",
+    "recorded_at": "2026-05-26T06:34:36.369Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "e2e7fc4b-ba34-4050-9574-cc9d11d50bd0",
+  "fields": {
+    "sim_card": "ec17ec1f-5544-4d52-8886-028ba9e53bb3",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "1254.85",
+    "timestamp": "2026-05-26T12:34:36.455Z",
+    "recorded_at": "2026-05-20T04:34:36.455Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "e5095b4f-f548-4a68-bbba-072b112087d3",
+  "fields": {
+    "sim_card": "5150b427-ebb1-4be4-a415-e12400eda85e",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "2223.48",
+    "timestamp": "2026-05-26T12:34:36.362Z",
+    "recorded_at": "2026-05-24T14:34:36.361Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "e54847fd-05ae-41dd-bcb9-d4e74c511b68",
+  "fields": {
+    "sim_card": "e5e52084-1564-4e59-9ec5-9439b2c09c5f",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "2504.11",
+    "timestamp": "2026-05-26T12:34:36.190Z",
+    "recorded_at": "2026-05-24T19:34:36.190Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "e5937a56-a78a-4368-80b6-142e24920ebe",
+  "fields": {
+    "sim_card": "fa660cf2-dfa5-4516-8db5-0c2e40150505",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "74.00",
+    "timestamp": "2026-05-26T12:34:36.487Z",
+    "recorded_at": "2026-05-20T07:34:36.487Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "e95e1446-9a31-4258-b67b-24cfc73e1b93",
+  "fields": {
+    "sim_card": "97d5b67f-9a62-4bf7-aac9-3b3bc1a681ad",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "222.49",
+    "timestamp": "2026-05-26T12:34:36.391Z",
+    "recorded_at": "2026-05-22T09:34:36.390Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "ee2cf376-f8e4-4ad6-93f8-67a22dd39b46",
+  "fields": {
+    "sim_card": "9d38ada4-a6ac-4a4d-a3d6-65bdf8d38a79",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "70.97",
+    "timestamp": "2026-05-26T12:34:36.150Z",
+    "recorded_at": "2026-05-21T00:34:36.150Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "f1320f78-c5b6-4560-bc1b-3afe3c601d16",
+  "fields": {
+    "sim_card": "9ae77bde-286d-4e43-812d-c5316e7d2df6",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "256.20",
+    "timestamp": "2026-05-26T12:34:36.240Z",
+    "recorded_at": "2026-05-23T14:34:36.239Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "f1359a1f-a39f-4367-ae50-94a154b49244",
+  "fields": {
+    "sim_card": "583067b6-fed3-43bf-97c1-9d27d1c28aa4",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "257.21",
+    "timestamp": "2026-05-26T12:34:36.470Z",
+    "recorded_at": "2026-05-22T08:34:36.470Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "f139f5c3-1fc3-4e67-98b2-8497b74937a3",
+  "fields": {
+    "sim_card": "422e1d60-3ca1-4ade-b759-1a351c9d3d81",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "2696.79",
+    "timestamp": "2026-05-26T12:34:36.437Z",
+    "recorded_at": "2026-05-21T10:34:36.437Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "f18e540c-b98c-4b0f-bebb-6281ca94871d",
+  "fields": {
+    "sim_card": "583067b6-fed3-43bf-97c1-9d27d1c28aa4",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "499.09",
+    "timestamp": "2026-05-26T12:34:36.472Z",
+    "recorded_at": "2026-05-26T07:34:36.472Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "f378512c-c93b-47c1-92c0-abb0fcc4a5a5",
+  "fields": {
+    "sim_card": "fa660cf2-dfa5-4516-8db5-0c2e40150505",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "149.10",
+    "timestamp": "2026-05-26T12:34:36.491Z",
+    "recorded_at": "2026-05-22T01:34:36.491Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "f89e7434-fc33-43b9-b777-56ded3f10fba",
+  "fields": {
+    "sim_card": "0e3b78b3-c3b5-47bb-bc32-ec32d90ed2c8",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "644.30",
+    "timestamp": "2026-05-26T12:34:36.278Z",
+    "recorded_at": "2026-05-22T00:34:36.278Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+},
+{
+  "model": "usage.datausagerecord",
+  "pk": "ffb15931-064f-4506-a103-980a5e5f2ae2",
+  "fields": {
+    "sim_card": "a628836c-f0eb-426e-9483-f208f850c08b",
+    "billing_cycle": "2b3cb9ea-280a-4050-a99a-4971673d271e",
+    "data_consumed_mb": "233.00",
+    "timestamp": "2026-05-26T12:34:36.172Z",
+    "recorded_at": "2026-05-25T19:34:36.172Z",
+    "source": "celery_task",
+    "notes": ""
+  }
+}
+]

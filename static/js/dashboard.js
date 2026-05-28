@@ -24,6 +24,25 @@ function setFilter(status, btn) {
     filterTable();
 }
 
+// Animate usage bars on page load
+function animateUsageBars() {
+    const bars = document.querySelectorAll('.usage-bar-fill');
+    bars.forEach(bar => {
+        const targetWidth = bar.getAttribute('data-width');
+        if (targetWidth) {
+            // Small delay to ensure CSS transition works
+            setTimeout(() => {
+                bar.style.width = targetWidth + '%';
+            }, 100);
+        }
+    });
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+    animateUsageBars();
+});
+
 // Live clock for last update
 function updateClock() {
     const lastUpdateEl = document.getElementById('last-update');
