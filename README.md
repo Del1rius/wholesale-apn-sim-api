@@ -225,14 +225,16 @@ python manage.py seed_database
 ```
 
 This will populate your database with:
-- Multiple test organizations (Vodacom, MTN, Cell C, Telkom)
-- Admin and client manager users
+- Multiple test organizations (Vodacom, MTN, Cell C, Telkom, Rain)
+- Admin and client manager users for each organization
 - Sample SIM cards with various statuses
 - Usage records and billing cycles
 
-**Test Login Credentials:**
+**Demo Login Credentials:**
 - Username: `admin_vodacom_south_a`
-- Password: `password123`
+- Password: `TestPass123!`
+
+> 📋 See `DEMO_CREDENTIALS.md` for all available demo accounts
 
 6. **Run development server**
 
@@ -460,6 +462,8 @@ docker-compose exec web python manage.py migrate
 ```bash
 docker-compose exec web python manage.py seed_database
 ```
+
+This provides demo accounts for testing. See `DEMO_CREDENTIALS.md` for login details.
 
 **OR create a superuser manually:**
 

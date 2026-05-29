@@ -16,10 +16,13 @@ This will load all organizations, users, SIM cards, and usage data.
 
 ### Test Credentials
 
-After seeding, you can log in with:
+After seeding, you can log in with any account listed in `DEMO_CREDENTIALS.md`.
 
+**Quick Login:**
 - **Username**: `admin_vodacom_south_a`
-- **Password**: `password123`
+- **Password**: `TestPass123!`
+
+All demo accounts use the same password: `TestPass123!`
 
 ## Creating New Fixtures
 

@@ -26,3 +26,11 @@ class Command(BaseCommand):
             
         except Exception as e:
             self.stdout.write(self.style.ERROR(f'✗ Error seeding database: {str(e)}'))
+            
+        self.stdout.write('')
+        self.stdout.write(self.style.SUCCESS('📋 For all demo login credentials, see: DEMO_CREDENTIALS.md'))
+        self.stdout.write('')
+        self.stdout.write(self.style.WARNING('Quick Login:'))
+        self.stdout.write('  Username: admin_vodacom_south_a')
+        self.stdout.write('  Password: TestPass123!')
+        self.stdout.write('')
