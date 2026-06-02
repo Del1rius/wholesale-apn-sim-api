@@ -1,10 +1,14 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from users.models import Organization
 import uuid
 
 # APN Configuration for data connectivity
+
+
 class APN(models.Model):
-    apn_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    apn_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, unique=True)
     apn_string = models.CharField(max_length=255)
     username = models.CharField(max_length=100, blank=True, null=True)
@@ -26,7 +30,7 @@ class APN(models.Model):
         related_name='apns',
         null=True,
         blank=True
-    ) # If null, it's a shared/public apn
+    )  # If null, it's a shared/public apn
 
     is_active = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -36,15 +40,20 @@ class APN(models.Model):
         ordering = ['-date_created']
         verbose_name = 'APN'
         verbose_name_plural = 'APNs'
-    
+
     def __str__(self):
         return f"{self.name} - {self.apn_string}"
 
 # SIM Card Inventory Management
+
+
 class SIMCard(models.Model):
-    sim_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    iccid = models.CharField(max_length=22, unique=True) # Integrated Circuit Card ID
-    phone_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
+    sim_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
+    # Integrated Circuit Card ID
+    iccid = models.CharField(max_length=22, unique=True)
+    phone_number = models.CharField(
+        max_length=20, unique=True, null=True, blank=True)
 
     STATUS_CHOICES = [
         ('available', 'Available'),
@@ -54,7 +63,8 @@ class SIMCard(models.Model):
         ('lost', 'Lost/Stolen')
     ]
 
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='available')
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default='available')
 
     # Network Information
     carrier = models.CharField(max_length=100)
@@ -76,7 +86,7 @@ class SIMCard(models.Model):
         related_name='sim_cards',
         null=True,
         blank=True
-    ) # Which Organization owns/uses this SIM
+    )  # Which Organization owns/uses this SIM
 
     apn = models.ForeignKey(
         APN,
@@ -84,10 +94,15 @@ class SIMCard(models.Model):
         related_name='sim_cards',
         null=True,
         blank=True
-    ) # Which APN configuration is assigned
+    )  # Which APN configuration is assigned
 
     # Data plan information
-    data_limit_mb = models.IntegerField(null=True, blank=True) # Monthly data limit in MB
+    data_limit_mb = models.IntegerField(
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(100000)],
+        help_text="Monthly data limit in MB (maximum 100,000 MB)"
+    )  # Monthly data limit in MB
 
     # Metadata
     activation_date = models.DateField(null=True, blank=True)

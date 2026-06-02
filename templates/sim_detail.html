@@ -229,10 +229,10 @@
         <label for="data_limit_mb" class="modal-label">
           New Data Limit (MB) <span class="required">*</span>
         </label>
-        <input type="number" id="data_limit_mb" name="data_limit_mb" value="{{ sim.DataLimit_MB }}" required min="1"
+        <input type="number" id="data_limit_mb" name="data_limit_mb" value="{{ sim.DataLimit_MB }}" required min="1" max="100000"
           class="bs-input modal-input-mono">
         <div class="modal-help-text">
-          Current limit: <strong>{{ sim.DataLimit_MB }} MB</strong>
+          Current limit: <strong>{{ sim.DataLimit_MB }} MB</strong> | Maximum allowed: <strong>100,000 MB</strong>
         </div>
       </div>
 

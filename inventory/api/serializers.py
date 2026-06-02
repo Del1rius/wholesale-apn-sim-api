@@ -5,7 +5,8 @@ from users.api.serializers import OrganizationSerializer
 
 # Serializer for APN Model
 class APNSerializer(serializers.ModelSerializer):
-    organization_detail = OrganizationSerializer(source='organization', read_only=True)
+    organization_detail = OrganizationSerializer(
+        source='organization', read_only=True)
 
     class Meta:
         model = APN
@@ -24,12 +25,16 @@ class APNSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['apn_id', 'date_created', 'date_modified']
         extra_kwargs = {
-            'password': {'write_only': True} # Makes it not expose password in response
+            # Makes it not expose password in response
+            'password': {'write_only': True}
         }
 
 # Lightweight Serializer for APN lists (doesn't have sensitive data)
+
+
 class APNListSerializer(serializers.ModelSerializer):
-    organization_name = serializers.CharField(source='organization.name', read_only=True)
+    organization_name = serializers.CharField(
+        source='organization.name', read_only=True)
 
     class Meta:
         model = APN
@@ -45,11 +50,16 @@ class APNListSerializer(serializers.ModelSerializer):
         read_only_fields = ['apn_id', 'date_created']
 
 # Serializer for SIMCard Model
+
+
 class SIMCardSerializer(serializers.ModelSerializer):
-    organization_detail = OrganizationSerializer(source='organization', read_only=True)
+    organization_detail = OrganizationSerializer(
+        source='organization', read_only=True)
     apn_detail = APNListSerializer(source='apn', read_only=True)
-    status_display = serializers.CharField(source='get_status_display', read_only=True)
-    network_type_display = serializers.CharField(source='get_network_type_display', read_only=True)
+    status_display = serializers.CharField(
+        source='get_status_display', read_only=True)
+    network_type_display = serializers.CharField(
+        source='get_network_type_display', read_only=True)
 
     class Meta:
         model = SIMCard
@@ -78,22 +88,40 @@ class SIMCardSerializer(serializers.ModelSerializer):
     # Validate ICCID format (19-22 digits)
     def validate_iccid(self, value):
         if not value.isdigit():
-            raise serializers.ValidationError("ICCID must contain only digits.")
+            raise serializers.ValidationError(
+                "ICCID must contain only digits.")
         if len(value) < 19 or len(value) > 22:
-            raise serializers.ValidationError("ICCID must be between 19 and 22 digits.")
+            raise serializers.ValidationError(
+                "ICCID must be between 19 and 22 digits.")
         return value
 
     # Validate phone number format
     def validate_phone_number(self, value):
         if value and not value.startswith('+'):
-            raise serializers.ValidationError("Phone number must start with '+' (e.g., +27821234567)")
+            raise serializers.ValidationError(
+                "Phone number must start with '+' (e.g., +27821234567)")
+        return value
+
+    # Validate data limit (maximum 100,000 MB)
+    def validate_data_limit_mb(self, value):
+        if value is not None:
+            if value < 1:
+                raise serializers.ValidationError(
+                    "Data limit must be at least 1 MB.")
+            if value > 100000:
+                raise serializers.ValidationError(
+                    "Data limit cannot exceed 100,000 MB.")
         return value
 
 # Lightweight serializer for SIM card lists
+
+
 class SIMCardListSerializer(serializers.ModelSerializer):
-    organization_name = serializers.CharField(source='organization.name', read_only=True)
+    organization_name = serializers.CharField(
+        source='organization.name', read_only=True)
     apn_name = serializers.CharField(source='apn.name', read_only=True)
-    status_display = serializers.CharField(source='get_status_display', read_only=True)
+    status_display = serializers.CharField(
+        source='get_status_display', read_only=True)
 
     class Meta:
         model = SIMCard
