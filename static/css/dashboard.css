@@ -447,7 +447,7 @@
 
 /* Default active glow - cyan for Total SIMs */
 .clickable-stat.total-accent.stat-active {
-  box-shadow: 0 8px 24px rgba(0, 229, 255, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 229, 255, 0.75);
 }
 
 .clickable-stat.total-accent.stat-active::before {
@@ -462,7 +462,7 @@
 
 /* Active green glow for Active SIMs */
 .clickable-stat.active-accent.stat-active {
-  box-shadow: 0 8px 24px rgba(0, 230, 118, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 230, 118, 0.75);
 }
 
 .clickable-stat.active-accent.stat-active::before {
@@ -477,7 +477,7 @@
 
 /* Active red glow for Suspended SIMs */
 .clickable-stat.suspended-accent.stat-active {
-  box-shadow: 0 8px 24px rgba(255, 23, 68, 0.25);
+  box-shadow: 0 8px 24px rgba(255, 23, 68, 0.75);
 }
 
 .clickable-stat.suspended-accent.stat-active::before {
@@ -493,17 +493,17 @@
 /* Keep the glow effect even when not hovering if active */
 .clickable-stat.total-accent.stat-active:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 28px rgba(0, 229, 255, 0.3);
+  box-shadow: 0 10px 28px rgba(0, 229, 255, 0.9);
 }
 
 .clickable-stat.active-accent.stat-active:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 28px rgba(0, 230, 118, 0.3);
+  box-shadow: 0 10px 28px rgba(0, 230, 118, 0.9);
 }
 
 .clickable-stat.suspended-accent.stat-active:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 28px rgba(255, 23, 68, 0.3);
+  box-shadow: 0 10px 28px rgba(255, 23, 68, 0.9);
 }
 
 @keyframes pulseGlow {
