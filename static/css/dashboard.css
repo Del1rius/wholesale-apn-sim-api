@@ -440,12 +440,17 @@
   box-shadow: 0 8px 24px rgba(0, 229, 255, 0.15);
 }
 
+/* Active state - keeps glowing when clicked */
 .clickable-stat.stat-active {
   transform: translateY(-2px);
+}
+
+/* Default active glow - cyan for Total SIMs */
+.clickable-stat.total-accent.stat-active {
   box-shadow: 0 8px 24px rgba(0, 229, 255, 0.25);
 }
 
-.clickable-stat.stat-active::before {
+.clickable-stat.total-accent.stat-active::before {
   content: '';
   position: absolute;
   inset: -2px;
@@ -455,12 +460,50 @@
   animation: pulseGlow 2s ease-in-out infinite;
 }
 
+/* Active green glow for Active SIMs */
+.clickable-stat.active-accent.stat-active {
+  box-shadow: 0 8px 24px rgba(0, 230, 118, 0.25);
+}
+
 .clickable-stat.active-accent.stat-active::before {
-  border-color: var(--green-ok);
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 12px;
+  border: 2px solid var(--green-ok);
+  pointer-events: none;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Active red glow for Suspended SIMs */
+.clickable-stat.suspended-accent.stat-active {
+  box-shadow: 0 8px 24px rgba(255, 23, 68, 0.25);
 }
 
 .clickable-stat.suspended-accent.stat-active::before {
-  border-color: var(--red-danger);
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 12px;
+  border: 2px solid var(--red-danger);
+  pointer-events: none;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Keep the glow effect even when not hovering if active */
+.clickable-stat.total-accent.stat-active:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0, 229, 255, 0.3);
+}
+
+.clickable-stat.active-accent.stat-active:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0, 230, 118, 0.3);
+}
+
+.clickable-stat.suspended-accent.stat-active:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(255, 23, 68, 0.3);
 }
 
 @keyframes pulseGlow {
@@ -475,20 +518,4 @@
   }
 }
 
-/* Add a subtle hint icon for clickable stats */
-.clickable-stat::after {
-  content: '\F4C1';
-  /* Bootstrap icon for cursor pointer */
-  font-family: 'bootstrap-icons';
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.clickable-stat:hover::after {
-  opacity: 0.4;
-}
+/* REMOVED: Pause/pointer icon - keeping it clean */
