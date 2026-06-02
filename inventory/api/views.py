@@ -11,6 +11,7 @@ from inventory.api.serializers import (
     SIMCardSerializer,
     SIMCardListSerializer
 )
+from config.throttling import BurstRateThrottle, SustainedRateThrottle, AdminRateThrottle
 
 class APNViewSet(viewsets.ModelViewSet):
     # ViewSet for SIM Card CRUD operations
@@ -22,6 +23,7 @@ class APNViewSet(viewsets.ModelViewSet):
     # destroy: DELETE /api/inventory/apns/{id}/ - Delete APN
     queryset = APN.objects.all()
     permission_classes = [IsAuthenticated]
+    throttle_classes = [AdminRateThrottle, BurstRateThrottle, SustainedRateThrottle]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['is_active', 'authentication_type', 'organization']
     search_fields = ['name', 'apn_string']
@@ -77,6 +79,7 @@ class SIMCardViewSet(viewsets.ModelViewSet):
 
     queryset = SIMCard.objects.select_related('organization', 'apn').all()
     permission_classes = [IsAuthenticated]
+    throttle_classes = [AdminRateThrottle, BurstRateThrottle, SustainedRateThrottle]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['status', 'carrier', 'network_type', 'organization']
     search_fields = ['iccid', 'phone_number', 'carrier']

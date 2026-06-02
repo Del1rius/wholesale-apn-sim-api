@@ -20,6 +20,10 @@ db.sqlite3-journal
 /media
 /staticfiles
 
+# Log files
+/logs/
+*.log
+
 # Environment variables
 .env
 .env.local

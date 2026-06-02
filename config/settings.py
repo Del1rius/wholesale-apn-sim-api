@@ -74,6 +74,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Custom middleware for logging and monitoring - TEMPORARILY DISABLED
+    # 'config.middleware.APILoggingMiddleware',
+    # 'config.middleware.PerformanceMonitoringMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -87,6 +90,17 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/hour',        # Anonymous users: 100 requests per hour
+        'user': '1000/hour',       # Authenticated users: 1000 requests per hour
+        'usage_logging': '500/minute',  # High-frequency usage endpoint: 500 per minute
+        'burst': '60/minute',      # Burst rate for general endpoints: 60 per minute
+        'sustained': '2000/day',   # Sustained daily limit: 2000 per day
+    },
 }
 
 SIMPLE_JWT = {
@@ -177,3 +191,13 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Email configuration for error notifications (configure for production)
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = config('EMAIL_HOST', default='localhost')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@apnsim.com')
+ADMINS = [('Admin', config('ADMIN_EMAIL', default='admin@apnsim.com'))]

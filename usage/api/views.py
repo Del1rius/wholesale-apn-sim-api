@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.throttling import UserRateThrottle
 from django.db.models import Sum, Q
 from django.utils import timezone
 from datetime import datetime, timedelta
@@ -17,12 +18,14 @@ from usage.api.serializers import (
 from inventory.models import SIMCard
 from rest_framework.views import APIView
 from usage.tasks import process_usage_and_check_limit
+from config.throttling import BurstRateThrottle, SustainedRateThrottle, UsageLoggingThrottle, AdminRateThrottle
 
 
 # ViewSet for managing billing cycles.
 # Supports CRUD operations and filtering by organization.
 class BillingCycleViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [AdminRateThrottle, BurstRateThrottle, SustainedRateThrottle]
     
     def get_queryset(self):
         # Filter billing cycles based on user role
@@ -73,6 +76,7 @@ class BillingCycleViewSet(viewsets.ModelViewSet):
 # Supports CRUD operations, filtering, and usage analytics.
 class DataUsageRecordViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [AdminRateThrottle, UsageLoggingThrottle, SustainedRateThrottle]
     
     def get_queryset(self):
         # Filter usage records based on user role
@@ -241,8 +245,11 @@ class DataUsageRecordViewSet(viewsets.ModelViewSet):
             'summary': serializer.data
         })
         
-# API View to trigger the Celery
+# API View to trigger the Celery task - High-frequency endpoint
 class UsageLogCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [AdminRateThrottle, UsageLoggingThrottle]
+    
     def post(self, request):
         serializer = UsageLogSerializer(data=request.data)
         if serializer.is_valid():

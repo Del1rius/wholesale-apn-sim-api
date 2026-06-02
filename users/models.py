@@ -20,7 +20,7 @@ class Organization(models.Model):
 #Custom user model with organization and role
 class User(AbstractUser):
     ROLE_CHOICES = [
-        ('network_admin', 'Network Administator'),
+        ('network_admin', 'Network Administrator'),
         ('client_manager', 'Client Manager'),
     ]
 

@@ -78,6 +78,13 @@ The **APN & SIM Management API** is a robust backend solution designed for telec
 - 🔑 Environment-based secret management
 - 👥 Role-based access control (RBAC)
 - 🔐 Password validation and hashing
+- 🚦 **API Rate Limiting & Throttling**
+  - Anonymous users: 100 requests/hour
+  - Authenticated users: 1,000 requests/hour
+  - Burst protection: 60 requests/minute
+  - Usage logging: 500 requests/minute
+  - Admin bypass for unlimited access
+  - See [RATE_LIMITING.md](RATE_LIMITING.md) for details
 
 ---
 
