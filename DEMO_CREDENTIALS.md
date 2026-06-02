@@ -66,7 +66,7 @@ After running `python manage.py seed_database`, you can log in with any of the f
 | ---------- | ---------------- | ------------ |
 | `testuser` | test@example.com | Test Account |
 
----
+## Password : TestPass123!
 
 ## Role Permissions
 
