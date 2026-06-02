@@ -4,7 +4,7 @@
 {% block nav_dashboard %}active{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=1.1">
 {% endblock %}
 
 {% block content %}
@@ -49,19 +49,19 @@
 <!-- ── STATS GRID ── -->
 <div class="stats-grid">
 
-  <div class="stat-card total-accent animate-in delay-1">
+  <div class="stat-card total-accent animate-in delay-1 clickable-stat" onclick="setFilter('all', this)" data-filter="all">
     <div class="stat-value cyan">{{ total_sims|default:"0" }}</div>
     <div class="stat-label">Total SIMs</div>
     <i class="bi bi-sim-fill stat-icon stat-icon-cyan"></i>
   </div>
 
-  <div class="stat-card active-accent animate-in delay-2">
+  <div class="stat-card active-accent animate-in delay-2 clickable-stat" onclick="setFilter('Assigned', this)" data-filter="Assigned">
     <div class="stat-value green">{{ active_sims|default:"0" }}</div>
     <div class="stat-label">Active</div>
     <i class="bi bi-check-circle-fill stat-icon stat-icon-green"></i>
   </div>
 
-  <div class="stat-card suspended-accent animate-in delay-3">
+  <div class="stat-card suspended-accent animate-in delay-3 clickable-stat" onclick="setFilter('Suspended', this)" data-filter="Suspended">
     <div class="stat-value red">{{ suspended_count|default:"0" }}</div>
     <div class="stat-label">Suspended</div>
     <i class="bi bi-slash-circle-fill stat-icon stat-icon-red"></i>
@@ -264,5 +264,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/dashboard.js' %}"></script>
+<script src="{% static 'js/dashboard.js' %}?v=1.1"></script>
 {% endblock %}
