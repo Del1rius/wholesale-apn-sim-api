@@ -1,19 +1,36 @@
 /* ============================================================
    SIM_DETAIL.JS — SIM detail page JavaScript
    Backspace Technologies
+   Version: 1.3 - Circle capped at 360 degrees (100%)
    ============================================================ */
 
 // Animate usage ring on load
 document.addEventListener('DOMContentLoaded', () => {
     const circle = document.getElementById('usageCircle');
     if (!circle) return;
-    const pct = parseFloat(circle.dataset.targetPct) || 0;
+    const actualPct = parseFloat(circle.dataset.targetPct) || 0;
+
+    // HARD CAP at 100% for visual display
+    // This prevents the circle from ever going past 360 degrees
+    const displayPct = actualPct > 100 ? 100 : actualPct;
+
     const circumference = 427;
-    const offset = circumference - (pct / 100) * circumference;
-    circle.style.strokeDashoffset = circumference; // start at 0
+    // Calculate offset for display percentage only
+    // 0% = offset 427 (empty), 100% = offset 0 (full 360 degree circle)
+    const calculatedOffset = circumference - (displayPct / 100) * circumference;
+
+    // Extra safety: never allow negative offset
+    const finalOffset = calculatedOffset < 0 ? 0 : calculatedOffset;
+
+    console.log(`Actual: ${actualPct}% | Display: ${displayPct}% | Offset: ${finalOffset}`);
+
+    // Start with empty circle
+    circle.style.strokeDashoffset = circumference;
+
+    // Animate to target
     setTimeout(() => {
         circle.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
-        circle.style.strokeDashoffset = offset;
+        circle.style.strokeDashoffset = finalOffset;
     }, 300);
 });
 
@@ -90,8 +107,13 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Close modal on background click
-document.getElementById('editModal').addEventListener('click', (e) => {
-    if (e.target.id === 'editModal') {
-        closeEditModal();
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('editModal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'editModal') {
+                closeEditModal();
+            }
+        });
     }
 });

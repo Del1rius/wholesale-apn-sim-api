@@ -136,7 +136,7 @@
           <circle class="track" cx="80" cy="80" r="68" />
           <circle class="fill" cx="80" cy="80" r="68"
             stroke="{% if pct < 80 %}var(--green-ok){% elif pct < 100 %}var(--orange-warn){% else %}var(--red-danger){% endif %}"
-            stroke-dasharray="427" stroke-dashoffset="{{ 427|add:' -'|add:pct|floatformat:0 }}" id="usageCircle"
+            stroke-dasharray="427" stroke-dashoffset="427" id="usageCircle"
             data-target-pct="{{ pct|floatformat:0 }}" />
         </svg>
         <div class="usage-ring-label">
@@ -251,5 +251,25 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/sim_detail.js' %}"></script>
+<script src="{% static 'js/sim_detail.js' %}?v=1.3"></script>
+<script>
+// INLINE FIX: Force circle to cap at 100%
+document.addEventListener('DOMContentLoaded', () => {
+    const circle = document.getElementById('usageCircle');
+    if (!circle) return;
+    
+    const actualPct = parseFloat(circle.dataset.targetPct) || 0;
+    const displayPct = actualPct > 100 ? 100 : actualPct;
+    const circumference = 427;
+    const finalOffset = Math.max(0, circumference - (displayPct / 100) * circumference);
+    
+    console.log('INLINE: Actual=' + actualPct + '% Display=' + displayPct + '% Offset=' + finalOffset);
+    
+    circle.style.strokeDashoffset = circumference;
+    setTimeout(() => {
+        circle.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+        circle.style.strokeDashoffset = finalOffset;
+    }, 300);
+});
+</script>
 {% endblock %}
