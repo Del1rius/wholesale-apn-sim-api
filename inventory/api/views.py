@@ -35,6 +35,36 @@ class APNViewSet(viewsets.ModelViewSet):
         if self.action == 'list':
             return APNListSerializer
         return APNSerializer
+    
+    def get_permissions(self):
+        """
+        Only network admins and superusers can create, update, or delete APNs
+        """
+        permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+    
+    def check_write_permission(self):
+        """Check if user has permission for write operations"""
+        user = self.request.user
+        if not (user.is_superuser or user.role == 'network_admin'):
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied("Only network administrators can modify APNs.")
+    
+    def create(self, request, *args, **kwargs):
+        self.check_write_permission()
+        return super().create(request, *args, **kwargs)
+    
+    def update(self, request, *args, **kwargs):
+        self.check_write_permission()
+        return super().update(request, *args, **kwargs)
+    
+    def partial_update(self, request, *args, **kwargs):
+        self.check_write_permission()
+        return super().partial_update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        self.check_write_permission()
+        return super().destroy(request, *args, **kwargs)
 
     # Filter APNs based on user's organization (if not superuser)
     def get_queryset(self):
@@ -91,6 +121,29 @@ class SIMCardViewSet(viewsets.ModelViewSet):
         if self.action == 'list':
             return SIMCardListSerializer
         return SIMCardSerializer
+    
+    def check_write_permission(self):
+        """Check if user has permission for write operations"""
+        user = self.request.user
+        if not (user.is_superuser or user.role == 'network_admin'):
+            from rest_framework.exceptions import PermissionDenied
+            raise PermissionDenied("Only network administrators can modify SIM cards.")
+    
+    def create(self, request, *args, **kwargs):
+        self.check_write_permission()
+        return super().create(request, *args, **kwargs)
+    
+    def update(self, request, *args, **kwargs):
+        self.check_write_permission()
+        return super().update(request, *args, **kwargs)
+    
+    def partial_update(self, request, *args, **kwargs):
+        self.check_write_permission()
+        return super().partial_update(request, *args, **kwargs)
+    
+    def destroy(self, request, *args, **kwargs):
+        self.check_write_permission()
+        return super().destroy(request, *args, **kwargs)
 
     def get_queryset(self):
         # Filter SIM cards based on user's organization
