@@ -280,6 +280,31 @@
     function initializeFilters() {
         console.log('✅ Initializing filters');
         
+        // Define filterTable function
+        window.filterTable = function() {
+            const query = document.getElementById('simSearch') ? document.getElementById('simSearch').value.toLowerCase() : '';
+            const rows = document.querySelectorAll('#simTable tbody tr[data-status]');
+            console.log('🔍 Filtering table - Current filter:', window.currentFilter, 'Search:', query);
+            console.log('📊 Found', rows.length, 'rows');
+            
+            let visibleCount = 0;
+            rows.forEach(function(row) {
+                const text = row.textContent.toLowerCase();
+                const status = row.dataset.status;
+                const matchSearch = text.includes(query);
+                const matchFilter = window.currentFilter === 'all' || status === window.currentFilter;
+                
+                if (matchSearch && matchFilter) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            console.log('✅ Visible rows:', visibleCount);
+        };
+        
         // Override the global setFilter function
         window.setFilter = function(status, element) {
             console.log('🎯 setFilter called:', status, element);
@@ -304,13 +329,19 @@
             if (element && element.classList.contains('clickable-stat')) {
                 console.log('✨ Adding stat-active to:', element.querySelector('.stat-label').textContent);
                 element.classList.add('stat-active');
+            } else if (element && element.classList.contains('filter-btn')) {
+                console.log('✨ Filter button clicked');
+                element.classList.add('active');
+                // Sync stat card
+                const statCard = document.querySelector('.clickable-stat[data-filter="' + status + '"]');
+                if (statCard) {
+                    statCard.classList.add('stat-active');
+                }
             }
             
             // Step 4: Update filter
             window.currentFilter = status;
-            if (typeof filterTable === 'function') {
-                filterTable();
-            }
+            window.filterTable();
             
             // Verify the change
             setTimeout(function() {
