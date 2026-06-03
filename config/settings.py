@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'django_filters',
-    'axes',  # Account lockout protection
+    # 'axes',  # TEMPORARILY DISABLED - uncomment after rebuild
 ]
 
 # CORS Configuration - Development Only
@@ -78,7 +78,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'axes.middleware.AxesMiddleware',  # Account lockout protection (must be after AuthenticationMiddleware)
+    # 'axes.middleware.AxesMiddleware',  # TEMPORARILY DISABLED - uncomment after rebuild
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # Custom middleware for logging and monitoring - TEMPORARILY DISABLED
