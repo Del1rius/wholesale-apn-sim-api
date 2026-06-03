@@ -1,18 +1,21 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from users.models import Organization
+from encrypted_model_fields.fields import EncryptedCharField  # NEW IMPORT
 import uuid
 
 # APN Configuration for data connectivity
-
 
 class APN(models.Model):
     apn_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, unique=True)
     apn_string = models.CharField(max_length=255)
-    username = models.CharField(max_length=100, blank=True, null=True)
-    password = models.CharField(max_length=100, blank=True, null=True)
+    
+    # CHANGED: Use EncryptedCharField instead of CharField
+    username = EncryptedCharField(max_length=100, blank=True, null=True)
+    password = EncryptedCharField(max_length=100, blank=True, null=True)
+    
     authentication_type = models.CharField(
         max_length=20,
         choices=[
@@ -45,7 +48,6 @@ class APN(models.Model):
         return f"{self.name} - {self.apn_string}"
 
 # SIM Card Inventory Management
-
 
 class SIMCard(models.Model):
     sim_id = models.UUIDField(
