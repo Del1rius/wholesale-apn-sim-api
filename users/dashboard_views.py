@@ -145,8 +145,10 @@ def dashboard_view(request):
             '_status_priority': status_priority.get(sim.status, 99)
         })
 
-    # Sort by status priority (suspended first, then active, then available, then deactivated)
-    sims_with_usage.sort(key=lambda x: x['_status_priority'])
+    # Sort by status priority first (suspended=1, active=2, etc.),
+    # then by usage percentage (highest to lowest within each status group)
+    sims_with_usage.sort(
+        key=lambda x: (x['_status_priority'], -x['usage_percentage']))
 
     # Convert total usage to GB
     total_usage_gb = round(total_usage_mb / 1024, 2)
@@ -325,8 +327,10 @@ def sim_list_view(request):
         print(
             f"DEBUG: SIM {sim.iccid} - Status: {sim.status} -> {status_display_map.get(sim.status, sim.status)}")
 
-    # Sort by status priority (suspended first, then active, then available, then deactivated)
-    sims_formatted.sort(key=lambda x: x['_status_priority'])
+    # Sort by status priority first (suspended=1, active=2, etc.),
+    # then by usage percentage (highest to lowest within each status group)
+    sims_formatted.sort(
+        key=lambda x: (x['_status_priority'], -x['usage_percentage']))
 
     # Get suspended SIMs for alert banner (before applying filters)
     if user.is_superuser:
