@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from inventory.models import APN, SIMCard
 from users.api.serializers import OrganizationSerializer
+from django.utils.html import strip_tags
 
 
 # Serializer for APN Model
@@ -111,6 +112,17 @@ class SIMCardSerializer(serializers.ModelSerializer):
             if value > 100000:
                 raise serializers.ValidationError(
                     "Data limit cannot exceed 100,000 MB.")
+        return value
+    
+    # Validate and sanitize notes field
+    def validate_notes(self, value):
+        if value:
+            # Limit length to prevent database bloat
+            if len(value) > 2000:
+                raise serializers.ValidationError(
+                    "Notes cannot exceed 2000 characters")
+            # Strip HTML tags for XSS prevention
+            value = strip_tags(value)
         return value
 
 # Lightweight serializer for SIM card lists

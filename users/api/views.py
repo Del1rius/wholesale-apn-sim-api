@@ -3,6 +3,7 @@ from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.throttling import AnonRateThrottle
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from users.api.serializers import (
@@ -11,11 +12,21 @@ from users.api.serializers import (
     LoginSerializer
 )
 
+# Custom throttle classes for authentication endpoints
+class LoginRateThrottle(AnonRateThrottle):
+    """Rate limit for login endpoint: 5 attempts per hour"""
+    scope = 'login'
+
+class RegisterRateThrottle(AnonRateThrottle):
+    """Rate limit for registration endpoint: 3 attempts per day"""
+    scope = 'register'
+
 class UserRegistrationView(generics.CreateAPIView):
     # POST /api/auth/register
     # Register a new user
     serializer_class = UserRegistrationSerializer
     permission_classes = [AllowAny]
+    throttle_classes = [RegisterRateThrottle]  # Rate limit: 3/day
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -38,6 +49,7 @@ class LoginView(APIView):
     # POST /api/auth/login
     # Login and get JWT tokens
     permission_classes = [AllowAny]
+    throttle_classes = [LoginRateThrottle]  # Rate limit: 5/hour
 
     def post(self, request):
         serializer = LoginSerializer(data=request.data)

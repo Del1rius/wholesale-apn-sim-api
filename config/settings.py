@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
     'django_filters',
+    'axes',  # Account lockout protection
 ]
 
 # CORS Configuration - Development Only
@@ -77,6 +78,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'axes.middleware.AxesMiddleware',  # Account lockout protection (must be after AuthenticationMiddleware)
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # Custom middleware for logging and monitoring - TEMPORARILY DISABLED
@@ -102,6 +104,8 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': '100/hour',        # Anonymous users: 100 requests per hour
         'user': '1000/hour',       # Authenticated users: 1000 requests per hour
+        'login': '5/hour',         # Login endpoint: 5 attempts per hour (brute force protection)
+        'register': '3/day',       # Registration endpoint: 3 attempts per day (spam protection)
         'usage_logging': '500/minute',  # High-frequency usage endpoint: 500 per minute
         'burst': '60/minute',      # Burst rate for general endpoints: 60 per minute
         'sustained': '2000/day',   # Sustained daily limit: 2000 per day
@@ -206,3 +210,12 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@apnsim.com')
 ADMINS = [('Admin', config('ADMIN_EMAIL', default='admin@apnsim.com'))]
+
+# Django-Axes Configuration (Account Lockout Protection)
+AXES_FAILURE_LIMIT = 5  # Lock account after 5 failed login attempts
+AXES_COOLOFF_TIME = 1  # Lock duration in hours
+AXES_LOCK_OUT_BY_COMBINATION_USER_AND_IP = True  # Lock by both username AND IP
+AXES_RESET_ON_SUCCESS = True  # Reset failure count on successful login
+AXES_LOCKOUT_TEMPLATE = None  # Use default lockout behavior (returns 403)
+AXES_ENABLE_ADMIN = True  # Enable viewing lockouts in Django admin
+AXES_VERBOSE = True  # Log lockout attempts

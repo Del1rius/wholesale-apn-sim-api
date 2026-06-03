@@ -181,7 +181,8 @@ class SIMCardViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def assign(self, request, pk=None):
-        # Assign SIM card to an organization 
+        # Assign SIM card to an organization
+        self.check_write_permission()  # Check if user has write permissions
         sim_card = self.get_object()
         organization_id = request.data.get('organization_id')
         
@@ -191,8 +192,20 @@ class SIMCardViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
+        # SECURITY: Prevent cross-organization assignment (IDOR fix)
+        from rest_framework.exceptions import PermissionDenied
+        from users.models import Organization
+        
+        # Only superusers and network_admins can assign to any organization
+        if not request.user.is_superuser and request.user.role != 'network_admin':
+            # Client managers can only assign to their own organization
+            if not request.user.organization:
+                raise PermissionDenied("You must belong to an organization to assign SIMs")
+            
+            if str(request.user.organization.org_id) != organization_id:
+                raise PermissionDenied("You can only assign SIMs to your own organization")
+        
         try:
-            from users.models import Organization
             organization = Organization.objects.get(org_id=organization_id)
             sim_card.organization = organization
             sim_card.status = 'assigned'
