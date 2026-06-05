@@ -5,6 +5,8 @@ import uuid
 
 # Represents a billing period for an organization.
 # Used to track usage within specific time windows.
+
+
 class BillingCycle(models.Model):
     cycle_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     organization = models.ForeignKey(
@@ -32,6 +34,8 @@ class BillingCycle(models.Model):
 
 # Individual data usage record for a SIM card.
 # Created by Celery tasks that ingest usage data.
+
+
 class DataUsageRecord(models.Model):
     record_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 

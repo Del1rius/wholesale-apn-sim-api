@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 def send_welcome_email(self, user_id):
     """
     Send a welcome email to a newly registered user.
-    
+
     Args:
         user_id: The ID of the user to send the email to
     """
@@ -27,13 +27,13 @@ def send_welcome_email(self, user_id):
         subject = 'Welcome to APN & SIM Management System'
         message = f"""
         Hello {user.first_name or user.username},
-        
+
         Welcome to the APN & SIM Management System!
-        
+
         Your account has been successfully created for {user.organization.name if user.organization else 'the system'}.
-        
+
         You can now log in and start managing your SIM inventory.
-        
+
         Best regards,
         The Backspace Technologies Team
         """
@@ -58,7 +58,7 @@ def send_welcome_email(self, user_id):
 def send_password_reset_email(self, user_id, reset_token):
     """
     Send a password reset email to a user.
-    
+
     Args:
         user_id: The ID of the user
         reset_token: The password reset token
@@ -71,13 +71,13 @@ def send_password_reset_email(self, user_id, reset_token):
         subject = 'Password Reset Request'
         message = f"""
         Hello {user.first_name or user.username},
-        
+
         You have requested to reset your password for the APN & SIM Management System.
-        
+
         Your reset token: {reset_token}
-        
+
         If you did not request this, please ignore this email.
-        
+
         Best regards,
         The Backspace Technologies Team
         """

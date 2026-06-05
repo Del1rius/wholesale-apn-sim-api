@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Sum, Q, Count
+from django.db.models import Sum, Q
 from django.utils import timezone
 from datetime import timedelta
 
@@ -417,10 +417,15 @@ def sim_detail_view(request, iccid):
                     if sim_obj.status != 'suspended':
                         sim_obj.status = 'suspended'
                         messages.warning(
-                            request, f'Data limit updated to {new_limit} MB. SIM has been suspended due to exceeding the limit.')
+                            request,
+                            f'Data limit updated to {new_limit} MB. '
+                            f'SIM has been suspended due to exceeding the limit.'
+                        )
                     else:
                         messages.success(
-                            request, f'Data limit updated to {new_limit} MB successfully!')
+                            request,
+                            f'Data limit updated to {new_limit} MB successfully!'
+                        )
                 else:
                     # Usage is below new limit - ensure SIM is active if it was suspended
                     if sim_obj.status == 'suspended':

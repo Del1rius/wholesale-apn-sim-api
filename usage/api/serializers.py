@@ -3,6 +3,8 @@ from django.db.models import Sum
 from usage.models import BillingCycle, DataUsageRecord
 
 # Full serializer for BillingCycle with organization details.
+
+
 class BillingCycleSerializer(serializers.ModelSerializer):
     organization_name = serializers.CharField(source='organization.name', read_only=True)
     total_usage_mb = serializers.SerializerMethodField()
@@ -30,6 +32,8 @@ class BillingCycleSerializer(serializers.ModelSerializer):
         return float(total) if total else 0.0
 
 # Lightweight serializer for listing billing cycles.
+
+
 class BillingCycleListSerializer(serializers.ModelSerializer):
     organization_name = serializers.CharField(source='organization.name', read_only=True)
 
@@ -44,6 +48,8 @@ class BillingCycleListSerializer(serializers.ModelSerializer):
         ]
 
 # Full serializer for DataUsageRecord with SIM card details.
+
+
 class DataUsageRecordSerializer(serializers.ModelSerializer):
     sim_iccid = serializers.CharField(source='sim_card.iccid', read_only=True)
     sim_phone_number = serializers.CharField(source='sim_card.phone_number', read_only=True)
@@ -80,6 +86,8 @@ class DataUsageRecordSerializer(serializers.ModelSerializer):
 
 # Lightweight serializer for listing usage records.
 # Used in dashboard and list views.
+
+
 class DataUsageRecordListSerializer(serializers.ModelSerializer):
     sim_iccid = serializers.CharField(source='sim_card.iccid', read_only=True)
 
@@ -95,6 +103,8 @@ class DataUsageRecordListSerializer(serializers.ModelSerializer):
 
 # Serializer for creating usage records (used by Celery tasks).
 # Simplified for bulk creation.
+
+
 class DataUsageRecordCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = DataUsageRecord
@@ -113,8 +123,24 @@ class DataUsageRecordCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Data consumed must be greater than 0")
         return value
 
+    def validate(self, attrs):
+        """
+        State constraint validation: No usage for suspended SIMs
+        """
+        sim_card = attrs.get('sim_card')
+
+        if sim_card and sim_card.status == 'suspended':
+            raise serializers.ValidationError(
+                "Cannot log usage for suspended SIM cards. "
+                f"SIM {sim_card.iccid} is currently suspended."
+            )
+
+        return attrs
+
 # Custom serializer for SIM usage summary statistics.
 # Used in dashboard and reporting endpoints.
+
+
 class SIMUsageSummarySerializer(serializers.Serializer):
     sim_card = serializers.UUIDField()
     iccid = serializers.CharField()

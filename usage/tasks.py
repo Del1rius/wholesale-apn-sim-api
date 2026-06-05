@@ -5,6 +5,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 @shared_task(bind=True, max_retries=3)
 def process_usage_and_check_limit(self, iccid):
     """
@@ -50,7 +51,6 @@ def process_usage_and_check_limit(self, iccid):
         raise self.retry(exc=exc, countdown=60)
 
 
-
 @shared_task
 def generate_usage_reports():
     """
@@ -94,7 +94,7 @@ def generate_usage_reports():
 def send_usage_alert(self, iccid, usage_percentage):
     """
     Send usage alert email when SIM approaches data limit.
-    
+
     Args:
         iccid: The ICCID of the SIM card
         usage_percentage: Current usage percentage
@@ -120,14 +120,14 @@ def send_usage_alert(self, iccid, usage_percentage):
                     subject=f'Usage Alert: SIM {iccid}',
                     message=f"""
                     Hello {admin.first_name or admin.username},
-                    
+
                     SIM card {iccid} has reached {usage_percentage}% of its data limit.
-                    
+
                     Current Status: {sim.get_status_display()}
                     Data Limit: {sim.data_limit_mb} MB
-                    
+
                     Please review and take appropriate action.
-                    
+
                     Best regards,
                     APN & SIM Management System
                     """,

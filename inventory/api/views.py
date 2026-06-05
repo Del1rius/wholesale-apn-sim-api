@@ -13,6 +13,7 @@ from inventory.api.serializers import (
 )
 from config.throttling import BurstRateThrottle, SustainedRateThrottle, AdminRateThrottle
 
+
 class APNViewSet(viewsets.ModelViewSet):
     # ViewSet for SIM Card CRUD operations
     # list: GET /api/inventory/sims/ - List all SIM cards
@@ -167,14 +168,14 @@ class SIMCardViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def available(self, request):
-        # Get only available SIM cards 
+        # Get only available SIM cards
         available_sims = self.get_queryset().filter(status='available')
         serializer = self.get_serializer(available_sims, many=True)
         return Response(serializer.data)
 
     @action(detail=False, methods=['get'])
     def suspended(self, request):
-        # Get only suspended SIM cards 
+        # Get only suspended SIM cards
         suspended_sims = self.get_queryset().filter(status='suspended')
         serializer = self.get_serializer(suspended_sims, many=True)
         return Response(serializer.data)

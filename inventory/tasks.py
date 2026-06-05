@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 def bulk_import_sim_cards(self, sim_data_list, organization_id):
     """
     Bulk import SIM cards from a list of data.
-    
+
     Args:
         sim_data_list: List of dictionaries containing SIM card data
         organization_id: The organization to assign the SIM cards to
@@ -88,13 +88,13 @@ def check_sim_inventory_levels():
                     subject='Low SIM Inventory Alert',
                     message=f"""
                     Hello {admin.first_name or admin.username},
-                    
+
                     Your organization ({org.name}) has low SIM inventory:
                     - Available SIMs: {available_sims}
                     - Total SIMs: {total_sims}
-                    
+
                     Please consider ordering more SIM cards.
-                    
+
                     Best regards,
                     APN & SIM Management System
                     """,
@@ -113,7 +113,7 @@ def sync_sim_status_with_carrier(self, iccid):
     """
     Sync SIM card status with carrier's API.
     This is a placeholder for future carrier API integration.
-    
+
     Args:
         iccid: The ICCID of the SIM card to sync
     """

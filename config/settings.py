@@ -41,12 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #Local apps
+    # Local apps
     'inventory',
     'usage',
     'users',
 
-    #Third Party Apps
+    # Third Party Apps
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_yasg',

@@ -1,10 +1,11 @@
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from users.models import Organization
 from encrypted_model_fields.fields import EncryptedCharField  # NEW IMPORT
 import uuid
 
 # APN Configuration for data connectivity
+
 
 class APN(models.Model):
     apn_id = models.UUIDField(
@@ -49,11 +50,23 @@ class APN(models.Model):
 
 # SIM Card Inventory Management
 
+
 class SIMCard(models.Model):
     sim_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
-    # Integrated Circuit Card ID
-    iccid = models.CharField(max_length=22, unique=True)
+    # Integrated Circuit Card ID - 19-20 digits typically
+    iccid = models.CharField(
+        max_length=22,
+        unique=True,
+        validators=[
+            RegexValidator(
+                regex=r'^\d{19,20}$',
+                message='ICCID must be 19-20 digits',
+                code='invalid_iccid'
+            )
+        ],
+        help_text="ICCID must be 19-20 digits (numeric only)"
+    )
     phone_number = models.CharField(
         max_length=20, unique=True, null=True, blank=True)
 

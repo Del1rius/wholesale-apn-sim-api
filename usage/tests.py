@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
-from rest_framework.test import APITestCase, APIClient
+from rest_framework.test import APITestCase
 from rest_framework import status
 from datetime import timedelta
 from decimal import Decimal
@@ -322,7 +322,10 @@ class DataUsageRecordAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_organization_data_isolation(self):
-        """Test that users can only see their organization's usage records"""
+        """
+        TC-01: Test that users can only see their organization's usage records
+        Verifies tenant isolation in multi-tenant system
+        """
         # Create another organization with SIM and usage
         other_org = Organization.objects.create(
             name="Other Organization",
@@ -363,3 +366,182 @@ class DataUsageRecordAPITestCase(APITestCase):
         data = response.data.get('results', response.data) if isinstance(response.data, dict) else response.data
         record_ids = [record['record_id'] for record in data]
         self.assertNotIn(str(other_usage.record_id), record_ids)
+
+    def test_suspended_sim_usage_rejection(self):
+        """
+        Test that usage cannot be logged for suspended SIMs (state constraint validation)
+        """
+        # Suspend the SIM
+        self.sim.status = 'suspended'
+        self.sim.save()
+
+        self.client.force_authenticate(user=self.regular_user)
+
+        url = reverse('usagerecord-list')
+        data = {
+            'sim_card': self.sim.sim_id,
+            'billing_cycle': self.cycle.cycle_id,
+            'data_consumed_mb': 50.00,
+            'recorded_at': timezone.now().isoformat(),
+            'source': 'api_test',
+            'notes': 'Test usage for suspended SIM'
+        }
+        response = self.client.post(url, data, format='json')
+
+        # Should return 400 Bad Request with validation error
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('suspended', str(response.data).lower())
+
+    def test_async_response_time(self):
+        """
+        Test that usage endpoint returns quickly (asynchronous processing)
+        Response time should be < 2 seconds for async operation
+        """
+        import time
+
+        self.client.force_authenticate(user=self.regular_user)
+
+        url = reverse('usagerecord-list')
+        data = {
+            'sim_card': self.sim.sim_id,
+            'billing_cycle': self.cycle.cycle_id,
+            'data_consumed_mb': 50.00,
+            'recorded_at': timezone.now().isoformat(),
+            'source': 'api_test',
+            'notes': 'Test async response'
+        }
+
+        start_time = time.time()
+        response = self.client.post(url, data, format='json')
+        elapsed_time = time.time() - start_time
+
+        # Verify response is quick (< 2 seconds for async operation)
+        self.assertLess(
+            elapsed_time, 2.0,
+            f"Response took {elapsed_time:.2f}s, should be < 2s for async processing"
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+
+class DashboardVisualTestCase(APITestCase):
+    """
+    TC-05: Dashboard Visual Verification Tests
+    Tests for dashboard display elements
+    """
+
+    def setUp(self):
+        """Set up test data"""
+        self.org = Organization.objects.create(
+            name="Test Organization",
+            contact_email="test@example.com"
+        )
+
+        self.admin_user = User.objects.create_user(
+            username="test_admin",
+            email="admin@test.com",
+            password="TestPass123!",
+            role="network_admin",
+            organization=self.org
+        )
+
+        # Create assigned SIM
+        self.assigned_sim = SIMCard.objects.create(
+            iccid="8927000000000000001",
+            phone_number="+27123456789",
+            carrier="Vodacom",
+            status="assigned",
+            data_limit_mb=5000,
+            organization=self.org
+        )
+
+        # Create suspended SIM (auto-suspended)
+        self.suspended_sim = SIMCard.objects.create(
+            iccid="8927000000000000002",
+            phone_number="+27987654321",
+            carrier="Vodacom",
+            status="suspended",
+            data_limit_mb=1000,
+            organization=self.org
+        )
+
+        start_date = timezone.now().date()
+        end_date = start_date + timedelta(days=30)
+
+        self.cycle = BillingCycle.objects.create(
+            organization=self.org,
+            start_date=start_date,
+            end_date=end_date,
+            is_active=True
+        )
+
+        # Add usage that exceeded limit for suspended SIM
+        DataUsageRecord.objects.create(
+            sim_card=self.suspended_sim,
+            billing_cycle=self.cycle,
+            data_consumed_mb=Decimal('1200.00'),  # Over 1000 MB limit
+            recorded_at=timezone.now(),
+            source='auto_suspension_test'
+        )
+
+    def test_dashboard_has_suspended_sim_data(self):
+        """
+        TC-05-A: Verify dashboard returns suspended SIM information
+        Dashboard should include suspended SIM status for visual display
+        """
+        self.client.force_authenticate(user=self.admin_user)
+
+        # Get usage summary (used by dashboard)
+        url = reverse('usagerecord-summary')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn('summary', response.data)
+
+        # Find the suspended SIM in summary
+        summary_data = response.data['summary']
+        suspended_sim_data = None
+        for sim_data in summary_data:
+            if sim_data['iccid'] == self.suspended_sim.iccid:
+                suspended_sim_data = sim_data
+                break
+
+        # Verify suspended SIM is in the data
+        self.assertIsNotNone(suspended_sim_data, "Suspended SIM should be in dashboard summary")
+        self.assertEqual(suspended_sim_data['status'], 'suspended')
+        self.assertGreater(suspended_sim_data['usage_percentage'], 100)  # Over limit
+
+    def test_sim_list_includes_status_for_styling(self):
+        """
+        TC-05-B: Verify SIM list endpoint includes status field for CSS styling
+        Status field allows frontend to apply bold red styling to suspended SIMs
+        """
+        from rest_framework.test import APIRequestFactory
+
+        self.client.force_authenticate(user=self.admin_user)
+
+        # Get SIM list
+        factory = APIRequestFactory()
+        request = factory.get('/api/inventory/sim-cards/')
+        request.user = self.admin_user
+
+        from inventory.models import SIMCard
+        queryset = SIMCard.objects.filter(organization=self.org)
+
+        # Verify both SIMs are in queryset with correct status
+        sims_dict = {sim.iccid: sim.status for sim in queryset}
+
+        self.assertEqual(sims_dict[self.assigned_sim.iccid], 'assigned')
+        self.assertEqual(sims_dict[self.suspended_sim.iccid], 'suspended')
+
+        # Verify API response includes status
+        url = reverse('simcard-list')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # Check that status field is present for styling
+        data = response.data.get('results', response.data) if isinstance(response.data, dict) else response.data
+        for sim in data:
+            self.assertIn('status', sim, "Status field required for CSS styling")
+            if sim['iccid'] == self.suspended_sim.iccid:
+                self.assertEqual(sim['status'], 'suspended')

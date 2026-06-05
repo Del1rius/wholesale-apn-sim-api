@@ -7,7 +7,7 @@ router = DefaultRouter()
 router.register(r'apns', APNViewSet, basename='apn')
 router.register(r'sims', SIMCardViewSet, basename='simcard')
 
- # API URLS are determined automatically by the router
+# API URLS are determined automatically by the router
 urlpatterns = [
     path('', include(router.urls)),
- ]
+]

@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,13 +12,17 @@ from users.api.serializers import (
 )
 
 # Custom throttle classes for authentication endpoints
+
+
 class LoginRateThrottle(AnonRateThrottle):
     """Rate limit for login endpoint: 5 attempts per hour"""
     scope = 'login'
 
+
 class RegisterRateThrottle(AnonRateThrottle):
     """Rate limit for registration endpoint: 3 attempts per day"""
     scope = 'register'
+
 
 class UserRegistrationView(generics.CreateAPIView):
     # POST /api/auth/register
@@ -33,7 +36,7 @@ class UserRegistrationView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
 
-        #Generate JWT tokends for the new user
+        # Generate JWT tokends for the new user
         refresh = RefreshToken.for_user(user)
 
         return Response({
@@ -44,6 +47,7 @@ class UserRegistrationView(generics.CreateAPIView):
             },
             'message': 'User registered successfully'
         }, status=status.HTTP_201_CREATED)
+
 
 class LoginView(APIView):
     # POST /api/auth/login
@@ -58,7 +62,7 @@ class LoginView(APIView):
         username = serializer.validated_data['username']
         password = serializer.validated_data['password']
 
-        #Authenticate User
+        # Authenticate User
         user = authenticate(username=username, password=password)
 
         if user is None:
@@ -84,6 +88,7 @@ class LoginView(APIView):
             },
             'message': 'Login successful'
         }, status=status.HTTP_200_OK)
+
 
 class CurrentUserView(generics.RetrieveAPIView):
     # GET /api/auth/me

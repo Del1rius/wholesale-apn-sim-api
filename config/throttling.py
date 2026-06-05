@@ -58,6 +58,7 @@ class AdminRateThrottle(UserRateThrottle):
     This class is redundant now that all throttle classes check for admin status.
     Kept for backwards compatibility.
     """
+
     def allow_request(self, request, view):
         # Superusers and network admins get unlimited access
         if request.user and request.user.is_authenticated:

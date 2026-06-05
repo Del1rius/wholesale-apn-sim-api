@@ -13,6 +13,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='role',
-            field=models.CharField(choices=[('network_admin', 'Network Administrator'), ('client_manager', 'Client Manager')], default='client_manager', max_length=20),
+            field=models.CharField(
+                choices=[
+                    ('network_admin',
+                     'Network Administrator'),
+                    ('client_manager',
+                     'Client Manager')],
+                default='client_manager',
+                max_length=20),
         ),
     ]

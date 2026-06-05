@@ -2,6 +2,8 @@ from django.contrib import admin
 from usage.models import BillingCycle, DataUsageRecord
 
 # Admin interface for BillingCycle model
+
+
 @admin.register(BillingCycle)
 class BillingCycleAdmin(admin.ModelAdmin):
     list_display = [
@@ -45,6 +47,8 @@ class BillingCycleAdmin(admin.ModelAdmin):
     date_hierarchy = 'start_date'
 
 # Admin interface for DataUsageRecord model
+
+
 @admin.register(DataUsageRecord)
 class DataUsageRecordAdmin(admin.ModelAdmin):
     list_display = [

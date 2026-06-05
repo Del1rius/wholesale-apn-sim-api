@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 import uuid
 
 # Represents enterprise clients (multi-tenancy
+
+
 class Organization(models.Model):
     org_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
@@ -17,7 +19,9 @@ class Organization(models.Model):
     def __str__(self):
         return self.name
 
-#Custom user model with organization and role
+# Custom user model with organization and role
+
+
 class User(AbstractUser):
     ROLE_CHOICES = [
         ('network_admin', 'Network Administrator'),

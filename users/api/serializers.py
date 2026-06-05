@@ -5,6 +5,8 @@ from users.models import Organization
 User = get_user_model()
 
 # Serializer for Organisation Data
+
+
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
@@ -12,16 +14,30 @@ class OrganizationSerializer(serializers.ModelSerializer):
         read_only_fields = ['org_id', 'date_created']
 
 # Serializer for User Data (responses)
+
+
 class UserSerializer(serializers.ModelSerializer):
     organization = OrganizationSerializer(read_only=True)
     role_display = serializers.CharField(source='get_role_display', read_only=True)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'phone_number', 'role', 'role_display', 'organization', 'date_joined']
+        fields = [
+            'id',
+            'username',
+            'email',
+            'first_name',
+            'last_name',
+            'phone_number',
+            'role',
+            'role_display',
+            'organization',
+            'date_joined']
         read_only_fields = ['id', 'date_joined']
 
 # Serializer for User Registration
+
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8, style={'input_type': 'password'})
     password_confirm = serializers.CharField(write_only=True, style={'input': 'password'})
@@ -29,21 +45,30 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'password_confirm', 'first_name', 'last_name', 'phone_number', 'role', 'organization_id']
+        fields = [
+            'username',
+            'email',
+            'password',
+            'password_confirm',
+            'first_name',
+            'last_name',
+            'phone_number',
+            'role',
+            'organization_id']
 
-    #Validate passwords match
+    # Validate passwords match
     def validate(self, data):
         if data['password'] != data['password_confirm']:
             raise serializers.ValidationError({"password": "Passwords must match."})
         return data
 
-    #Validate Email is unique
+    # Validate Email is unique
     def validate_email(self, value):
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError("A user with this email already exists.")
         return value
-        
-    #Create User with hashed password
+
+    # Create User with hashed password
     def create(self, validated_data):
         validated_data.pop('password_confirm')
         organization_id = validated_data.pop('organization_id', None)
@@ -65,7 +90,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
         return user
 
-#Serializer for Login validation
+# Serializer for Login validation
+
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True, style={'input_type': 'password'})

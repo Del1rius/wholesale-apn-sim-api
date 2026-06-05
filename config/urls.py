@@ -39,7 +39,7 @@ urlpatterns = [
     path('api/auth/', include('users.api.urls')),
     path('api/inventory/', include('inventory.api.urls')),
     path('api/usage/', include('usage.api.urls')),
-    path('', include('users.dashboard_urls')),  
+    path('', include('users.dashboard_urls')),
 
     # Swagger documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

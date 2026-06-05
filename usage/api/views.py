@@ -71,6 +71,8 @@ class BillingCycleViewSet(viewsets.ModelViewSet):
 
 # ViewSet for managing data usage records.
 # Supports CRUD operations, filtering, and usage analytics.
+
+
 class DataUsageRecordViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     throttle_classes = [AdminRateThrottle, UsageLoggingThrottle, SustainedRateThrottle]
@@ -116,6 +118,20 @@ class DataUsageRecordViewSet(viewsets.ModelViewSet):
         elif self.action == 'create':
             return DataUsageRecordCreateSerializer
         return DataUsageRecordSerializer
+
+    def perform_create(self, serializer):
+        """
+        Override create to trigger Celery task immediately after saving usage record.
+        This ensures real-time data limit checking and auto-suspension.
+        """
+        # Save the usage record
+        instance = serializer.save()
+
+        # Trigger Celery task immediately to check data limit
+        from usage.tasks import process_usage_and_check_limit
+        process_usage_and_check_limit.delay(instance.sim_card.iccid)
+
+        return instance
 
     @action(detail=False, methods=['get'])
     def recent(self, request):
