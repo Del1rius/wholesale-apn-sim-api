@@ -11,11 +11,11 @@ class APN(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, unique=True)
     apn_string = models.CharField(max_length=255)
-    
+
     # CHANGED: Use EncryptedCharField instead of CharField
     username = EncryptedCharField(max_length=100, blank=True, null=True)
     password = EncryptedCharField(max_length=100, blank=True, null=True)
-    
+
     authentication_type = models.CharField(
         max_length=20,
         choices=[

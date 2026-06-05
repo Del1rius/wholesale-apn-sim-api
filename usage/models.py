@@ -9,8 +9,8 @@ class BillingCycle(models.Model):
     cycle_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     organization = models.ForeignKey(
         Organization,
-        on_delete = models.CASCADE,
-        related_name = 'billing_cycles'
+        on_delete=models.CASCADE,
+        related_name='billing_cycles'
     )
 
     start_date = models.DateField()
@@ -38,36 +38,36 @@ class DataUsageRecord(models.Model):
     # Relationships
     sim_card = models.ForeignKey(
         SIMCard,
-        on_delete = models.CASCADE,
-        related_name = 'usage_records'
+        on_delete=models.CASCADE,
+        related_name='usage_records'
     )
 
     billing_cycle = models.ForeignKey(
         BillingCycle,
-        on_delete = models.CASCADE,
-        related_name = 'usage_records',
-        null = True,
-        blank = True
+        on_delete=models.CASCADE,
+        related_name='usage_records',
+        null=True,
+        blank=True
     )
 
     # Usage Data
     data_consumed_mb = models.DecimalField(
-        max_digits = 10,
-        decimal_places = 2,
-        help_text = "Data consumed in megabytes"
+        max_digits=10,
+        decimal_places=2,
+        help_text="Data consumed in megabytes"
     )
 
     # Timestamps
     timestamp = models.DateTimeField(auto_now_add=True)
     recorded_at = models.DateTimeField(
-        help_text = "When the usage actually occurred (may differ from timestamp)"
+        help_text="When the usage actually occurred (may differ from timestamp)"
     )
 
     # Metadata
     source = models.CharField(
-        max_length = 50,
-        default = 'celery_task',
-        help_text = "Source of the usage data (e.g., celery_task, manual_entry, api_import)"
+        max_length=50,
+        default='celery_task',
+        help_text="Source of the usage data (e.g., celery_task, manual_entry, api_import)"
     )
 
     notes = models.TextField(blank=True)

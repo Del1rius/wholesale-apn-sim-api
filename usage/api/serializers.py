@@ -1,13 +1,12 @@
 from rest_framework import serializers
 from django.db.models import Sum
 from usage.models import BillingCycle, DataUsageRecord
-from inventory.models import SIMCard
 
 # Full serializer for BillingCycle with organization details.
 class BillingCycleSerializer(serializers.ModelSerializer):
     organization_name = serializers.CharField(source='organization.name', read_only=True)
     total_usage_mb = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = BillingCycle
         fields = [
@@ -22,7 +21,7 @@ class BillingCycleSerializer(serializers.ModelSerializer):
             'date_modified'
         ]
         read_only_fields = ['cycle_id', 'date_created', 'date_modified']
-    
+
     def get_total_usage_mb(self, obj):
         # Calculate total usage for this billing cycle
         total = obj.usage_records.aggregate(
@@ -33,7 +32,7 @@ class BillingCycleSerializer(serializers.ModelSerializer):
 # Lightweight serializer for listing billing cycles.
 class BillingCycleListSerializer(serializers.ModelSerializer):
     organization_name = serializers.CharField(source='organization.name', read_only=True)
-    
+
     class Meta:
         model = BillingCycle
         fields = [
@@ -49,7 +48,7 @@ class DataUsageRecordSerializer(serializers.ModelSerializer):
     sim_iccid = serializers.CharField(source='sim_card.iccid', read_only=True)
     sim_phone_number = serializers.CharField(source='sim_card.phone_number', read_only=True)
     billing_cycle_info = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = DataUsageRecord
         fields = [
@@ -66,13 +65,13 @@ class DataUsageRecordSerializer(serializers.ModelSerializer):
             'notes'
         ]
         read_only_fields = ['record_id', 'timestamp']
-    
+
     def get_billing_cycle_info(self, obj):
         # Return billing cycle date range if exists
         if obj.billing_cycle:
             return f"{obj.billing_cycle.start_date} to {obj.billing_cycle.end_date}"
         return None
-    
+
     def validate_data_consumed_mb(self, value):
         # Ensure data consumed is positive
         if value <= 0:
@@ -83,7 +82,7 @@ class DataUsageRecordSerializer(serializers.ModelSerializer):
 # Used in dashboard and list views.
 class DataUsageRecordListSerializer(serializers.ModelSerializer):
     sim_iccid = serializers.CharField(source='sim_card.iccid', read_only=True)
-    
+
     class Meta:
         model = DataUsageRecord
         fields = [
@@ -107,7 +106,7 @@ class DataUsageRecordCreateSerializer(serializers.ModelSerializer):
             'source',
             'notes'
         ]
-    
+
     def validate_data_consumed_mb(self, value):
         # Ensure data consumed is positive
         if value <= 0:

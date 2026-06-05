@@ -2,10 +2,9 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.throttling import UserRateThrottle
-from django.db.models import Sum, Q
+from django.db.models import Sum
 from django.utils import timezone
-from datetime import datetime, timedelta
+from datetime import timedelta
 from usage.models import BillingCycle, DataUsageRecord
 from usage.api.serializers import (
     BillingCycleSerializer,
@@ -16,8 +15,6 @@ from usage.api.serializers import (
     SIMUsageSummarySerializer
 )
 from inventory.models import SIMCard
-from rest_framework.views import APIView
-from usage.tasks import process_usage_and_check_limit
 from config.throttling import BurstRateThrottle, SustainedRateThrottle, UsageLoggingThrottle, AdminRateThrottle
 
 
@@ -26,41 +23,41 @@ from config.throttling import BurstRateThrottle, SustainedRateThrottle, UsageLog
 class BillingCycleViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     throttle_classes = [AdminRateThrottle, BurstRateThrottle, SustainedRateThrottle]
-    
+
     def get_queryset(self):
         # Filter billing cycles based on user role
         user = self.request.user
-        
+
         if user.is_superuser or user.role == 'network_admin':
             # Superusers and network admins see all billing cycles
             return BillingCycle.objects.all()
         else:
             # Client managers see only their organization's billing cycles
             return BillingCycle.objects.filter(organization=user.organization)
-    
+
     def get_serializer_class(self):
         # Use lightweight serializer for list view
         if self.action == 'list':
             return BillingCycleListSerializer
         return BillingCycleSerializer
-    
+
     @action(detail=False, methods=['get'])
     def active(self, request):
         # Get all active billing cycles
         queryset = self.get_queryset().filter(is_active=True)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-    
+
     @action(detail=True, methods=['get'])
     def usage_summary(self, request, pk=None):
         # Get usage summary for a specific billing cycle
         billing_cycle = self.get_object()
-        
+
         # Get all usage records for this billing cycle
         usage_records = billing_cycle.usage_records.values('sim_card').annotate(
             total_usage=Sum('data_consumed_mb')
         )
-        
+
         summary = {
             'cycle_id': billing_cycle.cycle_id,
             'start_date': billing_cycle.start_date,
@@ -69,7 +66,7 @@ class BillingCycleViewSet(viewsets.ModelViewSet):
             'sim_count': usage_records.count(),
             'usage_by_sim': list(usage_records)
         }
-        
+
         return Response(summary)
 
 # ViewSet for managing data usage records.
@@ -77,11 +74,11 @@ class BillingCycleViewSet(viewsets.ModelViewSet):
 class DataUsageRecordViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     throttle_classes = [AdminRateThrottle, UsageLoggingThrottle, SustainedRateThrottle]
-    
+
     def get_queryset(self):
         # Filter usage records based on user role
         user = self.request.user
-        
+
         if user.is_superuser or user.role == 'network_admin':
             # Superusers and network admins see all usage records
             queryset = DataUsageRecord.objects.all()
@@ -90,28 +87,28 @@ class DataUsageRecordViewSet(viewsets.ModelViewSet):
             queryset = DataUsageRecord.objects.filter(
                 sim_card__organization=user.organization
             )
-        
+
         # Filter by SIM card if provided
         sim_card_id = self.request.query_params.get('sim_card', None)
         if sim_card_id:
             queryset = queryset.filter(sim_card__sim_id=sim_card_id)
-        
+
         # Filter by billing cycle if provided
         billing_cycle_id = self.request.query_params.get('billing_cycle', None)
         if billing_cycle_id:
             queryset = queryset.filter(billing_cycle__cycle_id=billing_cycle_id)
-        
+
         # Filter by date range
         start_date = self.request.query_params.get('start_date', None)
         end_date = self.request.query_params.get('end_date', None)
-        
+
         if start_date:
             queryset = queryset.filter(recorded_at__gte=start_date)
         if end_date:
             queryset = queryset.filter(recorded_at__lte=end_date)
-        
+
         return queryset.select_related('sim_card', 'billing_cycle')
-    
+
     def get_serializer_class(self):
         """Use appropriate serializer based on action"""
         if self.action == 'list':
@@ -119,25 +116,25 @@ class DataUsageRecordViewSet(viewsets.ModelViewSet):
         elif self.action == 'create':
             return DataUsageRecordCreateSerializer
         return DataUsageRecordSerializer
-    
+
     @action(detail=False, methods=['get'])
     def recent(self, request):
         """Get recent usage records (last 50)"""
         queryset = self.get_queryset().order_by('-recorded_at')[:50]
         serializer = DataUsageRecordListSerializer(queryset, many=True)
         return Response(serializer.data)
-    
+
     @action(detail=False, methods=['get'])
     def by_sim(self, request):
         """Get usage records grouped by SIM card"""
         sim_card_id = request.query_params.get('sim_card_id', None)
-        
+
         if not sim_card_id:
             return Response(
                 {'error': 'sim_card_id parameter is required'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
+
         try:
             sim_card = SIMCard.objects.get(sim_id=sim_card_id)
         except SIMCard.DoesNotExist:
@@ -145,7 +142,7 @@ class DataUsageRecordViewSet(viewsets.ModelViewSet):
                 {'error': 'SIM card not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
-        
+
         # Check permission
         user = request.user
         if not (user.is_superuser or user.role == 'network_admin'):
@@ -154,19 +151,19 @@ class DataUsageRecordViewSet(viewsets.ModelViewSet):
                     {'error': 'You do not have permission to view this SIM card'},
                     status=status.HTTP_403_FORBIDDEN
                 )
-        
+
         # Get usage records for this SIM
         usage_records = DataUsageRecord.objects.filter(
             sim_card=sim_card
         ).order_by('-recorded_at')
-        
+
         # Calculate total usage
         total_usage = usage_records.aggregate(
             total=Sum('data_consumed_mb')
         )['total'] or 0
-        
+
         serializer = DataUsageRecordListSerializer(usage_records, many=True)
-        
+
         return Response({
             'sim_card': {
                 'sim_id': sim_card.sim_id,
@@ -179,18 +176,18 @@ class DataUsageRecordViewSet(viewsets.ModelViewSet):
             'usage_percentage': (float(total_usage) / sim_card.data_limit_mb * 100) if sim_card.data_limit_mb else 0,
             'records': serializer.data
         })
-    
+
     @action(detail=False, methods=['get'])
     def summary(self, request):
         """Get usage summary statistics for the current user's organization"""
         user = request.user
-        
+
         # Get organization's SIM cards
         if user.is_superuser or user.role == 'network_admin':
             sim_cards = SIMCard.objects.all()
         else:
             sim_cards = SIMCard.objects.filter(organization=user.organization)
-        
+
         # Get current billing cycle (if exists)
         current_date = timezone.now().date()
         current_cycle = BillingCycle.objects.filter(
@@ -198,7 +195,7 @@ class DataUsageRecordViewSet(viewsets.ModelViewSet):
             end_date__gte=current_date,
             is_active=True
         ).first()
-        
+
         # Calculate usage for each SIM
         usage_data = []
         for sim in sim_cards:
@@ -214,15 +211,15 @@ class DataUsageRecordViewSet(viewsets.ModelViewSet):
                     sim_card=sim,
                     recorded_at__gte=thirty_days_ago
                 )
-            
+
             total_usage = usage_records.aggregate(
                 total=Sum('data_consumed_mb')
             )['total'] or 0
-            
+
             usage_percentage = (float(total_usage) / sim.data_limit_mb * 100) if sim.data_limit_mb else 0
-            
+
             last_record = usage_records.order_by('-recorded_at').first()
-            
+
             usage_data.append({
                 'sim_card': sim.sim_id,
                 'iccid': sim.iccid,
@@ -233,9 +230,9 @@ class DataUsageRecordViewSet(viewsets.ModelViewSet):
                 'status': sim.status,
                 'last_recorded': last_record.recorded_at if last_record else None
             })
-        
+
         serializer = SIMUsageSummarySerializer(usage_data, many=True)
-        
+
         return Response({
             'billing_cycle': {
                 'cycle_id': current_cycle.cycle_id if current_cycle else None,
@@ -244,23 +241,3 @@ class DataUsageRecordViewSet(viewsets.ModelViewSet):
             } if current_cycle else None,
             'summary': serializer.data
         })
-        
-# API View to trigger the Celery task - High-frequency endpoint
-class UsageLogCreateView(APIView):
-    permission_classes = [IsAuthenticated]
-    throttle_classes = [AdminRateThrottle, UsageLoggingThrottle]
-    
-    def post(self, request):
-        serializer = UsageLogSerializer(data=request.data)
-        if serializer.is_valid():
-            usage_log = serializer.save()
-            
-            # Dispatch async task to process usage
-            process_usage_and_check_limit.delay(usage_log.iccid.iccid)
-            
-            return Response(
-                serializer.data,
-                status=status.HTTP_201_CREATED
-            )
-            
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

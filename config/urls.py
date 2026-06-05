@@ -23,13 +23,13 @@ from drf_yasg import openapi
 # Swagger/OpenAPI configuration
 schema_view = get_schema_view(
     openapi.Info(
-        title = "Wholesale APN & SIM Management API",
-        default_version = 'v1',
-        description= "API for managing SIM cards and data usage",
-        contact = openapi.Contact(email="admin@apn-sim.com")
+        title="Wholesale APN & SIM Management API",
+        default_version='v1',
+        description="API for managing SIM cards and data usage",
+        contact=openapi.Contact(email="admin@apn-sim.com")
     ),
-    public = True,
-    permission_classes = [permissions.AllowAny]  # Public access (development only)
+    public=True,
+    permission_classes=[permissions.AllowAny]  # Public access (development only)
 
 )
 
@@ -40,7 +40,7 @@ urlpatterns = [
     path('api/inventory/', include('inventory.api.urls')),
     path('api/usage/', include('usage.api.urls')),
     path('', include('users.dashboard_urls')),  
-    
+
     # Swagger documentation
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc')

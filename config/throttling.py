@@ -3,7 +3,7 @@ Custom throttling classes for API rate limiting.
 Provides granular control over different endpoint types.
 """
 
-from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+from rest_framework.throttling import UserRateThrottle
 
 
 class BurstRateThrottle(UserRateThrottle):
@@ -12,7 +12,7 @@ class BurstRateThrottle(UserRateThrottle):
     Useful for interactive API calls like viewing dashboards or lists.
     """
     scope = 'burst'
-    
+
     def allow_request(self, request, view):
         # Bypass throttle for admins
         if request.user and request.user.is_authenticated:
@@ -27,7 +27,7 @@ class SustainedRateThrottle(UserRateThrottle):
     Prevents sustained abuse over extended periods.
     """
     scope = 'sustained'
-    
+
     def allow_request(self, request, view):
         # Bypass throttle for admins
         if request.user and request.user.is_authenticated:
@@ -43,7 +43,7 @@ class UsageLoggingThrottle(UserRateThrottle):
     This is higher than burst rate to accommodate legitimate high-volume ingestion.
     """
     scope = 'usage_logging'
-    
+
     def allow_request(self, request, view):
         # Bypass throttle for admins
         if request.user and request.user.is_authenticated:
@@ -63,14 +63,14 @@ class AdminRateThrottle(UserRateThrottle):
         if request.user and request.user.is_authenticated:
             if request.user.is_superuser or getattr(request.user, 'role', None) == 'network_admin':
                 return True
-        
+
         # Everyone else goes through normal throttling
         return super().allow_request(request, view)
-    
+
     def get_cache_key(self, request, view):
         # If user is admin, return None so no throttle cache is created
         if request.user and request.user.is_authenticated:
             if request.user.is_superuser or getattr(request.user, 'role', None) == 'network_admin':
                 return None  # No cache key = no throttling
-        
+
         return super().get_cache_key(request, view)

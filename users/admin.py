@@ -8,7 +8,7 @@ class OrganizationAdmin(admin.ModelAdmin):
     list_display = ['name', 'industry', 'contact_email', 'date_created']
     search_fields = ['name', 'industry', 'contact_email']
     readonly_fields = ['org_id', 'date_created']
-    
+
     fieldsets = (
         ('Organization Information', {
             'fields': ('org_id', 'name', 'industry', 'contact_email')
@@ -26,7 +26,7 @@ class UserAdmin(BaseUserAdmin):
     list_display = ['username', 'email', 'first_name', 'last_name', 'role', 'organization', 'is_staff']
     list_filter = ['role', 'organization', 'is_staff', 'is_superuser', 'is_active']
     search_fields = ['username', 'email', 'first_name', 'last_name', 'phone_number']
-    
+
     # Customize the user edit form
     fieldsets = (
         (None, {
@@ -47,7 +47,7 @@ class UserAdmin(BaseUserAdmin):
             'classes': ('collapse',)
         }),
     )
-    
+
     # Customize the add user form
     add_fieldsets = (
         (None, {

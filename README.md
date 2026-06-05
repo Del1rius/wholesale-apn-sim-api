@@ -33,6 +33,24 @@
 
 The **APN & SIM Management API** is a robust backend solution designed for telecommunications providers and enterprises to efficiently manage their SIM card inventory, APN configurations, and data usage tracking. Built with Django and Django REST Framework, it provides a scalable, secure, and feature-rich platform for multi-tenant operations.
 
+This project serves as an **NQF Level 5 Capstone Project** demonstrating advanced Python development skills, RESTful API design, microservices architecture, automated background processing, and enterprise-grade security practices.
+
+### Business Problem Statement
+
+Telecommunications providers and wholesale SIM resellers face significant challenges in managing large-scale SIM card inventories, monitoring data usage in real-time, and preventing service abuse through automated limit enforcement. Traditional manual monitoring approaches are:
+
+- ❌ **Time-intensive** - Manual checks cannot scale to thousands of SIM cards
+- ❌ **Error-prone** - Human oversight leads to missed limit violations
+- ❌ **Costly** - Undetected overages result in financial losses
+- ❌ **Reactive** - Issues discovered after the fact, not proactively
+
+**Solution**: This API provides an **automated, real-time monitoring system** that:
+- ✅ Tracks data usage continuously via background workers
+- ✅ Automatically suspends SIM cards when limits are exceeded
+- ✅ Provides multi-tenant isolation for wholesale operations
+- ✅ Offers role-based access control for secure operations
+- ✅ Delivers comprehensive usage analytics and reporting
+
 ### Key Capabilities
 
 - 🏢 **Multi-Tenant Architecture** - Isolated data management for multiple organizations
@@ -41,6 +59,8 @@ The **APN & SIM Management API** is a robust backend solution designed for telec
 - 🔐 **Role-Based Access Control** - Granular permissions for Network Admins and Client Managers
 - 🔄 **RESTful API** - Clean, intuitive endpoints following REST best practices
 - 📚 **Auto-Generated Documentation** - Interactive API docs with Swagger/OpenAPI
+- 🤖 **Automated Suspension** - Real-time limit enforcement via Celery workers
+- 🐳 **Containerized Deployment** - Docker-based microservices architecture
 
 ---
 
@@ -610,6 +630,294 @@ APN-SIM-Management-API/
 
 ---
 
+## 📖 Project Documentation
+
+### Core Documentation
+
+| Document                                                 | Description                   | Purpose                                 |
+| -------------------------------------------------------- | ----------------------------- | --------------------------------------- |
+| [README.md](README.md)                                   | Main project documentation    | Overview, setup, and usage instructions |
+| [ERD_DIAGRAM.md](ERD_DIAGRAM.md)                         | Entity Relationship Diagram   | Database schema and relationships       |
+| [SYSTEM_FLOW_DIAGRAM.md](SYSTEM_FLOW_DIAGRAM.md)         | System architecture and flows | Automated processes and data flow       |
+| [TESTING_SUMMARY.md](TESTING_SUMMARY.md)                 | Test results and coverage     | Comprehensive testing evidence          |
+| [PEP8_COMPLIANCE_REPORT.md](PEP8_COMPLIANCE_REPORT.md)   | Code quality analysis         | PEP-8 compliance and code standards     |
+| [DOCKER_DEPLOYMENT_GUIDE.md](DOCKER_DEPLOYMENT_GUIDE.md) | Container deployment          | Docker setup and troubleshooting        |
+| [DEMO_CREDENTIALS.md](DEMO_CREDENTIALS.md)               | Test user accounts            | Demo login credentials                  |
+
+### API Documentation
+
+- **Swagger UI**: [http://localhost:8000/swagger/](http://localhost:8000/swagger/)
+- **ReDoc**: [http://localhost:8000/redoc/](http://localhost:8000/redoc/)
+- **Admin Panel**: [http://localhost:8000/admin/](http://localhost:8000/admin/)
+
+---
+
+## 🎬 Live Demonstration Guide
+
+This section provides a step-by-step walkthrough of the **automated SIM suspension feature**, demonstrating the core business value of the system.
+
+### Demo Scenario: Automated Data Limit Enforcement
+
+**Objective**: Demonstrate that the system automatically suspends a SIM card when its data usage exceeds the configured limit.
+
+---
+
+### Step 1: Environment Setup
+
+**Start the Docker containers**:
+```bash
+docker compose up -d
+```
+
+**Verify all services are running**:
+```bash
+docker ps
+```
+
+Expected: 5 containers running (db, rabbitmq, web, celery_worker, flower)
+
+---
+
+### Step 2: Login to Dashboard
+
+**Access the dashboard**:
+```
+http://localhost:8000/dashboard/
+```
+
+**Login credentials** (from seed data):
+- Username: `admin_vodacom_south_a`
+- Password: `TestPass123!`
+
+**Expected**: Dashboard showing SIM card inventory and usage statistics
+
+---
+
+### Step 3: Identify Test SIM Card
+
+From the dashboard or API, select a SIM card for testing:
+
+**API Request**:
+```bash
+curl -X GET http://localhost:8000/api/inventory/sims/ \
+  -H "Authorization: Bearer <your_access_token>"
+```
+
+**Example SIM Card**:
+```json
+{
+  "sim_id": "abc123...",
+  "iccid": "8927000000000000001",
+  "phone_number": "+27821234567",
+  "status": "assigned",
+  "data_limit_mb": 1000,
+  "carrier": "Vodacom"
+}
+```
+
+**Note the following**:
+- `sim_id`: Unique identifier
+- `data_limit_mb`: 1000 MB (1 GB limit)
+- `status`: "assigned" (currently active)
+
+---
+
+### Step 4: Check Current Usage
+
+**Query current usage for the SIM**:
+```bash
+curl -X GET "http://localhost:8000/api/usage/usage-records/?sim_card=<sim_id>" \
+  -H "Authorization: Bearer <your_access_token>"
+```
+
+**Calculate total usage**:
+```json
+{
+  "count": 3,
+  "results": [
+    {"data_consumed_mb": 250.50, "recorded_at": "2026-06-04T10:00:00Z"},
+    {"data_consumed_mb": 350.25, "recorded_at": "2026-06-04T14:30:00Z"},
+    {"data_consumed_mb": 200.00, "recorded_at": "2026-06-05T09:00:00Z"}
+  ]
+}
+```
+
+**Total Usage**: 250.50 + 350.25 + 200.00 = **800.75 MB**  
+**Limit**: 1000 MB  
+**Status**: Within limit ✅
+
+---
+
+### Step 5: Simulate Usage Exceeding Limit
+
+**Create a new usage record that exceeds the limit**:
+```bash
+curl -X POST http://localhost:8000/api/usage/usage-records/ \
+  -H "Authorization: Bearer <your_access_token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sim_card": "<sim_id>",
+    "data_consumed_mb": 300.00,
+    "recorded_at": "2026-06-05T10:30:00Z"
+  }'
+```
+
+**New Total**: 800.75 + 300.00 = **1100.75 MB** 🔴 **EXCEEDS LIMIT**
+
+---
+
+### Step 6: Monitor Automated Suspension
+
+**Watch Celery worker logs in real-time**:
+```bash
+docker logs -f apnsimmanagementapi-celery_worker-1
+```
+
+**Expected output**:
+```
+[2026-06-05 10:30:15,234: INFO/MainProcess] Task usage.tasks.check_sim_data_limit[abc-def-123] received
+[2026-06-05 10:30:15,456: INFO/ForkPoolWorker-1] Checking SIM 8927000000000000001
+[2026-06-05 10:30:15,678: INFO/ForkPoolWorker-1] Total usage: 1100.75 MB, Limit: 1000 MB
+[2026-06-05 10:30:15,890: WARNING/ForkPoolWorker-1] SIM 8927000000000000001 exceeded limit - SUSPENDING
+[2026-06-05 10:30:16,123: INFO/ForkPoolWorker-1] SIM 8927000000000000001 status changed to 'suspended'
+[2026-06-05 10:30:16,345: INFO/MainProcess] Task usage.tasks.check_sim_data_limit[abc-def-123] succeeded in 0.112s
+```
+
+**Timing**: Suspension occurs within **seconds** of usage record creation ⚡
+
+---
+
+### Step 7: Verify Suspension in Dashboard
+
+**Refresh the dashboard**:
+```
+http://localhost:8000/dashboard/
+```
+
+**Expected changes**:
+- 🔴 **Status Badge**: Changed from "ASSIGNED" to "SUSPENDED"
+- 📊 **Usage Bar**: Shows red (over 100%)
+- ⚠️ **Alert Icon**: Warning indicator displayed
+- 📈 **Usage**: Shows "1100.75 MB / 1000 MB (110%)"
+
+**Screenshot opportunity**: Capture this view for demonstration
+
+---
+
+### Step 8: Verify Suspension via API
+
+**Query the SIM card again**:
+```bash
+curl -X GET "http://localhost:8000/api/inventory/sims/<sim_id>/" \
+  -H "Authorization: Bearer <your_access_token>"
+```
+
+**Response**:
+```json
+{
+  "sim_id": "abc123...",
+  "iccid": "8927000000000000001",
+  "phone_number": "+27821234567",
+  "status": "suspended",  // ← Changed from "assigned"
+  "data_limit_mb": 1000,
+  "carrier": "Vodacom",
+  "date_modified": "2026-06-05T10:30:16Z"  // ← Timestamp of suspension
+}
+```
+
+---
+
+### Step 9: Monitor in Flower Dashboard
+
+**Access Flower monitoring interface**:
+```
+http://localhost:5555
+```
+
+**View task execution**:
+- Navigate to "Tasks" tab
+- Find `usage.tasks.check_sim_data_limit`
+- View execution history, success rate, timing
+
+**Expected**:
+- ✅ Task status: SUCCESS
+- ⏱️ Execution time: < 1 second
+- 📊 Success rate: 100%
+
+---
+
+### Step 10: Admin Reactivation
+
+**Login as network admin**:
+- Username: `Admin`
+- Password: `TestPass123!`
+
+**Reactivate the SIM via API**:
+```bash
+curl -X PATCH "http://localhost:8000/api/inventory/sims/<sim_id>/" \
+  -H "Authorization: Bearer <admin_access_token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "status": "assigned",
+    "data_limit_mb": 2000
+  }'
+```
+
+**Result**: SIM reactivated with increased limit (2000 MB)
+
+**Demonstration complete** ✅
+
+---
+
+### Demo Verification Checklist
+
+Use this checklist during live demonstration:
+
+- [ ] All Docker containers running (5/5)
+- [ ] Successfully logged into dashboard
+- [ ] Identified test SIM card with known limit
+- [ ] Verified current usage is below limit
+- [ ] Created usage record exceeding limit
+- [ ] Observed Celery worker processing in logs
+- [ ] Confirmed status changed to "suspended" in dashboard
+- [ ] Verified suspension via API query
+- [ ] Checked task execution in Flower
+- [ ] Demonstrated admin reactivation capability
+
+---
+
+### Key Demonstration Points
+
+During the demo, emphasize these aspects:
+
+1. **Automation** 🤖
+   - No manual intervention required
+   - Suspension happens within seconds of limit breach
+   - Reduces operational overhead
+
+2. **Real-Time Monitoring** ⚡
+   - Background workers continuously process usage data
+   - Immediate detection of limit violations
+   - Proactive vs. reactive approach
+
+3. **Scalability** 📈
+   - Architecture handles thousands of SIM cards
+   - Celery workers can be scaled horizontally
+   - Message queue ensures reliable processing
+
+4. **Security** 🔐
+   - Role-based access control enforced
+   - Only admins can reactivate suspended SIMs
+   - Audit trail maintained via date_modified
+
+5. **Business Value** 💰
+   - Prevents revenue loss from overages
+   - Automates compliance enforcement
+   - Reduces manual monitoring costs
+   - Provides real-time visibility
+
+---
+
 ## 👥 Authors
 
 - **Timothy Barry** - [GitHub](https://github.com/TimothyBarry)
@@ -644,6 +952,115 @@ APN-SIM-Management-API/
 - [ ] Third-party integrations
 - [ ] Performance optimization
 - [ ] Automated billing system
+
+---
+
+## 🏆 Project Compliance
+
+### Academic Requirements (NQF Level 5)
+
+✅ **Demonstrates Advanced Python Skills**
+- Object-oriented design with Django models
+- RESTful API development with DRF
+- Asynchronous task processing with Celery
+- Database design and optimization
+
+✅ **Enterprise-Grade Architecture**
+- Microservices containerization (Docker)
+- Message queue integration (RabbitMQ)
+- Background worker processes (Celery)
+- Automated monitoring and alerting
+
+✅ **Security Best Practices**
+- JWT authentication
+- Role-based access control
+- Field-level encryption (APN credentials)
+- Rate limiting and throttling
+
+✅ **Code Quality Standards**
+- **PEP-8 Compliance**: 93.81% (B+ rating)
+- Comprehensive test coverage (44 tests, 100% pass rate)
+- Documented codebase with docstrings
+- See [PEP8_COMPLIANCE_REPORT.md](PEP8_COMPLIANCE_REPORT.md)
+
+✅ **Testing Evidence**
+- 44 Django TestCase tests (100% passing)
+- Rate limiting tests (5/5 passing)
+- Endpoint functionality tests (24/24 passing)
+- See [TESTING_SUMMARY.md](TESTING_SUMMARY.md)
+
+✅ **Documentation**
+- Entity Relationship Diagram (ERD)
+- System Flow Diagram
+- API documentation (Swagger/OpenAPI)
+- Deployment guides
+- Testing reports
+
+---
+
+## 📊 Project Statistics
+
+| Metric              | Value  |
+| ------------------- | ------ |
+| Lines of Code       | ~8,000 |
+| API Endpoints       | 24+    |
+| Database Tables     | 6      |
+| Docker Containers   | 5      |
+| Test Cases          | 44     |
+| Test Pass Rate      | 100%   |
+| PEP-8 Compliance    | 93.81% |
+| Documentation Pages | 7      |
+
+---
+
+## 🎓 Skills Demonstrated
+
+This capstone project demonstrates proficiency in:
+
+### Backend Development
+- ✅ Python 3.10+ programming
+- ✅ Django web framework
+- ✅ Django REST Framework (DRF)
+- ✅ Database design (MySQL)
+- ✅ ORM and query optimization
+
+### API Design
+- ✅ RESTful architecture
+- ✅ JWT authentication
+- ✅ API versioning
+- ✅ Rate limiting
+- ✅ API documentation (Swagger)
+
+### DevOps & Infrastructure
+- ✅ Docker containerization
+- ✅ Docker Compose orchestration
+- ✅ Environment configuration
+- ✅ Deployment automation
+
+### Asynchronous Processing
+- ✅ Celery task queues
+- ✅ RabbitMQ message broker
+- ✅ Background workers
+- ✅ Task monitoring (Flower)
+
+### Security
+- ✅ Authentication & Authorization
+- ✅ Data encryption
+- ✅ CORS configuration
+- ✅ SQL injection prevention
+- ✅ XSS protection
+
+### Testing
+- ✅ Unit testing
+- ✅ Integration testing
+- ✅ API endpoint testing
+- ✅ Rate limit testing
+
+### Code Quality
+- ✅ PEP-8 standards
+- ✅ Code documentation
+- ✅ Version control (Git)
+- ✅ Code review practices
 
 ---
 

@@ -59,18 +59,18 @@ class LoginView(APIView):
         password = serializer.validated_data['password']
 
         #Authenticate User
-        user = authenticate(username = username, password = password)
+        user = authenticate(username=username, password=password)
 
         if user is None:
             return Response(
                 {'error': 'Invalid credentials'},
-                status = status.HTTP_401_UNAUTHORIZED
+                status=status.HTTP_401_UNAUTHORIZED
             )
-        
+
         if not user.is_active:
             return Response(
                 {'error': 'User account is disabled'},
-                status = status.HTTP_403_FORBIDDEN
+                status=status.HTTP_403_FORBIDDEN
             )
 
         # Generate JWT tokens

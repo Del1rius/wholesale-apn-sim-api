@@ -21,9 +21,9 @@ def send_welcome_email(self, user_id):
     """
     try:
         from users.models import User
-        
+
         user = User.objects.get(id=user_id)
-        
+
         subject = 'Welcome to APN & SIM Management System'
         message = f"""
         Hello {user.first_name or user.username},
@@ -37,7 +37,7 @@ def send_welcome_email(self, user_id):
         Best regards,
         The Backspace Technologies Team
         """
-        
+
         send_mail(
             subject,
             message,
@@ -45,10 +45,10 @@ def send_welcome_email(self, user_id):
             [user.email],
             fail_silently=False,
         )
-        
+
         logger.info(f"Welcome email sent to user {user.username}")
         return {'status': 'success', 'user_id': user_id}
-        
+
     except Exception as exc:
         logger.error(f"Error sending welcome email to user {user_id}: {str(exc)}")
         raise self.retry(exc=exc, countdown=60)
@@ -65,9 +65,9 @@ def send_password_reset_email(self, user_id, reset_token):
     """
     try:
         from users.models import User
-        
+
         user = User.objects.get(id=user_id)
-        
+
         subject = 'Password Reset Request'
         message = f"""
         Hello {user.first_name or user.username},
@@ -81,7 +81,7 @@ def send_password_reset_email(self, user_id, reset_token):
         Best regards,
         The Backspace Technologies Team
         """
-        
+
         send_mail(
             subject,
             message,
@@ -89,10 +89,10 @@ def send_password_reset_email(self, user_id, reset_token):
             [user.email],
             fail_silently=False,
         )
-        
+
         logger.info(f"Password reset email sent to user {user.username}")
         return {'status': 'success', 'user_id': user_id}
-        
+
     except Exception as exc:
         logger.error(f"Error sending password reset email to user {user_id}: {str(exc)}")
         raise self.retry(exc=exc, countdown=60)
@@ -107,16 +107,16 @@ def cleanup_inactive_users():
     from users.models import User
     from django.utils import timezone
     from datetime import timedelta
-    
+
     ninety_days_ago = timezone.now() - timedelta(days=90)
-    
+
     inactive_users = User.objects.filter(
         last_login__lt=ninety_days_ago,
         is_active=True
     )
-    
+
     count = inactive_users.count()
     inactive_users.update(is_active=False)
-    
+
     logger.info(f"Deactivated {count} inactive users")
     return {'status': 'success', 'deactivated_count': count}

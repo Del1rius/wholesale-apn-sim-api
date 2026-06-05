@@ -35,33 +35,33 @@ class APNViewSet(viewsets.ModelViewSet):
         if self.action == 'list':
             return APNListSerializer
         return APNSerializer
-    
+
     def get_permissions(self):
         """
         Only network admins and superusers can create, update, or delete APNs
         """
         permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
-    
+
     def check_write_permission(self):
         """Check if user has permission for write operations"""
         user = self.request.user
         if not (user.is_superuser or user.role == 'network_admin'):
             from rest_framework.exceptions import PermissionDenied
             raise PermissionDenied("Only network administrators can modify APNs.")
-    
+
     def create(self, request, *args, **kwargs):
         self.check_write_permission()
         return super().create(request, *args, **kwargs)
-    
+
     def update(self, request, *args, **kwargs):
         self.check_write_permission()
         return super().update(request, *args, **kwargs)
-    
+
     def partial_update(self, request, *args, **kwargs):
         self.check_write_permission()
         return super().partial_update(request, *args, **kwargs)
-    
+
     def destroy(self, request, *args, **kwargs):
         self.check_write_permission()
         return super().destroy(request, *args, **kwargs)
@@ -74,11 +74,11 @@ class APNViewSet(viewsets.ModelViewSet):
         # Superusers can see all APNs
         if user.is_superuser:
             return queryset
-        
+
         # Network admins can see all APNs
         if user.role == 'network_admin':
             return queryset
-        
+
         # Client managers can only see their organization's APNs and public APNs
         if user.organization:
             return queryset.filter(
@@ -97,9 +97,9 @@ class APNViewSet(viewsets.ModelViewSet):
 
 
 class SIMCardViewSet(viewsets.ModelViewSet):
-   
+
     # ViewSet for SIM Card CRUD operations
-    
+
     # list: GET /api/inventory/sims/ - List all SIM cards
     # retrieve: GET /api/inventory/sims/{id}/ - Get single SIM card
     # create: POST /api/inventory/sims/ - Create new SIM card
@@ -121,26 +121,26 @@ class SIMCardViewSet(viewsets.ModelViewSet):
         if self.action == 'list':
             return SIMCardListSerializer
         return SIMCardSerializer
-    
+
     def check_write_permission(self):
         """Check if user has permission for write operations"""
         user = self.request.user
         if not (user.is_superuser or user.role == 'network_admin'):
             from rest_framework.exceptions import PermissionDenied
             raise PermissionDenied("Only network administrators can modify SIM cards.")
-    
+
     def create(self, request, *args, **kwargs):
         self.check_write_permission()
         return super().create(request, *args, **kwargs)
-    
+
     def update(self, request, *args, **kwargs):
         self.check_write_permission()
         return super().update(request, *args, **kwargs)
-    
+
     def partial_update(self, request, *args, **kwargs):
         self.check_write_permission()
         return super().partial_update(request, *args, **kwargs)
-    
+
     def destroy(self, request, *args, **kwargs):
         self.check_write_permission()
         return super().destroy(request, *args, **kwargs)
@@ -149,19 +149,19 @@ class SIMCardViewSet(viewsets.ModelViewSet):
         # Filter SIM cards based on user's organization
         queryset = super().get_queryset()
         user = self.request.user
-        
+
         # Superusers can see all SIM cards
         if user.is_superuser:
             return queryset
-        
+
         # Network admins can see all SIM cards
         if user.role == 'network_admin':
             return queryset
-        
+
         # Client managers can only see their organization's SIM cards
         if user.organization:
             return queryset.filter(organization=user.organization)
-        
+
         # Users without organization see nothing
         return queryset.none()
 
@@ -185,32 +185,32 @@ class SIMCardViewSet(viewsets.ModelViewSet):
         self.check_write_permission()  # Check if user has write permissions
         sim_card = self.get_object()
         organization_id = request.data.get('organization_id')
-        
+
         if not organization_id:
             return Response(
                 {'error': 'organization_id is required'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
+
         # SECURITY: Prevent cross-organization assignment (IDOR fix)
         from rest_framework.exceptions import PermissionDenied
         from users.models import Organization
-        
+
         # Only superusers and network_admins can assign to any organization
         if not request.user.is_superuser and request.user.role != 'network_admin':
             # Client managers can only assign to their own organization
             if not request.user.organization:
                 raise PermissionDenied("You must belong to an organization to assign SIMs")
-            
+
             if str(request.user.organization.org_id) != organization_id:
                 raise PermissionDenied("You can only assign SIMs to your own organization")
-        
+
         try:
             organization = Organization.objects.get(org_id=organization_id)
             sim_card.organization = organization
             sim_card.status = 'assigned'
             sim_card.save()
-            
+
             serializer = self.get_serializer(sim_card)
             return Response(serializer.data)
         except Organization.DoesNotExist:
@@ -225,7 +225,7 @@ class SIMCardViewSet(viewsets.ModelViewSet):
         sim_card = self.get_object()
         sim_card.status = 'suspended'
         sim_card.save()
-        
+
         serializer = self.get_serializer(sim_card)
         return Response(serializer.data)
 
@@ -233,14 +233,14 @@ class SIMCardViewSet(viewsets.ModelViewSet):
     def activate(self, request, pk=None):
         # Activate a suspended SIM card
         sim_card = self.get_object()
-        
+
         if sim_card.status == 'suspended':
             sim_card.status = 'assigned' if sim_card.organization else 'available'
         else:
             sim_card.status = 'assigned' if sim_card.organization else 'available'
-        
+
         sim_card.save()
-        
+
         serializer = self.get_serializer(sim_card)
         return Response(serializer.data)
 
@@ -248,7 +248,7 @@ class SIMCardViewSet(viewsets.ModelViewSet):
     def stats(self, request):
         # Get SIM card statistics
         queryset = self.get_queryset()
-        
+
         stats = {
             'total': queryset.count(),
             'available': queryset.filter(status='available').count(),
@@ -259,13 +259,13 @@ class SIMCardViewSet(viewsets.ModelViewSet):
             'by_carrier': {},
             'by_network_type': {}
         }
-        
+
         # Count by carrier
         for carrier in queryset.values_list('carrier', flat=True).distinct():
             stats['by_carrier'][carrier] = queryset.filter(carrier=carrier).count()
-        
+
         # Count by network type
         for network_type in queryset.values_list('network_type', flat=True).distinct():
             stats['by_network_type'][network_type] = queryset.filter(network_type=network_type).count()
-        
+
         return Response(stats)
